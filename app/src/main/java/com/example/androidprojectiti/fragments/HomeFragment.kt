@@ -14,7 +14,7 @@ import com.example.androidprojectiti.Adapters.CategoryAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.category.categoryRepoImp
 import com.example.androidprojectiti.dto.Category
-import com.example.androidprojectiti.network.Api_client
+import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.viewModels.Home.FactoryClassHome
 import com.example.androidprojectiti.viewModels.Home.HomeViewModel
 
@@ -33,7 +33,7 @@ class HomeFragment : Fragment() {
 
         val factoryClass = FactoryClassHome(
             categoryRepositry = categoryRepoImp(
-                remoteDataSource = Api_client
+                remoteDataSource = ApiClient
             )
         )
         retrofitViewModel = ViewModelProvider(this, factoryClass)

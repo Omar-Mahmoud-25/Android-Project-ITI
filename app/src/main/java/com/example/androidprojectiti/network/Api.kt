@@ -10,8 +10,8 @@ object Api {
         .baseUrl("https://www.themealdb.com/api/json/v1/1/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
-    val service:Api_service by lazy {
-        retrofit.create(Api_service::class.java)
+    val service:ApiService by lazy {
+        retrofit.create(ApiService::class.java)
     }
 
 }

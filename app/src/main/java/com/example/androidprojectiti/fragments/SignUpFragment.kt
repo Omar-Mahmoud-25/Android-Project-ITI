@@ -7,14 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.example.androidprojectiti.R
+import com.example.androidprojectiti.factories.SignUpViewModelFactory
 import com.example.androidprojectiti.viewModels.SignUpViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 class SignUpFragment : Fragment() {
 
-    private lateinit var viewModel : SignUpViewModel
+    private lateinit var _viewModel : SignUpViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +28,10 @@ class SignUpFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = SignUpViewModel()
+
+        val factory = SignUpViewModelFactory()
+        _viewModel = ViewModelProvider(this, factory).get(SignUpViewModel::class.java)
+
         val firstName = view.findViewById<TextInputLayout>(R.id.firstNameTextInput)
         val lastName = view.findViewById<TextInputLayout>(R.id.lastNameTextInput)
         val email = view.findViewById<TextInputLayout>(R.id.emailTextInput)
@@ -41,11 +46,15 @@ class SignUpFragment : Fragment() {
         }
 
         signUp.setOnClickListener{
-            /*
-            * if (viewModel.add(user)
-            *   findNavController().popBackStack()
-            *
-            * */
+            if (_viewModel.makeUser(
+                firstName = firstName,
+                lastName = lastName,
+                age = age,
+                password = password,
+                email = email,
+                confirmPassword = confirmPassword
+            ))
+                findNavController().popBackStack()
         }
         // to be continued
     }

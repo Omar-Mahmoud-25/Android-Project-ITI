@@ -13,4 +13,7 @@
     <string name="last_name">Last name</string>
     <string name="first_name">First Name</string>
     <string name="in_splash_fragment">in Splash fragment</string>
+    <string name="categories">Categories</string>
+    <string name="textview">TextView</string>
+    <string name="welcome">Welcome</string>
 </resources>

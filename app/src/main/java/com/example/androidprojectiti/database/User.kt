@@ -1,4 +1,4 @@
-package com.example.androidprojectiti
+package com.example.androidprojectiti.database
 
 data class User(
     val firstName: String,

@@ -1,4 +1,4 @@
-package com.example.androidprojectiti
+package com.example.androidprojectiti.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
+import com.example.androidprojectiti.R
+import com.example.androidprojectiti.viewModels.SignUpViewModel
 import com.google.android.material.textfield.TextInputLayout
 
 class SignUpFragment : Fragment() {

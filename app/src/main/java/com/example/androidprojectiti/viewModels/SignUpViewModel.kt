@@ -1,6 +1,7 @@
-package com.example.androidprojectiti
+package com.example.androidprojectiti.viewModels
 
 import androidx.lifecycle.ViewModel
+import com.example.androidprojectiti.database.User
 
 class SignUpViewModel : ViewModel() {
     private val _emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
@@ -16,7 +17,7 @@ class SignUpViewModel : ViewModel() {
         return true
     }
 
-    fun addUser(user:User):Boolean{
+    fun addUser(user: User):Boolean{
         return true
     }
 

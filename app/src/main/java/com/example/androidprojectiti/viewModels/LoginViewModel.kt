@@ -1,4 +1,4 @@
-package com.example.androidprojectiti
+package com.example.androidprojectiti.viewModels
 
 import androidx.lifecycle.ViewModel
 

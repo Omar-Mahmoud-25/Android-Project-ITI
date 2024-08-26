@@ -84,7 +84,7 @@
             android:layout_marginTop="30dp"
             android:background="#95F472"
             android:fontFamily="@font/roboto_slab"
-            android:text="Nada mohsen ahmed "
+            android:text="Nada Mohsen Ahmed "
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"

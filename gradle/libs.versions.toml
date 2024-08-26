@@ -20,6 +20,7 @@ room = "2.6.1"
 kapt = "1.8.0"
 coroutines = "1.7.3"
 androidYoutubePlayerVersion = "12.1.0"
+lottie = "6.5.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,7 @@ androidx-room-runtime = {group = "androidx.room", name = "room-runtime", version
 androidx-room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room"}
 kotlinx-coroutines = {group="org.jetbrains.kotlinx",name = "kotlinx-coroutines-core", version.ref = "coroutines"}
 android-youtube-player = {group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "androidYoutubePlayerVersion"}
+lottie-animation = {group = "com.airbnb.android", name = "lottie", version.ref = "lottie"}
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -38,29 +38,42 @@ class SignUpViewModel : ViewModel() {
             firstName.error = "This field is required"
             valid = false
         }
+        else
+            firstName.error = ""
         if (lastNameText.isEmpty()){
             lastName.error = "This field is required"
             valid = false
         }
+        else
+            lastName.error = ""
         if (ageText.isEmpty()){
             age.error = "This field is required"
             valid = false
         }
+        else
+            age.error = ""
         if (!validateEmail(emailText)) {
             email.error = "Please enter a valid Email!"
             valid = false
         }
+        else
+            email.error = ""
         if (!validatePassword(passwordText)) {
             password.error =
                 "Password must be between 8 and 16 character, containing numbers, upper and lowercase letters"
             valid = false
         }
+        else
+            password.error = ""
         if (!validateConfirmPassword(confirmPasswordText,passwordText)) {
             confirmPassword.error = "Password doesn't match"
             valid = false
         }
+        else
+            confirmPassword.error = ""
         if (!valid)
             return false
+
         // if this email is in the database, return false
 
         val user = User(

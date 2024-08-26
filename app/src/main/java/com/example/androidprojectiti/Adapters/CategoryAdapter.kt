@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
-import com.example.androidprojectiti.dto.Category
+import com.example.androidprojectiti.dto.CategoryResponse.Category
 
 class CategoryAdapter(val listOfOfCategories:List<Category>): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     class ViewHolder(val row: View):RecyclerView.ViewHolder(row) {

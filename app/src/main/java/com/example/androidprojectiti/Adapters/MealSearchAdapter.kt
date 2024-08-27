@@ -11,7 +11,7 @@ import com.example.androidprojectiti.R
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
 
-class MealSearchAdapter(private var items: List<Meal>) : RecyclerView.Adapter<MealSearchAdapter.ViewHolder>() {
+class MealSearchAdapter(private var meals: List<Meal>) : RecyclerView.Adapter<MealSearchAdapter.ViewHolder>() {
 
     // Create a new ViewHolder instance
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -21,31 +21,31 @@ class MealSearchAdapter(private var items: List<Meal>) : RecyclerView.Adapter<Me
 
     // Bind data to the ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-//        holder.nameTextView.text = item.name
-//        holder.descriptionTextView.text = item.description
-//        holder.categoryTextView.text = item.category
+        val meal = meals[position]
+        holder.nameTextView.text = meal.strMeal
+        holder.areaTextView.text = "${meal.strArea} Meal"
+        holder.categoryTextView.text = meal.strCategory
 
         // Load image into the ImageView using Glide
-//        Glide.with(holder.itemView.context)
-//            .load(item.imageResId)
-//            .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
-//            .into(holder.imageView)
+        Glide.with(holder.itemView.context)
+            .load(meal.strImageSource)
+            .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
+            .into(holder.imageView)
     }
 
-    // Return the total number of items
-    override fun getItemCount(): Int = items.size
+    // Return the total number of meals
+    override fun getItemCount(): Int = meals.size
 
     // Method to update data
     fun updateData(newItems: List<Meal>) {
-        items = newItems
+        meals = newItems
         notifyDataSetChanged() // Notify the adapter that data has changed
     }
 
     // ViewHolder class to hold references to the views
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val nameTextView: TextView = itemView.findViewById(R.id.item_name)
-        val descriptionTextView: TextView = itemView.findViewById(R.id.item_description)
+        val areaTextView: TextView = itemView.findViewById(R.id.item_area)
         val categoryTextView: TextView = itemView.findViewById(R.id.item_category)
         val imageView: ImageView = itemView.findViewById(R.id.item_image)
     }

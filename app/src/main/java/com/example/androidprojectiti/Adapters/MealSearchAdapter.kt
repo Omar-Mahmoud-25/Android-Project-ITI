@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
-import com.example.androidprojectiti.dto.Meal
+import com.example.androidprojectiti.dto.MealResponse.Meal
 
 
 class MealSearchAdapter(private var items: List<Meal>) : RecyclerView.Adapter<MealSearchAdapter.ViewHolder>() {

@@ -6,7 +6,7 @@ import com.example.androidprojectiti.dto.MealResponse.MealModel
 import retrofit2.Response
 import retrofit2.http.GET
 
-interface Api_service {
+interface ApiService {
     @GET("categories.php#")
     suspend fun getAllCategories(): Response<CategoryModel>
     @GET("search.php")

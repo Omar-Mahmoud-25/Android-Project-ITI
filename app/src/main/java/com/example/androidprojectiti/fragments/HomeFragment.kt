@@ -17,12 +17,14 @@ import com.example.androidprojectiti.Repositry.meal.mealRepoImp
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.network.Api_client
+import com.example.androidprojectiti.category.categoryRepoImp
+import com.example.androidprojectiti.dto.Category
+import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.viewModels.Home.FactoryClassHome
 import com.example.androidprojectiti.viewModels.Home.HomeViewModel
 
 class HomeFragment : Fragment() {
     lateinit var list_of_Categories: List<Category>
-    lateinit var list_of_meal:List<Meal>
     private lateinit var retrofitViewModel: HomeViewModel
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

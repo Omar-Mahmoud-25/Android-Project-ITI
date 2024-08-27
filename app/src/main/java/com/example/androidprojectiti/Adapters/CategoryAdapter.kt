@@ -24,7 +24,6 @@ class CategoryAdapter(val listOfOfCategories:List<Category>): RecyclerView.Adapt
     override fun getItemCount(): Int {
         return listOfOfCategories.size
     }
-
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.title.text=listOfOfCategories[position].strCategory
         Glide.with(holder.thumbnail.context)

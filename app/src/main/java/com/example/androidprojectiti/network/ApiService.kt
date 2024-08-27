@@ -11,5 +11,6 @@ interface ApiService {
     suspend fun getAllCategories(): Response<CategoryModel>
     @GET("search.php")
     suspend fun searchMeals(@Query("f") letter:Char): Response<MealModel>
-
+    @GET("random.php")
+    suspend fun getRandomMeal(): Response<MealModel>
 }

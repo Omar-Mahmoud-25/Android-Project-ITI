@@ -1,4 +1,4 @@
-package com.example.androidprojectiti.dto
+package com.example.androidprojectiti.dto.CategoryResponse
 
 data class Category(
     val idCategory: String,

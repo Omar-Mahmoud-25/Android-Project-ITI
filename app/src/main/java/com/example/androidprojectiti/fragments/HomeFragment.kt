@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
             val adapter = MealAdapter(it)
-            list_of_meal = it
+//            list_of_meal = it
             Mealslist.adapter = adapter
             Mealslist.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         }

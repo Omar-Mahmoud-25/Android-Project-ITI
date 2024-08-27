@@ -1,7 +1,12 @@
 package com.example.androidprojectiti.dto.MealResponse
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
 data class Meal(
     val dateModified: Any,
+    @PrimaryKey
     val idMeal: String,
     val strArea: String,
     val strCategory: String,
@@ -53,5 +58,6 @@ data class Meal(
     val strMeasure9: String,
     val strSource: String,
     val strTags: String,
-    val strYoutube: String
+    val strYoutube: String,
+    val userIdFromMeal: String?
 )

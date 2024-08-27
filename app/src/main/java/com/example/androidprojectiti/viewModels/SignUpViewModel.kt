@@ -1,7 +1,7 @@
 package com.example.androidprojectiti.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.example.androidprojectiti.database.User
+import com.example.androidprojectiti.database.entity.User
 import com.google.android.material.textfield.TextInputLayout
 
 class SignUpViewModel : ViewModel() {

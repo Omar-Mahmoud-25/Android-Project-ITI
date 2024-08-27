@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.database.dao
 
+import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -9,6 +10,7 @@ import com.example.androidprojectiti.database.entity.User
 import com.example.androidprojectiti.database.relations.UserMeals
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
+@Dao
 interface UserDao {
 
     @Query("SELECT * FROM User")

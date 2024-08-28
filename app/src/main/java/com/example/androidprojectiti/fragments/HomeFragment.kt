@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.Adapters.CategoryAdapter
@@ -35,6 +37,12 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sharedPreferences = requireActivity().
+        getSharedPreferences("logging_details",
+            Context.MODE_PRIVATE)
+
+        val email = sharedPreferences.getString("email","guest")
+
         val factoryClass = FactoryClassHome(
             categoryRepositry = categoryRepoImp(
                 remoteDataSource = ApiClient
@@ -57,7 +65,12 @@ class HomeFragment : Fragment() {
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
             // passing a user repo for favorite
-            val adapter = MealAdapter(it) //, UserRepoImp(LocalDataSourceImp(requireContext())))
+            val adapter = MealAdapter(
+                it,
+                UserRepoImp(LocalDataSourceImp(requireContext())),
+                lifecycleScope = lifecycleScope,
+                email = email?: "guest"
+            )
 //            list_of_meal = it
             Mealslist.adapter = adapter
             Mealslist.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)

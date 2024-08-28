@@ -15,14 +15,17 @@ import com.example.androidprojectiti.dto.MealResponse.Meal
 interface UserDao {
 
     @Query("SELECT * FROM User")
-    fun getAllLocalUsers() : List<User>
+    suspend fun getAllLocalUsers() : List<User>
 
 
     @Query("SELECT * FROM User WHERE email = :email")
-    fun getUserMeals(email: String) : UserWithMealsRef
+    suspend fun getUser(email: String): List<User>
+//    suspend fun getUserMeals(email: String) : UserWithMealsRef
 
+//    @Query("SELECT idMeal FROM UserWithMealsRef WHERE email = :email")
+//    suspend fun getUserFavoriteMeals(email: String): List<String>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertUser (user: User)
 
 

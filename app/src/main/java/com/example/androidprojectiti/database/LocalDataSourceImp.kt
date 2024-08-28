@@ -17,16 +17,20 @@ class LocalDataSourceImp(context: Context) : LocalDataSource {
     }
 
 
-    override fun getAllLocalUsers(): List<User> {
+    override suspend fun getAllLocalUsers(): List<User> {
         return dao.getAllLocalUsers()
     }
 
-    override fun getUserMeals(email: String): UserWithMealsRef {
-        return dao.getUserMeals(email)
-    }
+//    override suspend fun getUserFavoriteMeals(email: String): List<String> {
+//        return dao.getUserFavoriteMeals(email)
+//    }
 
     override suspend fun insertUser(user: User) {
         dao.insertUser(user)
+    }
+
+    override suspend fun getUser(email: String): List<User>{
+        return dao.getUser(email)
     }
 
     override suspend fun insertMeal(meal: Meal) {

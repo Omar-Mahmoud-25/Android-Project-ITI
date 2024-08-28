@@ -1,5 +1,7 @@
 package com.example.androidprojectiti.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.androidprojectiti.R
+import com.example.androidprojectiti.RecipeActivity
 import kotlinx.coroutines.delay
 
 class SplashFragment : Fragment() {
@@ -24,7 +27,16 @@ class SplashFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({
-            findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+            val sharedPreferences = requireActivity().
+            getSharedPreferences("logging_details",
+                Context.MODE_PRIVATE)
+            if (sharedPreferences.getBoolean("isUserLoggedIn",false)){
+                val intent = Intent(requireContext(), RecipeActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+            }
+            else findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+//            findNavController().popBackStack()
         }, 3000)
     }
 }

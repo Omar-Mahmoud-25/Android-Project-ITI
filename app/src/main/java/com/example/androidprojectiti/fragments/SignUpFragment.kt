@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
@@ -15,6 +16,7 @@ import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.factories.SignUpViewModelFactory
 import com.example.androidprojectiti.viewModels.SignUpViewModel
 import com.google.android.material.textfield.TextInputLayout
+import kotlinx.coroutines.launch
 
 class SignUpFragment : Fragment() {
 
@@ -48,15 +50,18 @@ class SignUpFragment : Fragment() {
         }
 
         signUp.setOnClickListener{
-            if (_viewModel.makeUser(
-                firstName = firstName,
-                lastName = lastName,
-                age = age,
-                password = password,
-                email = email,
-                confirmPassword = confirmPassword
-            ))
-                findNavController().popBackStack()
+            lifecycleScope.launch{
+                if (_viewModel.makeUser(
+                        firstName = firstName,
+                        lastName = lastName,
+                        age = age,
+                        password = password,
+                        email = email,
+                        confirmPassword = confirmPassword
+                    )
+                )
+                    findNavController().popBackStack()
+            }
         }
         // to be continued
     }

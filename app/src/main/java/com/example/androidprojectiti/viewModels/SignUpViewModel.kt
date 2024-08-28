@@ -22,7 +22,7 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
         return password == confirm
     }
 
-    fun makeUser(
+    suspend fun makeUser(
         firstName: TextInputLayout,
         lastName: TextInputLayout,
         age:TextInputLayout,
@@ -39,43 +39,41 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
         var valid = true
         if (firstNameText.isEmpty()) {
             firstName.error = "This field is required"
-            valid = false
+            return false
         }
         else
             firstName.error = ""
         if (lastNameText.isEmpty()){
             lastName.error = "This field is required"
-            valid = false
+            return false
         }
         else
             lastName.error = ""
         if (ageText.isEmpty()){
             age.error = "This field is required"
-            valid = false
+            return false
         }
         else
             age.error = ""
         if (!validateEmail(emailText)) {
             email.error = "Please enter a valid Email!"
-            valid = false
+            return false
         }
         else
             email.error = ""
         if (!validatePassword(passwordText)) {
             password.error =
                 "Password must be between 8 and 16 character, containing numbers, upper and lowercase letters"
-            valid = false
+            return false
         }
         else
             password.error = ""
         if (!validateConfirmPassword(confirmPasswordText,passwordText)) {
             confirmPassword.error = "Password doesn't match"
-            valid = false
+            return false
         }
         else
             confirmPassword.error = ""
-        if (!valid)
-            return false
 
         // if this email is in the database, return false
 
@@ -86,8 +84,11 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
             email = emailText,
             password = passwordText
         )
-        viewModelScope.launch {
+        if (_userRepo.getUser(email.editText?.text.toString()).isEmpty())
             _userRepo.insertUser(user)
+        else{
+            email.error = "This email already have an account"
+            return false
         }
         return true
     }

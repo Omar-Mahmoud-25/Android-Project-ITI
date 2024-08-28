@@ -1,9 +1,10 @@
 package com.example.androidprojectiti.database
 
 import android.content.Context
+import android.provider.ContactsContract.CommonDataKinds.Email
 import com.example.androidprojectiti.database.dao.UserDao
 import com.example.androidprojectiti.database.entity.User
-import com.example.androidprojectiti.database.relations.UserMeals
+import com.example.androidprojectiti.database.relations.UserWithMealsRef
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
 class LocalDataSourceImp(context: Context) : LocalDataSource {
@@ -20,8 +21,8 @@ class LocalDataSourceImp(context: Context) : LocalDataSource {
         return dao.getAllLocalUsers()
     }
 
-    override fun getUserMeals(userId: Int): UserMeals {
-        return dao.getUserMeals(userId)
+    override fun getUserMeals(email: String): UserWithMealsRef {
+        return dao.getUserMeals(email)
     }
 
     override suspend fun insertUser(user: User) {

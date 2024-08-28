@@ -59,5 +59,4 @@ data class Meal(
     val strSource: String,
     val strTags: String,
     val strYoutube: String,
-    val userIdFromMeal: String?
 )

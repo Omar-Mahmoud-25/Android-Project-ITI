@@ -1,14 +1,15 @@
 package com.example.androidprojectiti.database
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import com.example.androidprojectiti.database.entity.User
-import com.example.androidprojectiti.database.relations.UserMeals
+import com.example.androidprojectiti.database.relations.UserWithMealsRef
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
 interface LocalDataSource {
 
     fun getAllLocalUsers() : List<User>
 
-    fun getUserMeals(userId : Int) : UserMeals
+    fun getUserMeals(email: String) : UserWithMealsRef
 
     suspend fun insertUser (user: User)
 

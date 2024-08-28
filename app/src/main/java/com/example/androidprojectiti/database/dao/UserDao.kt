@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.database.dao
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -7,7 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.androidprojectiti.database.entity.User
-import com.example.androidprojectiti.database.relations.UserMeals
+import com.example.androidprojectiti.database.relations.UserWithMealsRef
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
 @Dao
@@ -17,8 +18,8 @@ interface UserDao {
     fun getAllLocalUsers() : List<User>
 
 
-    @Query("SELECT * FROM User WHERE userId = :userId")
-    fun getUserMeals(userId : Int) : UserMeals
+    @Query("SELECT * FROM User WHERE email = :email")
+    fun getUserMeals(email: String) : UserWithMealsRef
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

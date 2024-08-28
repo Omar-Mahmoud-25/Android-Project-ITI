@@ -1,19 +1,17 @@
 package com.example.androidprojectiti.database.relations
 
 import androidx.room.Embedded
-import androidx.room.Entity
+import androidx.room.Junction
 import androidx.room.Relation
 import com.example.androidprojectiti.database.entity.User
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
-
-// user contains a lot of meals
-@Entity
-data class UserMeals(
-    @Embedded val user: User,
+data class MealWithUsers(
+    @Embedded val meal: Meal,
     @Relation(
-        parentColumn = "userId",
-        entityColumn = "userIdFromMeal"
+        parentColumn = "idMeal",
+        entityColumn = "email",
+        associateBy = Junction(UserWithMealsRef::class)
     )
-    val meals : List<Meal>
+    val users : List<User>
 )

@@ -14,6 +14,9 @@ import com.example.androidprojectiti.Adapters.MealAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.category.categoryRepoImp
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
+import com.example.androidprojectiti.Repositry.user.UserRepo
+import com.example.androidprojectiti.Repositry.user.UserRepoImp
+import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.viewModels.Home.FactoryClassHome
@@ -53,7 +56,8 @@ class HomeFragment : Fragment() {
         }
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
-            val adapter = MealAdapter(it)
+            // passing a user repo for favorite
+            val adapter = MealAdapter(it) //, UserRepoImp(LocalDataSourceImp(requireContext())))
 //            list_of_meal = it
             Mealslist.adapter = adapter
             Mealslist.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)

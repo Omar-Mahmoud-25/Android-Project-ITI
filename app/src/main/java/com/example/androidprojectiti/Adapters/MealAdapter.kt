@@ -62,12 +62,12 @@ class MealAdapter(
             if (isHeartRed) {
                 holder.favourite.setImageResource(R.drawable.white_heart)
                 lifecycleScope.launch {
-                    repo.insertMealToFav(UserFavorites(email,listOfOfMeals[position].idMeal))
+                    repo.deleteMealFromFav(UserFavorites(email,listOfOfMeals[position].idMeal))
                 }
             } else {
                 holder.favourite.setImageResource(R.drawable.red_heart)
                 lifecycleScope.launch {
-                    repo.deleteMealFromFav(UserFavorites(email,listOfOfMeals[position].idMeal))
+                    repo.insertMealToFav(UserFavorites(email,listOfOfMeals[position].idMeal))
                 }
             }
             isHeartRed = !isHeartRed

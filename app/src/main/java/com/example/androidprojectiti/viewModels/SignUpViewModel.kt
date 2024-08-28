@@ -1,10 +1,13 @@
 package com.example.androidprojectiti.viewModels
 
 import androidx.lifecycle.ViewModel
+import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.database.entity.User
 import com.google.android.material.textfield.TextInputLayout
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
     private val _emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
     private val _passwordRegex = Regex("^(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$")
     private fun validateEmail(email: String):Boolean{
@@ -83,9 +86,9 @@ class SignUpViewModel : ViewModel() {
             email = emailText,
             password = passwordText
         )
-
-        // insert user to data base
-
+        viewModelScope.launch {
+            _userRepo.insertUser(user)
+        }
         return true
     }
 

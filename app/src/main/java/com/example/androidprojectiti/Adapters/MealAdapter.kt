@@ -1,12 +1,15 @@
 package com.example.androidprojectiti.Adapters
 
 import android.content.SharedPreferences
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.NavDirections
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.Adapters.CategoryAdapter.ViewHolder
@@ -15,6 +18,7 @@ import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 import com.example.androidprojectiti.dto.MealResponse.Meal
+import com.example.androidprojectiti.fragments.HomeFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -26,7 +30,8 @@ class MealAdapter(
     private val listOfOfMeals:List<Meal>,
     private val repo: UserRepo,
     private val email: String,
-    private val lifecycleScope: CoroutineScope
+    private val lifecycleScope: CoroutineScope,
+    val navController : NavController
 ): RecyclerView.Adapter<MealAdapter.ViewHolder>() {
     class ViewHolder(val row: View):RecyclerView.ViewHolder(row) {
         var name: TextView = row.findViewById(R.id.Name)
@@ -71,6 +76,11 @@ class MealAdapter(
                 }
             }
             isHeartRed = !isHeartRed
+        }
+
+        holder.itemView.setOnClickListener{
+            val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(listOfOfMeals[position])
+            navController.navigate(action)
         }
     }
 

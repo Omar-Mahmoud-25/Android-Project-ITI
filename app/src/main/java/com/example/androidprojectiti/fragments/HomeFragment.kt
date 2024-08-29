@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.Adapters.CategoryAdapter
@@ -69,7 +71,8 @@ class HomeFragment : Fragment() {
                 it,
                 UserRepoImp(LocalDataSourceImp(requireContext())),
                 lifecycleScope = lifecycleScope,
-                email = email?: "guest"
+                email = email?: "guest",
+                navController = findNavController()
             )
 //            list_of_meal = it
             Mealslist.adapter = adapter

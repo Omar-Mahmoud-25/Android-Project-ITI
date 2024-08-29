@@ -27,7 +27,11 @@
         android:id="@+id/recipeDetailFragment"
         android:name="com.example.androidprojectiti.fragments.RecipeDetailFragment"
         android:label="fragment_recipe_detail"
-        tools:layout="@layout/fragment_recipe_detail" />
+        tools:layout="@layout/fragment_recipe_detail" >
+        <argument
+            android:name="favMeal"
+            app:argType="com.example.androidprojectiti.dto.MealResponse.Meal" />
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.androidprojectiti.fragments.FavoriteFragment"

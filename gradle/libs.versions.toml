@@ -45,8 +45,13 @@ androidx-room-compiler = {group = "androidx.room", name = "room-compiler", versi
 kotlinx-coroutines = {group="org.jetbrains.kotlinx",name = "kotlinx-coroutines-core", version.ref = "coroutines"}
 android-youtube-player = {group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "androidYoutubePlayerVersion"}
 lottie-animation = {group = "com.airbnb.android", name = "lottie", version.ref = "lottie"}
-
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+
+# implementation 'com.borjabravo:readmoretextview:2.1.0'
+# implementation '::'
+
+#  implementation'::'
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

@@ -61,6 +61,4 @@ dependencies {
     implementation(libs.android.youtube.player)
     implementation(libs.lottie.animation)
     implementation(libs.androidx.splashscreen)
-
-
 }

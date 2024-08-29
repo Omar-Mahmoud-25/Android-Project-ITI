@@ -3,7 +3,7 @@ package com.example.androidprojectiti.database
 import android.content.Context
 import com.example.androidprojectiti.database.dao.UserDao
 import com.example.androidprojectiti.database.entity.User
-import com.example.androidprojectiti.database.relations.UserMeals
+import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
 class LocalDataSourceImp(context: Context) : LocalDataSource {
@@ -16,20 +16,24 @@ class LocalDataSourceImp(context: Context) : LocalDataSource {
     }
 
 
-    override fun getAllLocalUsers(): List<User> {
+    override suspend fun getAllLocalUsers(): List<User> {
         return dao.getAllLocalUsers()
     }
 
-    override fun getUserMeals(userId: Int): UserMeals {
-        return dao.getUserMeals(userId)
+    override suspend fun getUserFavoriteMeals(email: String): List<String> {
+        return dao.getUserFavoriteMeals(email)
     }
 
     override suspend fun insertUser(user: User) {
         dao.insertUser(user)
     }
 
-    override suspend fun insertMeal(meal: Meal) {
-       dao.insertMeal(meal)
+    override suspend fun getUser(email: String): List<User>{
+        return dao.getUser(email)
+    }
+
+    override suspend fun insertMealToFav(fav: UserFavorites) {
+       dao.insertMealToFav(fav)
     }
 
     override suspend fun updateUser(user: User) {
@@ -40,7 +44,7 @@ class LocalDataSourceImp(context: Context) : LocalDataSource {
         dao.deleteUser(user)
     }
 
-    override suspend fun deleteMeal(meal: Meal) {
-        dao.deleteMeal(meal)
+    override suspend fun deleteMealFromFav(fav: UserFavorites) {
+        dao.deleteMealFromFav(fav)
     }
 }

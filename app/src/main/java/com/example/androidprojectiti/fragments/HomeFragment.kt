@@ -1,12 +1,15 @@
 package com.example.androidprojectiti.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.Adapters.CategoryAdapter
@@ -14,14 +17,19 @@ import com.example.androidprojectiti.Adapters.MealAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.category.categoryRepoImp
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
+import com.example.androidprojectiti.Repositry.user.UserRepo
+import com.example.androidprojectiti.Repositry.user.UserRepoImp
+import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 import com.example.androidprojectiti.network.ApiClient
+import com.example.androidprojectiti.network.NetworkLiveData
 import com.example.androidprojectiti.viewModels.Home.FactoryClassHome
 import com.example.androidprojectiti.viewModels.Home.HomeViewModel
 
 class HomeFragment : Fragment() {
     lateinit var list_of_Categories: List<Category>
     private lateinit var retrofitViewModel: HomeViewModel
+    private lateinit var network : NetworkLiveData
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,6 +39,14 @@ class HomeFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        network = NetworkLiveData(requireContext())
+
+        val sharedPreferences = requireActivity().
+        getSharedPreferences("logging_details",
+            Context.MODE_PRIVATE)
+
+        val email = sharedPreferences.getString("email","guest")
 
         val factoryClass = FactoryClassHome(
             categoryRepositry = categoryRepoImp(
@@ -42,8 +58,19 @@ class HomeFragment : Fragment() {
         )
         retrofitViewModel = ViewModelProvider(this, factoryClass)
             .get(HomeViewModel::class.java)
-        retrofitViewModel.getCategories()
-        retrofitViewModel.getMeals()
+
+        // Connectivity Manager Code, I can't even know what it does 🤦🏻‍♂️
+        network.observe(requireActivity()) {
+            if (it) {
+//                if (retrofitViewModel.MealsList.value?.isEmpty() == true)
+                    retrofitViewModel.getMeals()
+//                if (retrofitViewModel.CategoryList.value?.isEmpty() == true)
+                    retrofitViewModel.getCategories()
+            }
+            else
+                Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
+        }
+
         val Categorieslist = view.findViewById<RecyclerView>(R.id.category_recycler_view)
         retrofitViewModel.CategoryList.observe(viewLifecycleOwner) {
             val adapter = CategoryAdapter(it)
@@ -53,7 +80,13 @@ class HomeFragment : Fragment() {
         }
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
-            val adapter = MealAdapter(it)
+            // passing a user repo for favorite
+            val adapter = MealAdapter(
+                it,
+                UserRepoImp(LocalDataSourceImp(requireContext())),
+                lifecycleScope = lifecycleScope,
+                email = email?: "guest"
+            )
 //            list_of_meal = it
             Mealslist.adapter = adapter
             Mealslist.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)

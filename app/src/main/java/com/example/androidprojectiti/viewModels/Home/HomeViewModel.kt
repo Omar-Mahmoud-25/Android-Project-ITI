@@ -39,7 +39,7 @@ class HomeViewModel(
     fun getMeals(){
         val chars = ('a'..'z')
         viewModelScope.launch {
-            val mealResponse=mealRepo.getAllMeals(chars.random())
+            val mealResponse=mealRepo.getAllMeals('s')
             if (mealResponse.isSuccessful){
                 _MealsList.postValue(mealResponse.body()?.meals)
             }

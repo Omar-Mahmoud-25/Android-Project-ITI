@@ -16,4 +16,8 @@ class mealRepoImp (
     override suspend fun getRandomMeal(): Response<MealModel> {
         return remoteDataSource.getRandomMealFromRemoteDataSource()
     }
+
+    override suspend fun getMealById(id: String): Response<MealModel> {
+        return remoteDataSource.getMealByIdFromRemoteDataSource(id)
+    }
 }

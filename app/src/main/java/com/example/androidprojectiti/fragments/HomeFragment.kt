@@ -1,16 +1,20 @@
 package com.example.androidprojectiti.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -22,19 +26,20 @@ import com.example.androidprojectiti.Repositry.meal.mealRepoImp
 import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
 import com.example.androidprojectiti.database.LocalDataSourceImp
+import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.network.NetworkLiveData
 import com.example.androidprojectiti.viewModels.Home.FactoryClassHome
 import com.example.androidprojectiti.viewModels.Home.HomeViewModel
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
     lateinit var list_of_Categories: List<Category>
     lateinit var list_of_meal:List<Meal>
     lateinit var randomMeal:Meal
     private lateinit var retrofitViewModel: HomeViewModel
-
     private lateinit var network : NetworkLiveData
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -91,15 +96,17 @@ class HomeFragment : Fragment() {
                 it,
                 UserRepoImp(LocalDataSourceImp(requireContext())),
                 lifecycleScope = lifecycleScope,
-                email = email?: "guest"
+                email = email?: "guest",
+
             )
-//            list_of_meal = it
+            list_of_meal = it
             Mealslist.adapter = adapter
             Mealslist.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         }
         var name=view.findViewById<TextView>(R.id.Name)
         var category=view.findViewById<TextView>(R.id.CategoryName)
         var image=view.findViewById<ImageView>(R.id.imageView)
+        var favouriteButton = view.findViewById<ImageButton>(R.id.heart_button)
         retrofitViewModel.getRandomMeal()
         retrofitViewModel.RandomMeal.observe(viewLifecycleOwner){
             randomMeal=it[0]
@@ -110,9 +117,50 @@ class HomeFragment : Fragment() {
                 .placeholder(R.drawable.baseline_arrow_circle_down_24)
                 .error(R.drawable.baseline_error_24)
                 .into(image)
+            lifecycleScope.launch {
+                val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
+                val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
+                var isFavorite = favoriteMeals.contains(randomMeal.idMeal)
+
+                favouriteButton.setImageResource(
+                    if (isFavorite)
+                    {
+                        R.drawable.red_heart
+                    }
+                    else {
+                        R.drawable.white_heart
+                    }
+                )
+                favouriteButton.setOnClickListener {
+                    if (isFavorite) {
+                        favouriteButton.setImageResource(R.drawable.white_heart)
+                        lifecycleScope.launch {
+                            userRepo.deleteMealFromFav(
+                                UserFavorites(email ?: "guest", randomMeal.idMeal)
+                            )
+                            Toast.makeText(
+                                requireContext(),
+                                "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+                        }
+                    } else {
+                        favouriteButton.setImageResource(R.drawable.red_heart)
+                        lifecycleScope.launch {
+                            userRepo.insertMealToFav(
+                                UserFavorites(email ?: "guest", randomMeal.idMeal)
+                            )
+                            Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    isFavorite=!isFavorite
+                }
+            }
         }
 
-
+        val navigateToFavoritesButton: Button = view.findViewById(R.id.navigate_to_favorites_button)
+        navigateToFavoritesButton.setOnClickListener {
+            findNavController().navigate(R.id.action_homeFragment_to_favoriteFragment)
+        }
     }
+
 
 }

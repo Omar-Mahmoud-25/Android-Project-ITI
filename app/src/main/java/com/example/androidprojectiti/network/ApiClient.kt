@@ -16,4 +16,10 @@ object ApiClient :RemoteDataSource{
     override suspend fun getRandomMealFromRemoteDataSource(): Response<MealModel> {
         return Api.service.getRandomMeal()
     }
+
+    override suspend fun getMealByIdFromRemoteDataSource(id: String): Response<MealModel> {
+        return Api.service.getMealByID(id)
+    }
+
+
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7B5FA"
+    android:background="#F1CFDA"
     tools:context=".fragments.SplashFragment">
 
 
@@ -15,8 +15,8 @@
         android:layout_marginBottom="84dp"
         android:fontFamily="@font/roboto_slab"
         android:gravity="center"
-        android:text="FlavorFusion"
-        android:textColor="#FFFFFF"
+        android:text="Flavor Fusion"
+        android:textColor="#F14B84"
         android:textSize="34sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="meal is a masterpiece."
-        android:textColor="#FAF9F9"
+        android:textColor="#F14B84"
         android:textSize="20sp"
         android:textStyle="bold|italic"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,7 +51,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.433"
         app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/animation_lks8ilod">
+        app:lottie_rawRes="@raw/animation2">
 
     </com.airbnb.lottie.LottieAnimationView>
 </androidx.constraintlayout.widget.ConstraintLayout>

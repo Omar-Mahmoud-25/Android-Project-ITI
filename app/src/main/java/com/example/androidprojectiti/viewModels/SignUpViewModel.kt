@@ -1,10 +1,13 @@
 package com.example.androidprojectiti.viewModels
 
 import androidx.lifecycle.ViewModel
-import com.example.androidprojectiti.database.User
+import com.example.androidprojectiti.Repositry.user.UserRepo
+import com.example.androidprojectiti.database.entity.User
 import com.google.android.material.textfield.TextInputLayout
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
     private val _emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$")
     private val _passwordRegex = Regex("^(?=.*[0-9])(?=.*[a-zA-Z]).{8,16}$")
     private fun validateEmail(email: String):Boolean{
@@ -19,7 +22,7 @@ class SignUpViewModel : ViewModel() {
         return password == confirm
     }
 
-    fun makeUser(
+    suspend fun makeUser(
         firstName: TextInputLayout,
         lastName: TextInputLayout,
         age:TextInputLayout,
@@ -33,61 +36,53 @@ class SignUpViewModel : ViewModel() {
         val confirmPasswordText = confirmPassword.editText?.text.toString()
         val ageText = age.editText?.text.toString()
         val lastNameText = lastName.editText?.text.toString()
-        var valid = true
-        if (firstNameText.isEmpty()) {
-            firstName.error = "This field is required"
-            valid = false
+        email.error = ""
+        firstName.error = ""
+        password.error = ""
+        confirmPassword.error = ""
+        age.error = ""
+        lastName.error = ""
+        return when {
+            firstNameText.isEmpty() -> {
+                firstName.error = "This field is required"
+                false
+            }
+            lastNameText.isEmpty() -> {
+                lastName.error = "This field is required"
+                false
+            }
+            ageText.isEmpty() -> {
+                age.error = "This field is required"
+                false
+            }
+            !validateEmail(emailText) -> {
+                email.error = "Please enter a valid Email!"
+                false
+            }
+            !validatePassword(passwordText) -> {
+                password.error =
+                    "Password must be between 8 and 16 character, containing numbers, upper and lowercase letters"
+                false
+            }
+            !validateConfirmPassword(confirmPasswordText, passwordText) -> {
+                confirmPassword.error = "Password doesn't match"
+                false
+            }
+            _userRepo.getUser(emailText).isNotEmpty() -> {
+                email.error = "This email already have an account"
+                false
+            }
+            else -> {
+                val user = User(
+                    firstName = firstNameText,
+                    lastName = lastNameText,
+                    age = ageText.toInt(),
+                    email = emailText,
+                    password = passwordText
+                )
+                _userRepo.insertUser(user)
+                true
+            }
         }
-        else
-            firstName.error = ""
-        if (lastNameText.isEmpty()){
-            lastName.error = "This field is required"
-            valid = false
-        }
-        else
-            lastName.error = ""
-        if (ageText.isEmpty()){
-            age.error = "This field is required"
-            valid = false
-        }
-        else
-            age.error = ""
-        if (!validateEmail(emailText)) {
-            email.error = "Please enter a valid Email!"
-            valid = false
-        }
-        else
-            email.error = ""
-        if (!validatePassword(passwordText)) {
-            password.error =
-                "Password must be between 8 and 16 character, containing numbers, upper and lowercase letters"
-            valid = false
-        }
-        else
-            password.error = ""
-        if (!validateConfirmPassword(confirmPasswordText,passwordText)) {
-            confirmPassword.error = "Password doesn't match"
-            valid = false
-        }
-        else
-            confirmPassword.error = ""
-        if (!valid)
-            return false
-
-        // if this email is in the database, return false
-
-        val user = User(
-            firstName = firstNameText,
-            lastName = lastNameText,
-            age = ageText.toInt(),
-            email = emailText,
-            password = passwordText
-        )
-
-        // insert user to data base
-
-        return true
     }
-
-    // to be continued
 }

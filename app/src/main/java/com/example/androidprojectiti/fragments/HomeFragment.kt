@@ -65,7 +65,8 @@ class HomeFragment : Fragment() {
             ),
             mealRepo=mealRepoImp(
                 remoteDataSource = ApiClient
-            )
+            ),
+            userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
         )
         retrofitViewModel = ViewModelProvider(this, factoryClass)
             .get(HomeViewModel::class.java)
@@ -73,10 +74,8 @@ class HomeFragment : Fragment() {
         // Connectivity Manager Code, I can't even know what it does 🤦🏻‍♂️
         network.observe(requireActivity()) {
             if (it) {
-//                if (retrofitViewModel.MealsList.value?.isEmpty() == true)
-                    retrofitViewModel.getMeals()
-//                if (retrofitViewModel.CategoryList.value?.isEmpty() == true)
-                    retrofitViewModel.getCategories()
+                retrofitViewModel.getMeals()
+                retrofitViewModel.getCategories()
             }
             else
                 Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
@@ -104,9 +103,15 @@ class HomeFragment : Fragment() {
             Mealslist.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         }
         var name=view.findViewById<TextView>(R.id.Name)
+        val nameOfUser = view.findViewById<TextView>(R.id.nameOfUser)
         var category=view.findViewById<TextView>(R.id.CategoryName)
         var image=view.findViewById<ImageView>(R.id.imageView)
         var favouriteButton = view.findViewById<ImageButton>(R.id.heart_button)
+
+        retrofitViewModel.getUserName(email?:"guest")
+        retrofitViewModel.userName.observe(viewLifecycleOwner){
+            nameOfUser.text = it
+        }
         retrofitViewModel.getRandomMeal()
         retrofitViewModel.RandomMeal.observe(viewLifecycleOwner){
             randomMeal=it[0]
@@ -154,11 +159,6 @@ class HomeFragment : Fragment() {
                     isFavorite=!isFavorite
                 }
             }
-        }
-
-        val navigateToFavoritesButton: Button = view.findViewById(R.id.navigate_to_favorites_button)
-        navigateToFavoritesButton.setOnClickListener {
-            findNavController().navigate(R.id.action_homeFragment_to_favoriteFragment)
         }
     }
 

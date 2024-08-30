@@ -79,7 +79,9 @@ class MealAdapter(
         }
 
         holder.itemView.setOnClickListener{
-            val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(listOfOfMeals[position])
+            val item = listOfOfMeals[position]
+            item.putDefaults()
+            val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(item)
             navController.navigate(action)
         }
     }

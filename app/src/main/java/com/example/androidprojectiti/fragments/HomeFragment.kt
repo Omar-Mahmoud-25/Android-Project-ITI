@@ -97,8 +97,6 @@ class HomeFragment : Fragment() {
                 UserRepoImp(LocalDataSourceImp(requireContext())),
                 lifecycleScope = lifecycleScope,
                 email = email?: "guest",
-
-                email = email?: "guest",
                 navController = findNavController()
             )
             list_of_meal = it

@@ -28,26 +28,28 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
 class MealAdapter(
-    private val listOfOfMeals:List<Meal>,
+    private val listOfOfMeals: List<Meal>,
     private val repo: UserRepo,
     private val email: String,
     private val lifecycleScope: CoroutineScope,
-    val navController : NavController
-): RecyclerView.Adapter<MealAdapter.ViewHolder>() {
-    class ViewHolder(val row: View):RecyclerView.ViewHolder(row) {
+    val navController: NavController
+) : RecyclerView.Adapter<MealAdapter.ViewHolder>() {
+    class ViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         var name: TextView = row.findViewById(R.id.Name)
         var thumbnail: ImageView = row.findViewById(R.id.imageView)
-        var category:TextView=row.findViewById(R.id.CategoryName)
-        var favourite:ImageButton=row.findViewById(R.id.heart_button)
+        var category: TextView = row.findViewById(R.id.CategoryName)
+        var favourite: ImageButton = row.findViewById(R.id.heart_button)
 //        var sharedPreferences = ro
     }
 
 //    lateinit var sharedPreferences:SharedPreferences
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MealAdapter.ViewHolder {
-        val layout= LayoutInflater.from(parent.context).inflate(R.layout.meal_list_item,parent,false)
+        val layout =
+            LayoutInflater.from(parent.context).inflate(R.layout.meal_list_item, parent, false)
         return ViewHolder(layout)
     }
+
 
     private val coroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -78,7 +80,11 @@ class MealAdapter(
                     holder.favourite.setImageResource(R.drawable.white_heart)
                     lifecycleScope.launch {
                         repo.deleteMealFromFav(UserFavorites(email, meal.idMeal))
-                        Toast.makeText(holder.itemView.context, "${listOfOfMeals[position].strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "${listOfOfMeals[position].strMeal} removed from favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
                     }
 
@@ -86,7 +92,11 @@ class MealAdapter(
                     holder.favourite.setImageResource(R.drawable.red_heart)
                     lifecycleScope.launch {
                         repo.insertMealToFav(UserFavorites(email, meal.idMeal))
-                        Toast.makeText(holder.itemView.context, "${listOfOfMeals[position].strMeal} added to favorites", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "${listOfOfMeals[position].strMeal} added to favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
 
 
                     }
@@ -96,18 +106,15 @@ class MealAdapter(
             }
         }
 
-        holder.itemView.setOnClickListener{
+        holder.itemView.setOnClickListener {
             val item = listOfOfMeals[position]
             item.putDefaults()
             val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(item)
             navController.navigate(action)
         }
-}
     }
 
     override fun getItemCount(): Int {
         return listOfOfMeals.size
     }
-
-
 }

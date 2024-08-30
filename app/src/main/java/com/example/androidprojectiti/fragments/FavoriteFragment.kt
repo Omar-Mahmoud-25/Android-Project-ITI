@@ -2,6 +2,9 @@ package com.example.androidprojectiti.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.androidprojectiti.Adapters.favoriteAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
@@ -24,6 +28,7 @@ class FavoriteFragment : Fragment() {
 
     private lateinit var favViewModel: FavouriteViewModel
     private lateinit var adapter: favoriteAdapter
+    private lateinit var loadingAnimation: LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,22 +43,51 @@ class FavoriteFragment : Fragment() {
         val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
         val email = sharedPreferences.getString("email", "guest") ?: "guest"
 
-
         val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
         val mealRepo = mealRepoImp(ApiClient)
 
-
         favViewModel = FavouriteViewModel(userRepo, mealRepo)
         favViewModel.getFavMeals(email)
+
+        loadingAnimation = view.findViewById(R.id.loading_animation2)
         val favMealsList = view.findViewById<RecyclerView>(R.id.fav_recycler_view)
         favMealsList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        favViewModel.MealsList.observe(viewLifecycleOwner) {
-            adapter = favoriteAdapter(it.toMutableList(), userRepo, email, lifecycleScope)
-            favMealsList.adapter = adapter
+        // Initially show the animation and hide the RecyclerView
+        loadingAnimation.visibility = View.VISIBLE
+        favMealsList.visibility = View.GONE
 
-            val itemTouchHelper = ItemTouchHelper(swipeToDeletFromFav(adapter, requireContext()))
-            itemTouchHelper.attachToRecyclerView(favMealsList)
+        // Hide the animation after 2 seconds
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingAnimation.visibility = View.GONE
+        }, 2000)
+
+        favViewModel.MealsList.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                // If no data, keep showing animation
+                loadingAnimation.visibility = View.VISIBLE
+                favMealsList.visibility = View.GONE
+            } else {
+                // Hide animation and show RecyclerView
+                loadingAnimation.visibility = View.GONE
+                favMealsList.visibility = View.VISIBLE
+                adapter = favoriteAdapter(it.toMutableList(), userRepo, email, lifecycleScope)
+                favMealsList.adapter = adapter
+
+                val itemTouchHelper = ItemTouchHelper(swipeToDeletFromFav(adapter, requireContext(), ::showConfirmationDialog))
+                itemTouchHelper.attachToRecyclerView(favMealsList)
+            }
         }
+    }
+
+    private fun showConfirmationDialog(mealId: String, onConfirm: () -> Unit) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Remove Favorite")
+            .setMessage("Are you sure you want to remove this item from favorites?")
+            .setPositiveButton("Yes") { _, _ ->
+                onConfirm()
+            }
+            .setNegativeButton("No", null)
+            .show()
     }
 }

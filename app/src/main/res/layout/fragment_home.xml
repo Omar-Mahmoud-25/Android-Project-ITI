@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_anchorGravity="top"
     tools:context=".fragments.HomeFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -56,8 +55,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/category_recycler_view"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="388dp"
+                android:layout_height="82dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
@@ -70,6 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
                 android:text="Top pick for you"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -169,4 +169,15 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
+
+    <!-- Lottie Animation View -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieAnimationView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:lottie_rawRes="@raw/loading_animation"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        android:layout_gravity="center"/>
 </FrameLayout>

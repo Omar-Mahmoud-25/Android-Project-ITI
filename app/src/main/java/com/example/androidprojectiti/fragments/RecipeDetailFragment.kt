@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -19,15 +21,21 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.androidprojectiti.R
+import com.example.androidprojectiti.dto.MealResponse.Meal
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 
 class RecipeDetailFragment : Fragment() {
 
+    private var stringJavaScript : String = ""
     private val args by navArgs<RecipeDetailFragmentArgs>()
     private lateinit var image : ImageView
     private lateinit var title : TextView
     private lateinit var detailText : TextView
     private lateinit var category : TextView
     private lateinit var showMoreAndLess : TextView
+    private lateinit var youTubePlayerView: YouTubePlayerView
     private var isShowLess : Boolean = false
 
     @SuppressLint("SetTextI18n")
@@ -43,6 +51,8 @@ class RecipeDetailFragment : Fragment() {
         detailText = view.findViewById(R.id.text_view_details)
         category = view.findViewById(R.id.text_view_category)
         showMoreAndLess = view.findViewById(R.id.text_view_show)
+        youTubePlayerView = view.findViewById(R.id.web_view)
+
 
         val meal = args.favMeal
 
@@ -58,7 +68,9 @@ class RecipeDetailFragment : Fragment() {
         title.text = meal.strMeal
         category.text =  category.text.toString() + meal.strCategory
         val fullText = meal.strInstructions.toString()
+        val video : String  = meal.strYoutube.toString()
 
+        playVedio(video)
         detailText.text = detailText.text.toString() + decreaseText(fullText)
         showMoreAndLess.setOnClickListener{
             handleTextView(fullText)
@@ -66,6 +78,7 @@ class RecipeDetailFragment : Fragment() {
 
         return view
     }
+
 
 
     @SuppressLint("SetTextI18n")
@@ -90,6 +103,21 @@ class RecipeDetailFragment : Fragment() {
 
     }
 
+
+    fun playVedio(video : String){
+
+        val result = video.substring(video.lastIndexOf('=') + 1)
+
+        // object : AbstractYouTubePlayerListener(): In Kotlin, you create an anonymous class that extends AbstractYouTubePlayerListener using the object keyword
+        youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
+            override fun onReady(youTubePlayer: YouTubePlayer) {
+                val videoId = result  // "S0Q4gqBUs7c"
+                youTubePlayer.loadVideo(videoId, 0f)
+            }
+        })
+
+
+    }
 
 
 

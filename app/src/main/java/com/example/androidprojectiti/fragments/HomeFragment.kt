@@ -2,7 +2,6 @@ package com.example.androidprojectiti.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,8 +14,6 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -45,17 +42,27 @@ class HomeFragment : Fragment() {
     lateinit var randomMeal: Meal
     private lateinit var retrofitViewModel: HomeViewModel
     private lateinit var network: NetworkLiveData
+    private lateinit var materialCardView: CardView
+    private lateinit var lottieAnimationView: LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        materialCardView = view.findViewById(R.id.materialCardView)
+        lottieAnimationView = view.findViewById(R.id.lottieAnimationView)
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Show animation while data is loading
+        lottieAnimationView.visibility = View.VISIBLE
 
         network = NetworkLiveData(requireContext())
 
@@ -67,28 +74,10 @@ class HomeFragment : Fragment() {
             mealRepo = mealRepoImp(remoteDataSource = ApiClient),
             userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
         )
-
-        retrofitViewModel = ViewModelProvider(this, factoryClass)
-            .get(HomeViewModel::class.java)
-
-        // Find LottieAnimationView
-        val lottieAnimationView: LottieAnimationView = view.findViewById(R.id.lottieAnimationView)
-
-        // Show animation when data is loading
-        fun showLoading() {
-            lottieAnimationView.visibility = View.VISIBLE
-            lottieAnimationView.playAnimation()
-        }
-
-        // Hide animation when data is loaded or error occurs
-        fun hideLoading() {
-            lottieAnimationView.visibility = View.GONE
-            lottieAnimationView.cancelAnimation()
-        }
+        retrofitViewModel = ViewModelProvider(this, factoryClass).get(HomeViewModel::class.java)
 
         network.observe(requireActivity()) {
             if (it) {
-                showLoading()
                 retrofitViewModel.getMeals()
                 retrofitViewModel.getCategories()
             } else {
@@ -98,7 +87,6 @@ class HomeFragment : Fragment() {
 
         val Categorieslist = view.findViewById<RecyclerView>(R.id.category_recycler_view)
         retrofitViewModel.CategoryList.observe(viewLifecycleOwner) {
-            hideLoading()
             val adapter = CategoryAdapter(it)
             list_of_Categories = it
             Categorieslist.adapter = adapter
@@ -107,16 +95,19 @@ class HomeFragment : Fragment() {
 
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
-            hideLoading()
             val adapter = MealAdapter(
                 it,
                 UserRepoImp(LocalDataSourceImp(requireContext())),
                 lifecycleScope = lifecycleScope,
-                email = email ?: "guest"
+                email = email ?: "guest",
+                navController = findNavController()
             )
             list_of_meal = it
             Mealslist.adapter = adapter
             Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
+            // Hide animation once data is loaded
+            lottieAnimationView.visibility = View.GONE
         }
 
         val name = view.findViewById<TextView>(R.id.Name)
@@ -141,40 +132,34 @@ class HomeFragment : Fragment() {
                 .error(R.drawable.baseline_error_24)
                 .into(image)
 
+            materialCardView.setOnClickListener {
+                randomMeal.putDefaults()
+                val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
+                findNavController().navigate(action)
+            }
+
             lifecycleScope.launch {
                 val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
                 val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-                var isFavorite = favoriteMeals.contains(randomMeal.idMeal)
+                val isFavorite = favoriteMeals.contains(randomMeal.idMeal)
 
                 favouriteButton.setImageResource(
-                    if (isFavorite) {
-                        R.drawable.red_heart
-                    } else {
-                        R.drawable.white_heart
-                    }
+                    if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
                 )
-
                 favouriteButton.setOnClickListener {
                     if (isFavorite) {
                         favouriteButton.setImageResource(R.drawable.white_heart)
                         lifecycleScope.launch {
                             userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
-                            Toast.makeText(
-                                requireContext(),
-                                "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(requireContext(), "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
                         }
                     } else {
                         favouriteButton.setImageResource(R.drawable.red_heart)
                         lifecycleScope.launch {
                             userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
-                            Toast.makeText(
-                                requireContext(),
-                                "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT
-                            ).show()
+                            Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    isFavorite = !isFavorite
                 }
             }
         }

@@ -12,8 +12,11 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +26,7 @@ import com.example.androidprojectiti.Adapters.MealAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.category.categoryRepoImp
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
+import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
 import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.database.relations.UserFavorites

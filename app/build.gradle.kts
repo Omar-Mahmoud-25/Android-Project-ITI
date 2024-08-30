@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrainsKotlinAndroid)
     alias(libs.plugins.safeArgsPlugin)
     alias(libs.plugins.kotlin.kapt)
+    id("kotlin-parcelize")
 }
 
 android {
@@ -61,4 +62,7 @@ dependencies {
     implementation(libs.android.youtube.player)
     implementation(libs.lottie.animation)
     implementation(libs.androidx.splashscreen)
+
+
+
 }

@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <!--  Title TextView  -->
+
+    <!-- Title TextView -->
     <TextView
         android:id="@+id/title_text_view"
         android:layout_width="wrap_content"
@@ -16,9 +17,9 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-    <!--  SearchView  -->
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- SearchView -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
         android:layout_width="0dp"
@@ -30,9 +31,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_text_view"
-        tools:ignore="MissingConstraints" />
-    <!--  RecyclerView  -->
+        app:layout_constraintTop_toBottomOf="@id/title_text_view" />
+
+    <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
@@ -42,9 +43,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_view"
-        tools:ignore="MissingConstraints" />
-    <!--  No Results TextView  -->
+        app:layout_constraintTop_toBottomOf="@id/search_view" />
+
+    <!-- No Results TextView -->
     <TextView
         android:id="@+id/no_results_text_view"
         android:layout_width="wrap_content"
@@ -55,5 +56,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_view"
-        tools:ignore="MissingConstraints" />
+        android:visibility="gone" /> <!-- Initially hidden -->
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,20 +1,26 @@
 package com.example.androidprojectiti
 
+import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.ImageView
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 
 class SplashActivity : AppCompatActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         setContentView(R.layout.activity_splash)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+        if (intent.getBooleanExtra("isUserLoggingOut",false))
+            (supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment)
+                .navController
+                .navigate(R.id.action_splashFragment_to_loginFragment)
+
     }
 }

@@ -1,12 +1,11 @@
-package com.example.myapplicationrecyclarview
 
+package com.example.androidprojectiti.fragments
 //import ItemViewModel
 import SearchViewModel
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,8 +14,10 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.R
+import androidx.fragment.app.Fragment
+import com.example.myapplicationrecyclarview.MealSearchAdapter
 
-class SearchFragment : Fragment() {
+class SearchFragment : Fragment(){
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView

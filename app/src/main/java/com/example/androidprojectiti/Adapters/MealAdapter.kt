@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.Adapters.CategoryAdapter.ViewHolder
@@ -52,30 +53,47 @@ class MealAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.name.text=listOfOfMeals[position].strMeal
-        holder.category.text=listOfOfMeals[position].strCategory
+        val meal = listOfOfMeals[position]
+        holder.name.text = meal.strMeal
+        holder.category.text = meal.strCategory
 
         Glide.with(holder.thumbnail.context)
             .load(listOfOfMeals[position].strMealThumb)
             .placeholder(R.drawable.baseline_arrow_circle_down_24)
             .error(R.drawable.baseline_error_24)
             .into(holder.thumbnail)
-        var isHeartRed = false
 
+        lifecycleScope.launch {
+            val favoriteMeals = repo.getUserFavoriteMeals(email)
+            var isFavorite = favoriteMeals.contains(meal.idMeal)
 
-        holder.favourite.setOnClickListener {
-            if (isHeartRed) {
-                holder.favourite.setImageResource(R.drawable.white_heart)
-                lifecycleScope.launch {
-                    repo.deleteMealFromFav(UserFavorites(email,listOfOfMeals[position].idMeal))
-                }
-            } else {
+            if (isFavorite) {
                 holder.favourite.setImageResource(R.drawable.red_heart)
-                lifecycleScope.launch {
-                    repo.insertMealToFav(UserFavorites(email,listOfOfMeals[position].idMeal))
-                }
+            } else {
+                holder.favourite.setImageResource(R.drawable.white_heart)
             }
-            isHeartRed = !isHeartRed
+
+            holder.favourite.setOnClickListener {
+                if (isFavorite) {
+                    holder.favourite.setImageResource(R.drawable.white_heart)
+                    lifecycleScope.launch {
+                        repo.deleteMealFromFav(UserFavorites(email, meal.idMeal))
+                        Toast.makeText(holder.itemView.context, "${listOfOfMeals[position].strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+
+                    }
+
+                } else {
+                    holder.favourite.setImageResource(R.drawable.red_heart)
+                    lifecycleScope.launch {
+                        repo.insertMealToFav(UserFavorites(email, meal.idMeal))
+                        Toast.makeText(holder.itemView.context, "${listOfOfMeals[position].strMeal} added to favorites", Toast.LENGTH_SHORT).show()
+
+
+                    }
+
+                }
+                isFavorite = !isFavorite
+            }
         }
 
         holder.itemView.setOnClickListener{
@@ -84,6 +102,7 @@ class MealAdapter(
             val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(item)
             navController.navigate(action)
         }
+}
     }
 
     override fun getItemCount(): Int {

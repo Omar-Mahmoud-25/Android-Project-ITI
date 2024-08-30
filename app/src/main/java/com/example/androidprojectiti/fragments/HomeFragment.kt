@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.cardview.widget.CardView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavDirections
@@ -42,12 +43,17 @@ class HomeFragment : Fragment() {
     lateinit var randomMeal:Meal
     private lateinit var retrofitViewModel: HomeViewModel
     private lateinit var network : NetworkLiveData
+    private lateinit var materialCardView: CardView
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view =  inflater.inflate(R.layout.fragment_home, container, false)
+
+        materialCardView = view.findViewById(R.id.materialCardView)
+
+        return view
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -123,6 +129,11 @@ class HomeFragment : Fragment() {
                 .placeholder(R.drawable.baseline_arrow_circle_down_24)
                 .error(R.drawable.baseline_error_24)
                 .into(image)
+            materialCardView.setOnClickListener{
+                    randomMeal.putDefaults()
+                    val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
+                    findNavController().navigate(action)
+            }
             lifecycleScope.launch {
                 val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
                 val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")

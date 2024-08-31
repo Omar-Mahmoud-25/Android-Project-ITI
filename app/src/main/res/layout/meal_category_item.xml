@@ -15,6 +15,7 @@
 
         <ImageView
             android:id="@+id/meal_category_item_image"
+            android:scaleType="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:srcCompat="@tools:sample/avatars" />

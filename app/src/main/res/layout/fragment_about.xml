@@ -11,6 +11,33 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/textView17"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:text="@string/this_app_offers_personalized_step_by_step_cooking_instructions_users_can_explore_a_vast_collection_of_recipes_save_their_favorites_and_watch_detailed_cooking_demonstration_videos"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView15" />
+
+        <TextView
+            android:id="@+id/textView15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/archivo_black"
+            android:text="About the app"
+            android:textColor="#903E5A"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/textView5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -18,9 +45,10 @@
             android:layout_marginTop="10dp"
             android:fontFamily="@font/archivo_black"
             android:text="About Us"
-            android:textSize="34sp"
+            android:textColor="#903E5A"
+            android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
         <TextView
             android:id="@+id/textView6"
@@ -28,7 +56,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:background="#A9A9EF"
             android:fontFamily="@font/roboto_slab"
             android:text="Marawan Shrief Abdelatef"
             android:textSize="20sp"
@@ -42,10 +69,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="#A9A9EF"
-            android:fontFamily="@font/chewy"
             android:text="Email: lordmarawanshrief@gmail.com"
-            android:textSize="20sp"
+            android:textColor="@color/material_dynamic_neutral60"
+            android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
@@ -55,7 +81,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
-            android:background="#D386EF"
             android:fontFamily="@font/roboto_slab"
             android:text="Nadra Mahmoud Saad"
             android:textSize="20sp"
@@ -69,10 +94,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="#D386EF"
-            android:fontFamily="@font/chewy"
             android:text="Email: oshasaad968@gmail.com"
-            android:textSize="20sp"
+            android:textColor="@color/material_dynamic_neutral60"
+            android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -82,7 +106,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
-            android:background="#95F472"
             android:fontFamily="@font/roboto_slab"
             android:text="Nada Mohsen Ahmed "
             android:textSize="20sp"
@@ -96,10 +119,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="#95F472"
-            android:fontFamily="@font/chewy"
             android:text="Email: mohsennada874@gmail.com"
-            android:textSize="20sp"
+            android:textColor="@color/material_dynamic_neutral60"
+            android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
@@ -109,7 +131,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
-            android:background="#69E4D8"
             android:fontFamily="@font/roboto_slab"
             android:text="Omar Mahmoud Abdullah"
             android:textSize="20sp"
@@ -123,10 +144,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:background="#69E4D8"
-            android:fontFamily="@font/chewy"
             android:text="Email: omar.mahmoud25102004@gmail.com"
-            android:textSize="20sp"
+            android:textColor="@color/material_dynamic_neutral60"
+            android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView12" />
     </androidx.constraintlayout.widget.ConstraintLayout>

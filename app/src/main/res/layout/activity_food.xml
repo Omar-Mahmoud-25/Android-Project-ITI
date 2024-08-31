@@ -9,8 +9,10 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#F1CFDA"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,9 +21,10 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
+            android:background="#F1CFDA"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/actions"/>
+            app:menu="@menu/actions"
+            app:titleTextColor="#903E5A" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,14 +40,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout" />
 
+    <!-- res/layout/activity_main.xml -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"
-        android:layout_width="411dp"
+        android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:background="#F1CFDA"
+        android:contextClickable="false"
+        app:itemIconTint="#903E5A"
+        app:itemTextColor="#903E5A"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/btm_nav_menu" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -80,7 +80,10 @@ class RecipeDetailFragment : Fragment() {
     }
 
 
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.title = "Details"
+    }
     @SuppressLint("SetTextI18n")
     private fun handleTextView(fullText: String) {
         if (isShowLess){

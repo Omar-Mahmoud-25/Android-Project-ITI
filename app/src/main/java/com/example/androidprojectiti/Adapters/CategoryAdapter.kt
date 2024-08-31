@@ -37,6 +37,7 @@ class CategoryAdapter(val listOfOfCategories:List<Category>, val email : String,
         holder.itemView.setOnClickListener {
             val bundle = Bundle().apply {
                 putString("email", email)
+                putString("category", listOfOfCategories[position].strCategory)
             }
             navController.navigate(R.id.action_homeFragment_to_mealCategoryFragment, bundle)
         }

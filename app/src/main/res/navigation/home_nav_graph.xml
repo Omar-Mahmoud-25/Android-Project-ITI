@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_homeFragment_to_aboutFragment"
             app:destination="@id/aboutFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_mealCategoryFragment"
+            app:destination="@id/mealCategoryFragment" />
     </fragment>
     <fragment
         android:id="@+id/recipeDetailFragment"
@@ -63,6 +66,18 @@
         tools:layout="@layout/fragment_about" >
         <action
             android:id="@+id/action_aboutFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mealCategoryFragment"
+        android:name="com.example.androidprojectiti.fragments.MealCategoryFragment"
+        android:label="fragment_meal_category"
+        tools:layout="@layout/fragment_meal_category" >
+        <action
+            android:id="@+id/action_mealCategoryFragment_to_recipeDetailFragment"
+            app:destination="@id/recipeDetailFragment" />
+        <action
+            android:id="@+id/action_mealCategoryFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

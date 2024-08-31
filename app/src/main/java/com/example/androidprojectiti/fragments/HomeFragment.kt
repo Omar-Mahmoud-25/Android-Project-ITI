@@ -87,7 +87,9 @@ class HomeFragment : Fragment() {
 
         val Categorieslist = view.findViewById<RecyclerView>(R.id.category_recycler_view)
         retrofitViewModel.CategoryList.observe(viewLifecycleOwner) {
-            val adapter = CategoryAdapter(it)
+            val adapter = CategoryAdapter(it,
+                email = email ?: "guest",
+                navController = findNavController())
             list_of_Categories = it
             Categorieslist.adapter = adapter
             Categorieslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)

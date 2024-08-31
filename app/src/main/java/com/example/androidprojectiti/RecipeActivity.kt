@@ -33,7 +33,7 @@ class RecipeActivity : AppCompatActivity() {
 
         NavigationUI.setupWithNavController(bottomNavigationView, navController)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Flavor Fusion"
+
 
         sharedPreferences = this.
         getSharedPreferences("logging_details",

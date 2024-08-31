@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -39,7 +40,7 @@ class FavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        activity?.title = "Favorites"
         val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
         val email = sharedPreferences.getString("email", "guest") ?: "guest"
 
@@ -71,7 +72,9 @@ class FavoriteFragment : Fragment() {
                 // Hide animation and show RecyclerView
                 loadingAnimation.visibility = View.GONE
                 favMealsList.visibility = View.VISIBLE
-                adapter = favoriteAdapter(it.toMutableList(), userRepo, email, lifecycleScope)
+                adapter = favoriteAdapter(it.toMutableList(), userRepo, email, lifecycleScope,requireContext(),{ onConfirm ->
+                    showConfirmationDialog(onConfirm)
+                },findNavController())
                 favMealsList.adapter = adapter
 
                 val itemTouchHelper = ItemTouchHelper(swipeToDeletFromFav(adapter, requireContext(), ::showConfirmationDialog))
@@ -80,7 +83,7 @@ class FavoriteFragment : Fragment() {
         }
     }
 
-    private fun showConfirmationDialog(mealId: String, onConfirm: () -> Unit) {
+    private fun showConfirmationDialog(onConfirm: () -> Unit) {
         AlertDialog.Builder(requireContext())
             .setTitle("Remove Favorite")
             .setMessage("Are you sure you want to remove this item from favorites?")

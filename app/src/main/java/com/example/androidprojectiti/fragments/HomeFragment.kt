@@ -60,7 +60,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        activity?.title = "Home"
         // Show animation while data is loading
         lottieAnimationView.visibility = View.VISIBLE
 
@@ -141,7 +141,7 @@ class HomeFragment : Fragment() {
             lifecycleScope.launch {
                 val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
                 val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-                val isFavorite = favoriteMeals.contains(randomMeal.idMeal)
+                var isFavorite = favoriteMeals.contains(randomMeal.idMeal)
 
                 favouriteButton.setImageResource(
                     if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
@@ -159,7 +159,9 @@ class HomeFragment : Fragment() {
                             userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
                             Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
                         }
+
                     }
+                    isFavorite=!isFavorite
                 }
             }
         }

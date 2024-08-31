@@ -37,7 +37,7 @@ class SearchFragment : Fragment(){
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        activity?.title = "Search"
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view)
         noResultsTextView = view.findViewById(R.id.no_results_text_view)

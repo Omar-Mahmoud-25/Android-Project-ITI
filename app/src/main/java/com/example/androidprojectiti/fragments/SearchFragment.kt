@@ -48,55 +48,48 @@ class SearchFragment : Fragment(){
         noResultsTextView = view.findViewById(R.id.no_results_text_view)
         titleTextView = view.findViewById(R.id.title_text_view)
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        mealSearchAdapter = MealSearchAdapter(emptyList())
-        recyclerView.adapter = mealSearchAdapter
+//        recyclerView.layoutManager = LinearLayoutManager(context)
+//        mealSearchAdapter = MealSearchAdapter(emptyList())
+//        recyclerView.adapter = mealSearchAdapter
          val factory = SearchViewModelFactory( mealRepoImp(ApiClient))
         searchViewModel = ViewModelProvider(this,factory).get(SearchViewModel::class.java)
 
         // Observe the items LiveData
-        searchViewModel.items.observe(viewLifecycleOwner, Observer { items ->
-            mealSearchAdapter.updateData(items)
-            Log.d("nadra"," items observer${items.toString()}")
-        })
+        searchViewModel.items.observe(viewLifecycleOwner) { items ->
+//            mealSearchAdapter.updateData(items)
 
-//         Observe the noMatches LiveData
-        searchViewModel.noMatches.observe(viewLifecycleOwner, Observer { noMatches ->
-            recyclerView.isVisible = !noMatches
-            noResultsTextView.isVisible = noMatches
-        })
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            mealSearchAdapter = MealSearchAdapter(items?: emptyList())
+            recyclerView.adapter = mealSearchAdapter
+            recyclerView.isVisible = (items != null && items.isNotEmpty())
+            noResultsTextView.isVisible = items == null
+            Log.d("nadra","items observer")
+        }
 
-        // Observe the searchPerformed LiveData
-        searchViewModel.searchPerformed.observe(viewLifecycleOwner, Observer { searchPerformed ->
-            if (searchPerformed) {
-                recyclerView.isVisible = mealSearchAdapter.itemCount > 0
-                noResultsTextView.isVisible = mealSearchAdapter.itemCount == 0
-            } else {
-                recyclerView.isVisible = false
-                noResultsTextView.isVisible = false
-            }
-        })
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
             override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d("nadra","in text submit")
                 query?.let { searchViewModel.searchMeals(it) }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
+                    Log.d("nadra","in text change")
                     searchViewModel.searchMeals(it)
                     // Check if newText is empty to hide results
-                    if (it.isEmpty()) {
-                        searchViewModel.clearSearch()
-                    }
+//                    if (it.isEmpty()) {
+//                        searchViewModel.clearSearch()
+//                    }
                 }
                 return true
             }
         })
 
         // Initially hide RecyclerView and no results TextView
-        recyclerView.isVisible = false
+        recyclerView.isVisible = true
         noResultsTextView.isVisible = false
     }
 }

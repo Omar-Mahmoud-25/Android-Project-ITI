@@ -13,53 +13,75 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/meal_category_item_image"
-            android:scaleType="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:srcCompat="@tools:sample/avatars" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/meal_category_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="140dp"
-            android:layout_marginTop="10dp"
-            android:text="TextView"
-            android:textColor="#903E5A"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            <TextView
+                android:id="@+id/meal_category_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="TextView"
+                android:textColor="#903E5A"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/meal_category_item_image"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/meal_category_item_category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="140dp"
-            android:layout_marginTop="50dp"
-            android:text="category"
-            android:textColor="#646464"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/meal_category_item_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:text="category"
+                android:textColor="#646464"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/meal_category_item_heart"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/meal_category_item_image"
+                app:layout_constraintTop_toBottomOf="@+id/meal_category_item_name" />
 
-        <TextView
-            android:id="@+id/meal_category_item_from"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="140dp"
-            android:layout_marginTop="95dp"
-            android:text="from"
-            android:textColor="#646464"
-            android:textSize="18sp" />
+            <TextView
+                android:id="@+id/meal_category_item_from"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="11dp"
+                android:text="from"
+                android:textColor="#646464"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/meal_category_item_image"
+                app:layout_constraintTop_toBottomOf="@+id/meal_category_item_category" />
 
-        <ImageButton
-            android:id="@+id/meal_category_item_heart"
-            android:layout_width="38dp"
-            android:layout_height="41dp"
-            android:layout_marginLeft="370dp"
-            android:layout_marginTop="50dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/white_heart" />
+            <ImageButton
+                android:id="@+id/meal_category_item_heart"
+                android:layout_width="38dp"
+                android:layout_height="41dp"
+                android:layout_marginEnd="2dp"
+                android:layout_marginBottom="39dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="fitCenter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:srcCompat="@drawable/white_heart" />
+
+            <ImageView
+                android:id="@+id/meal_category_item_image"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:scaleType="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </com.google.android.material.card.MaterialCardView>

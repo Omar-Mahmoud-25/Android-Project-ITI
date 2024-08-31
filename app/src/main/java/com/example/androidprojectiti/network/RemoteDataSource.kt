@@ -9,5 +9,6 @@ interface RemoteDataSource {
     suspend fun getMealsFromRemoteDataSource(letter:Char):Response<MealModel>
     suspend fun getRandomMealFromRemoteDataSource():Response<MealModel>
     suspend fun getMealByIdFromRemoteDataSource(id:String):Response<MealModel>
+    suspend fun getMealBNameFromRemoteDataSource(name:String):Response<MealModel>
 
 }

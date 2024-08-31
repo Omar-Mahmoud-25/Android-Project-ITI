@@ -1,9 +1,13 @@
+package com.example.androidprojectiti.viewModels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.androidprojectiti.Repositry.meal.mealRepo
 import com.example.androidprojectiti.dto.MealResponse.Meal
+import kotlinx.coroutines.launch
 
-class SearchViewModel : ViewModel() {
+class SearchViewModel(private val repo : mealRepo) : ViewModel() {
 
     // Sample data
     private val allItems = listOf<Meal>(
@@ -32,6 +36,14 @@ class SearchViewModel : ViewModel() {
     // Function to search and filter items based on query
     fun searchMeals(query: String) {
         val lowerCaseQuery = query.trim().lowercase()
+          viewModelScope.launch {
+              val response =repo.getMealByName(lowerCaseQuery)
+           if(response.isSuccessful)
+           {
+               _items.postValue(response.body()?.meals)
+           }
+
+          }
 
 //        val filteredItems = if (lowerCaseQuery.isBlank()) {
 //            allItems

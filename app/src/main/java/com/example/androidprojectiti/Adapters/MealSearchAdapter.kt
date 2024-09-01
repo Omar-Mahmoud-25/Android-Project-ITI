@@ -28,7 +28,7 @@ class MealSearchAdapter(private var meals: List<Meal>) : RecyclerView.Adapter<Me
 
         // Load image into the ImageView using Glide
         Glide.with(holder.itemView.context)
-            .load(meal.strImageSource)
+            .load(meal.strMealThumb)
             .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
             .into(holder.imageView)
     }

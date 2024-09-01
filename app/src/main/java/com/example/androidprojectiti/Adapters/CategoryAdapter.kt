@@ -1,16 +1,18 @@
 package com.example.androidprojectiti.Adapters
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 
-class CategoryAdapter(val listOfOfCategories:List<Category>): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class CategoryAdapter(val listOfOfCategories:List<Category>, val email : String, val navController: NavController): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     class ViewHolder(val row: View):RecyclerView.ViewHolder(row) {
         var title: TextView = row.findViewById(R.id.CategoryName)
         var thumbnail: ImageView = row.findViewById(R.id.CayegoryImage)
@@ -31,5 +33,13 @@ class CategoryAdapter(val listOfOfCategories:List<Category>): RecyclerView.Adapt
             .placeholder(R.drawable.baseline_arrow_circle_down_24)
             .error(R.drawable.baseline_error_24)
             .into(holder.thumbnail)
+
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle().apply {
+                putString("email", email)
+                putString("category", listOfOfCategories[position].strCategory)
+            }
+            navController.navigate(R.id.action_homeFragment_to_mealCategoryFragment, bundle)
+        }
     }
 }

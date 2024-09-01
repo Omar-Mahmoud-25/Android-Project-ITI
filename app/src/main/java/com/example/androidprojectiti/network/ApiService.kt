@@ -16,6 +16,9 @@ interface ApiService {
 
     @GET("lookup.php")
     suspend fun getMealByID(@Query("i") id:String):Response<MealModel>
+
+    @GET("filter.php")
+    suspend fun getMealsByCategory(@Query("c") category: String) : Response<MealModel>
     @GET("search.php")
     suspend fun getMealByName(@Query("s") name:String) : Response<MealModel>
 

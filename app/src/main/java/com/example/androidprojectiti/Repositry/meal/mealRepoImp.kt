@@ -24,4 +24,8 @@ class mealRepoImp (
     override suspend fun getMealByName(name: String): Response<MealModel> {
         return remoteDataSource.getMealBNameFromRemoteDataSource(name)
     }
+
+    override suspend fun getMealsByCategory(category: String): Response<MealModel> {
+        return remoteDataSource.getMealsByCategoryFromRemoteDataSource(category)
+    }
 }

@@ -83,32 +83,30 @@ class HomeFragment : Fragment() {
         }
 
         val Categorieslist = view.findViewById<RecyclerView>(R.id.category_recycler_view)
-        retrofitViewModel.CategoryList.observe(viewLifecycleOwner) { categories ->
-            categories?.let {
-                val adapter = CategoryAdapter(it)
-                list_of_Categories = it
-                Categorieslist.adapter = adapter
-                Categorieslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            }
+        retrofitViewModel.CategoryList.observe(viewLifecycleOwner) {
+            val adapter = CategoryAdapter(it,
+                email = email ?: "guest",
+                navController = findNavController())
+            list_of_Categories = it
+            Categorieslist.adapter = adapter
+            Categorieslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
-        retrofitViewModel.MealsList.observe(viewLifecycleOwner) { meals ->
-            meals?.let {
-                val adapter = MealAdapter(
-                    it,
-                    UserRepoImp(LocalDataSourceImp(requireContext())),
-                    lifecycleScope = lifecycleScope,
-                    email = email ?: "guest",
-                    navController = findNavController()
-                )
-                list_of_meal = it
-                Mealslist.adapter = adapter
-                Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
+            val adapter = MealAdapter(
+                it,
+                UserRepoImp(LocalDataSourceImp(requireContext())),
+                lifecycleScope = lifecycleScope,
+                email = email ?: "guest",
+                navController = findNavController()
+            )
+            list_of_meal = it
+            Mealslist.adapter = adapter
+            Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-                // Hide animation once data is loaded
-                lottieAnimationView.visibility = View.GONE
-            }
+            // Hide animation once data is loaded
+            lottieAnimationView.visibility = View.GONE
         }
 
         val name = view.findViewById<TextView>(R.id.Name)
@@ -134,11 +132,11 @@ class HomeFragment : Fragment() {
                     .error(R.drawable.baseline_error_24)
                     .into(image)
 
-                materialCardView.setOnClickListener {
-                    randomMeal.putDefaults()
-                    val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
-                    findNavController().navigate(action)
-                }
+            materialCardView.setOnClickListener {
+                randomMeal.putDefaults()
+                val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
+                findNavController().navigate(action)
+            }
 
                 lifecycleScope.launch {
                     val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))

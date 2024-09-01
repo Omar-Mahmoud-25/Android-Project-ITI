@@ -67,7 +67,7 @@ class MealAdapter(
 
         lifecycleScope.launch {
             val favoriteMeals = repo.getUserFavoriteMeals(email)
-            var isFavorite = favoriteMeals.contains(meal.idMeal)
+            var isFavorite = favoriteMeals.contains(meal)
 
             if (isFavorite) {
                 holder.favourite.setImageResource(R.drawable.red_heart)
@@ -79,7 +79,7 @@ class MealAdapter(
                 if (isFavorite) {
                     holder.favourite.setImageResource(R.drawable.white_heart)
                     lifecycleScope.launch {
-                        repo.deleteMealFromFav(UserFavorites(email, meal.idMeal))
+                        repo.deleteMealFromFav(UserFavorites(email, meal))
                         Toast.makeText(
                             holder.itemView.context,
                             "${listOfOfMeals[position].strMeal} removed from favorites",
@@ -91,7 +91,7 @@ class MealAdapter(
                 } else {
                     holder.favourite.setImageResource(R.drawable.red_heart)
                     lifecycleScope.launch {
-                        repo.insertMealToFav(UserFavorites(email, meal.idMeal))
+                        repo.insertMealToFav(UserFavorites(email, meal))
                         Toast.makeText(
                             holder.itemView.context,
                             "${listOfOfMeals[position].strMeal} added to favorites",

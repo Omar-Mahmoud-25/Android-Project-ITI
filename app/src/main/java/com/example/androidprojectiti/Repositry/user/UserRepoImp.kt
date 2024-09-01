@@ -10,7 +10,7 @@ class UserRepoImp (private val _localDataSource: LocalDataSource) : UserRepo {
         return _localDataSource.getAllLocalUsers()
     }
 
-    override suspend fun getUserFavoriteMeals(email: String): List<String> {
+    override suspend fun getUserFavoriteMeals(email: String): List<Meal> {
         return _localDataSource.getUserFavoriteMeals(email)
     }
 

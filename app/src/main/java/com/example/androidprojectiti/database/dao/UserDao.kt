@@ -20,8 +20,8 @@ interface UserDao {
     @Query("SELECT * FROM User WHERE email = :email")
     suspend fun getUser(email: String): List<User>
 
-    @Query("SELECT idMeal FROM UserFavorites WHERE email = :email")
-    suspend fun getUserFavoriteMeals(email: String): List<String>
+    @Query("SELECT meal FROM UserFavorites WHERE email = :email")
+    suspend fun getUserFavoriteMeals(email: String): List<Meal>
 
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)

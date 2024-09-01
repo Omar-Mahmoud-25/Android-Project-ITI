@@ -20,7 +20,7 @@ class LocalDataSourceImp(context: Context) : LocalDataSource {
         return dao.getAllLocalUsers()
     }
 
-    override suspend fun getUserFavoriteMeals(email: String): List<String> {
+    override suspend fun getUserFavoriteMeals(email: String): List<Meal> {
         return dao.getUserFavoriteMeals(email)
     }
 

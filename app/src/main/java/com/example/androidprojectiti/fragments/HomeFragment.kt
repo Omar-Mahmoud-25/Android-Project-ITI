@@ -23,7 +23,6 @@ import com.example.androidprojectiti.Adapters.MealAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.category.categoryRepoImp
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
-import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
 import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.database.relations.UserFavorites
@@ -37,9 +36,9 @@ import com.airbnb.lottie.LottieAnimationView
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
-    lateinit var list_of_Categories: List<Category>
-    lateinit var list_of_meal: List<Meal>
-    lateinit var randomMeal: Meal
+    private lateinit var list_of_Categories: List<Category>
+    private lateinit var list_of_meal: List<Meal>
+    private lateinit var randomMeal: Meal
     private lateinit var retrofitViewModel: HomeViewModel
     private lateinit var network: NetworkLiveData
     private lateinit var materialCardView: CardView
@@ -50,18 +49,16 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
-
-        materialCardView = view.findViewById(R.id.materialCardView)
-        lottieAnimationView = view.findViewById(R.id.lottieAnimationView)
-
-        return view
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Home"
-        // Show animation while data is loading
+
+        // Initialize views
+        materialCardView = view.findViewById(R.id.materialCardView)
+        lottieAnimationView = view.findViewById(R.id.lottieAnimationView)
         lottieAnimationView.visibility = View.VISIBLE
 
         network = NetworkLiveData(requireContext())
@@ -124,15 +121,16 @@ class HomeFragment : Fragment() {
         }
 
         retrofitViewModel.getRandomMeal()
-        retrofitViewModel.RandomMeal.observe(viewLifecycleOwner) {
-            randomMeal = it[0]
-            name.text = randomMeal.strMeal
-            category.text = randomMeal.strCategory
-            Glide.with(image.context)
-                .load(randomMeal.strMealThumb)
-                .placeholder(R.drawable.baseline_arrow_circle_down_24)
-                .error(R.drawable.baseline_error_24)
-                .into(image)
+        retrofitViewModel.RandomMeal.observe(viewLifecycleOwner) { meals ->
+            if (meals.isNotEmpty()) {
+                randomMeal = meals[0]
+                name.text = randomMeal.strMeal
+                category.text = randomMeal.strCategory
+                Glide.with(image.context)
+                    .load(randomMeal.strMealThumb)
+                    .placeholder(R.drawable.baseline_arrow_circle_down_24)
+                    .error(R.drawable.baseline_error_24)
+                    .into(image)
 
             materialCardView.setOnClickListener {
                 randomMeal.putDefaults()
@@ -140,30 +138,29 @@ class HomeFragment : Fragment() {
                 findNavController().navigate(action)
             }
 
-            lifecycleScope.launch {
-                val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
-                val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-                var isFavorite = favoriteMeals.contains(randomMeal.idMeal)
+                lifecycleScope.launch {
+                    val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
+                    val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
+                    val isFavorite = favoriteMeals.contains(randomMeal.idMeal)
 
-                favouriteButton.setImageResource(
-                    if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
-                )
-                favouriteButton.setOnClickListener {
-                    if (isFavorite) {
-                        favouriteButton.setImageResource(R.drawable.white_heart)
-                        lifecycleScope.launch {
-                            userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
-                            Toast.makeText(requireContext(), "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+                    favouriteButton.setImageResource(
+                        if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
+                    )
+                    favouriteButton.setOnClickListener {
+                        if (isFavorite) {
+                            favouriteButton.setImageResource(R.drawable.white_heart)
+                            lifecycleScope.launch {
+                                userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
+                                Toast.makeText(requireContext(), "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            favouriteButton.setImageResource(R.drawable.red_heart)
+                            lifecycleScope.launch {
+                                userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
+                                Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    } else {
-                        favouriteButton.setImageResource(R.drawable.red_heart)
-                        lifecycleScope.launch {
-                            userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
-                            Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
-                        }
-
                     }
-                    isFavorite=!isFavorite
                 }
             }
         }

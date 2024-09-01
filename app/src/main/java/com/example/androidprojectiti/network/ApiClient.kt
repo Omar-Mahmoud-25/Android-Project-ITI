@@ -25,5 +25,8 @@ object ApiClient :RemoteDataSource{
         return Api.service.getMealsByCategory(category)
     }
 
+    override suspend fun getMealBNameFromRemoteDataSource(name: String): Response<MealModel> {
+        return Api.service.getMealByName(name)
+    }
 
 }

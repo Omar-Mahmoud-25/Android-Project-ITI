@@ -1,8 +1,7 @@
-
 package com.example.androidprojectiti.fragments
-//import ItemViewModel
-import SearchViewModel
+
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,13 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.R
 import androidx.fragment.app.Fragment
+import com.example.androidprojectiti.Repositry.meal.mealRepoImp
+import com.example.androidprojectiti.factories.SearchViewModelFactory
+import com.example.androidprojectiti.network.ApiClient
+import com.example.androidprojectiti.viewModels.SearchViewModel
 import com.example.myapplicationrecyclarview.MealSearchAdapter
 
-class SearchFragment : Fragment(){
+class SearchFragment : Fragment() {
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
@@ -33,8 +36,6 @@ class SearchFragment : Fragment(){
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
-    // THIS FRAGMENT AND SEARCH HAVE NOT BEEN DONE YET
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Search"
@@ -47,14 +48,16 @@ class SearchFragment : Fragment(){
         mealSearchAdapter = MealSearchAdapter(emptyList())
         recyclerView.adapter = mealSearchAdapter
 
-        searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
+        val factory = SearchViewModelFactory(mealRepoImp(ApiClient))
+        searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
 
         // Observe the items LiveData
         searchViewModel.items.observe(viewLifecycleOwner, Observer { items ->
             mealSearchAdapter.updateData(items)
+            Log.d("nadra", "items observer ${items.toString()}")
         })
 
-//         Observe the noMatches LiveData
+        // Observe the noMatches LiveData
         searchViewModel.noMatches.observe(viewLifecycleOwner, Observer { noMatches ->
             recyclerView.isVisible = !noMatches
             noResultsTextView.isVisible = noMatches
@@ -78,13 +81,7 @@ class SearchFragment : Fragment(){
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
-                newText?.let {
-                    searchViewModel.searchMeals(it)
-                    // Check if newText is empty to hide results
-                    if (it.isEmpty()) {
-                        searchViewModel.clearSearch()
-                    }
-                }
+                searchViewModel.searchMeals(newText ?: "")
                 return true
             }
         })

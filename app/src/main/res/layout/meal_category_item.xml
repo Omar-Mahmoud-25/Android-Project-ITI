@@ -61,65 +61,39 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="category"
-            android:textColor="#646464"
+            android:textColor="#434141"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@+id/lol7"
             app:layout_constraintTop_toBottomOf="@+id/meal_category_item_name" />
+
 
         <TextView
             android:id="@+id/lol5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="from:"
-            android:textColor="#646464"
-            android:textSize="18sp"
+            android:text="Click to see more details"
+            android:textColor="#928A8A"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/lol7"
-            app:layout_constraintTop_toBottomOf="@+id/meal_category_item_category" />
-
-        <TextView
-            android:id="@+id/meal_category_item_from"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="20dp"
-            android:text="from"
-            android:textColor="#646464"
-            android:textSize="18sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/lol5"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.343"
-            app:layout_constraintStart_toEndOf="@+id/lol5" />
+            app:layout_constraintTop_toBottomOf="@+id/meal_category_item_category"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
-            android:id="@+id/meal_category_item_heart"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:backgroundTint="@color/white"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/meal_category_item_category"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_delete_24" />
-
-
-        <!--        <ImageButton-->
-        <!--            android:id="@+id/meal_category_item_heart"-->
-        <!--            android:layout_width="43dp"-->
-        <!--            android:layout_height="39dp"-->
-        <!--            android:layout_marginTop="5dp"-->
-        <!--            android:layout_marginEnd="2dp"-->
-        <!--            android:background="?attr/selectableItemBackgroundBorderless"-->
-        <!--            android:scaleType="fitCenter"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent"-->
-        <!--            app:srcCompat="@drawable/white_heart" />-->
+                    android:id="@+id/meal_category_item_heart"
+                    android:layout_width="43dp"
+                    android:layout_height="39dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/white_heart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

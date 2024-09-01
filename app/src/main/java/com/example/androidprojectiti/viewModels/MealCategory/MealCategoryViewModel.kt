@@ -17,6 +17,9 @@ class MealCategoryViewModel(
     private val _mealsList= MutableLiveData<List<Meal>>()
     val mealsList: LiveData<List<Meal>> = _mealsList
 
+    private val _mealById = MutableLiveData<Meal>()
+    val mealById = _mealById
+
 
     fun getMealsByCategory(category: String){
         viewModelScope.launch{
@@ -24,6 +27,16 @@ class MealCategoryViewModel(
 
             if(response.isSuccessful){
                 _mealsList.postValue(response.body()?.meals)
+            }
+        }
+    }
+
+    fun getMealById(id : String){
+        viewModelScope.launch {
+            val response = mealRepo.getMealById(id)
+
+            if (response.isSuccessful){
+                _mealById.postValue(response.body()?.meals?.get(0))
             }
         }
     }

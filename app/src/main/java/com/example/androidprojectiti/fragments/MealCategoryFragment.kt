@@ -73,6 +73,12 @@ class MealCategoryFragment : Fragment() {
                 UserRepoImp(LocalDataSourceImp(requireContext())),
                 lifecycleScope = lifecycleScope,
                 email = email ?: "guest",
+                cat = category.toString(),
+                network = network,
+                requireActivity = requireActivity(),
+                context = requireContext(),
+                retrofit = retrofit,
+                lifecycleOwner = viewLifecycleOwner,
                 navController = findNavController()
             )
             adapter.notifyDataSetChanged()

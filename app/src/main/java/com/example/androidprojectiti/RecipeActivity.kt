@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -70,19 +71,32 @@ class RecipeActivity : AppCompatActivity() {
                 true
             }
             R.id.logOut -> {
-                with(sharedPreferences.edit()) {
-                    putBoolean("isUserLoggedIn", false)
-                    putString("email", "")
-                    apply()
+                showConfirmationDialog {
+                    with(sharedPreferences.edit()) {
+                        putBoolean("isUserLoggedIn", false)
+                        putString("email", "")
+                        apply()
+                    }
+                    val intent = Intent(this, SplashActivity::class.java)
+                    intent.putExtra("isUserLoggingOut",true)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
                 }
-                val intent = Intent(this, SplashActivity::class.java)
-                intent.putExtra("isUserLoggingOut",true)
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                startActivity(intent)
                 true
             }
             else -> false
         }
+    }
+
+    private fun showConfirmationDialog(onConfirm: () -> Unit) {
+        AlertDialog.Builder(this)
+            .setTitle("Log out")
+            .setMessage("Are you sure you want to Log out?")
+            .setPositiveButton("Yes") { _, _ ->
+                onConfirm()
+            }
+            .setNegativeButton("No", null)
+            .show()
     }
 
     // Assuming you have this method defined somewhere in your activity

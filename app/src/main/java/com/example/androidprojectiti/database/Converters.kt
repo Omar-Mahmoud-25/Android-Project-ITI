@@ -1,16 +1,17 @@
 package com.example.androidprojectiti.database
 
 import androidx.room.TypeConverter
+import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.google.gson.Gson
 
 class Converters {
     @TypeConverter
-    public fun fromAnyToString(any: Any): String {
-        return Gson().toJson(any)
+    fun fromMealToString(meal: Meal): String {
+        return Gson().toJson(meal)
     }
 
     @TypeConverter
-    public fun fromStringToDimensions(str: String): Any {
-        return Gson().fromJson(str, Any::class.java)
+    fun fromStringToDimensions(str: String): Meal {
+        return Gson().fromJson(str, Meal::class.java)
     }
 }

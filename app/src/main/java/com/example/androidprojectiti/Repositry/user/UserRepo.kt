@@ -7,7 +7,7 @@ import com.example.androidprojectiti.dto.MealResponse.Meal
 interface UserRepo {
     suspend fun getAllLocalUsers() : List<User>
 
-    suspend fun getUserFavoriteMeals(email: String) : List<String>
+    suspend fun getUserFavoriteMeals(email: String) : List<Meal>
 
     suspend fun insertMealToFav(fav: UserFavorites)
 

@@ -14,29 +14,29 @@ import kotlinx.coroutines.launch
 
 class FavouriteViewModel(
     private val userRepo: UserRepo,
-    private val mealRepo: mealRepo
+//    private val mealRepo: mealRepo
 ) : ViewModel() {
-    private val _MealsList = MutableLiveData<List<Meal>>()
-    val MealsList: LiveData<List<Meal>> = _MealsList
+    private val _mealsList = MutableLiveData<List<Meal>>()
+    val mealsList: LiveData<List<Meal>> = _mealsList
     fun getFavMeals(email: String) {
        viewModelScope.launch {
            val favMealIds = userRepo.getUserFavoriteMeals(email)
            val favMeals = mutableListOf<Meal>()
 
-           val allMeals = favMealIds.map { id ->
-               async {
-                   val mealResponse = mealRepo.getMealById(id)
-                   if (mealResponse.isSuccessful) {
-                       mealResponse.body()?.meals?.get(0)
-                   } else {
-                       null
-                   }
-               }
-           }
-           val meals = allMeals.awaitAll()
+//           val allMeals = favMealIds.map { id ->
+//               async {
+//                   val mealResponse = mealRepo.getMealById(id)
+//                   if (mealResponse.isSuccessful) {
+//                       mealResponse.body()?.meals?.get(0)
+//                   } else {
+//                       null
+//                   }
+//               }
+//           }
+//           val meals = allMeals.awaitAll()
 
-           favMeals.addAll(meals.filterNotNull())
-           _MealsList.postValue(favMeals)
+//           favMeals.addAll(meals.filterNotNull())
+           _mealsList.postValue(favMealIds)
            Log.d("nada",favMeals.size.toString())
        }
    }

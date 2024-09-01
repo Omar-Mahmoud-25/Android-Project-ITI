@@ -45,9 +45,9 @@ class FavoriteFragment : Fragment() {
         val email = sharedPreferences.getString("email", "guest") ?: "guest"
 
         val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
-        val mealRepo = mealRepoImp(ApiClient)
+//        val mealRepo = mealRepoImp(ApiClient)
 
-        favViewModel = FavouriteViewModel(userRepo, mealRepo)
+        favViewModel = FavouriteViewModel(userRepo)//, mealRepo)
         favViewModel.getFavMeals(email)
 
         loadingAnimation = view.findViewById(R.id.loading_animation2)
@@ -63,7 +63,7 @@ class FavoriteFragment : Fragment() {
             loadingAnimation.visibility = View.GONE
         }, 2000)
 
-        favViewModel.MealsList.observe(viewLifecycleOwner) {
+        favViewModel.mealsList.observe(viewLifecycleOwner) {
             if (it.isEmpty()) {
                 // If no data, keep showing animation
                 loadingAnimation.visibility = View.VISIBLE

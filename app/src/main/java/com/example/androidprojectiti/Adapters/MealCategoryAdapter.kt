@@ -82,7 +82,7 @@ class MealCategoryAdapter (
 
         lifecycleScope.launch{
             val favoriteMeals = userRepo.getUserFavoriteMeals(email)
-            var isFavorite = favoriteMeals.contains(listOfMeal[position].idMeal)
+            var isFavorite = favoriteMeals.contains(listOfMeal[position])
 
 
             if (isFavorite) {
@@ -95,7 +95,7 @@ class MealCategoryAdapter (
                 if (isFavorite) {
                     holder.heart.setImageResource(R.drawable.white_heart)
                     lifecycleScope.launch {
-                        userRepo.deleteMealFromFav(UserFavorites(email, listOfMeal[position].idMeal))
+                        userRepo.deleteMealFromFav(UserFavorites(email, listOfMeal[position]))
                         Toast.makeText(
                             holder.itemView.context,
                             "${listOfMeal[position].strMeal} removed from favorites",
@@ -107,7 +107,7 @@ class MealCategoryAdapter (
                 } else {
                     holder.heart.setImageResource(R.drawable.red_heart)
                     lifecycleScope.launch {
-                        userRepo.insertMealToFav(UserFavorites(email, listOfMeal[position].idMeal))
+                        userRepo.insertMealToFav(UserFavorites(email, listOfMeal[position]))
                         Toast.makeText(
                             holder.itemView.context,
                             "${listOfMeal[position].strMeal} added to favorites",

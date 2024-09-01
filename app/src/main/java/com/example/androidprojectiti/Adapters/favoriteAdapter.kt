@@ -29,7 +29,7 @@ class favoriteAdapter(
     private val lifecycleScope: CoroutineScope,
     private val context: Context,
     private val showConfirmationDialog: (onConfirm: () -> Unit) -> Unit,
-    val navController: NavController
+    private val navController: NavController
 ) : RecyclerView.Adapter<favoriteAdapter.ViewHolder>() {
 
     class ViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
@@ -78,7 +78,7 @@ class favoriteAdapter(
         listOfFavorite.removeAt(position)
 
         lifecycleScope.launch {
-            repo.deleteMealFromFav(UserFavorites(email, favMeal.idMeal))
+            repo.deleteMealFromFav(UserFavorites(email, favMeal))
             Toast.makeText(context, "${favMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
         }
         notifyItemRemoved(position)

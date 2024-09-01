@@ -75,6 +75,7 @@ class HomeFragment : Fragment() {
 
         network.observe(requireActivity()) {
             if (it) {
+                retrofitViewModel.getRandomMeal()
                 retrofitViewModel.getMeals()
                 retrofitViewModel.getCategories()
             } else {
@@ -120,7 +121,7 @@ class HomeFragment : Fragment() {
             nameOfUser.text = it
         }
 
-        retrofitViewModel.getRandomMeal()
+
         retrofitViewModel.RandomMeal.observe(viewLifecycleOwner) { meals ->
             if (meals.isNotEmpty()) {
                 randomMeal = meals[0]
@@ -132,16 +133,16 @@ class HomeFragment : Fragment() {
                     .error(R.drawable.baseline_error_24)
                     .into(image)
 
-            materialCardView.setOnClickListener {
-                randomMeal.putDefaults()
-                val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
-                findNavController().navigate(action)
-            }
+                materialCardView.setOnClickListener {
+                    randomMeal.putDefaults()
+                    val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
+                    findNavController().navigate(action)
+                }
 
                 lifecycleScope.launch {
                     val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
                     val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-                    val isFavorite = favoriteMeals.contains(randomMeal.idMeal)
+                    val isFavorite = favoriteMeals.contains(randomMeal)
 
                     favouriteButton.setImageResource(
                         if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
@@ -150,13 +151,13 @@ class HomeFragment : Fragment() {
                         if (isFavorite) {
                             favouriteButton.setImageResource(R.drawable.white_heart)
                             lifecycleScope.launch {
-                                userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
+                                userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", randomMeal))
                                 Toast.makeText(requireContext(), "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
                             }
                         } else {
                             favouriteButton.setImageResource(R.drawable.red_heart)
                             lifecycleScope.launch {
-                                userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal.idMeal))
+                                userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal))
                                 Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
                             }
                         }

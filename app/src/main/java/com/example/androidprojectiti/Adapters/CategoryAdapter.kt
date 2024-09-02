@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.Adapters
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.dto.CategoryResponse.Category
 
-class CategoryAdapter(val listOfOfCategories:List<Category>, val email : String, val navController: NavController): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class CategoryAdapter(var listOfOfCategories:List<Category>, val email : String, val navController: NavController): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     class ViewHolder(val row: View):RecyclerView.ViewHolder(row) {
         var title: TextView = row.findViewById(R.id.CategoryName)
         var thumbnail: ImageView = row.findViewById(R.id.CayegoryImage)
@@ -42,4 +43,11 @@ class CategoryAdapter(val listOfOfCategories:List<Category>, val email : String,
             navController.navigate(R.id.action_homeFragment_to_mealCategoryFragment, bundle)
         }
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setListOfMeal (category : List<Category>){
+        listOfOfCategories = category
+        notifyDataSetChanged()
+    }
+
 }

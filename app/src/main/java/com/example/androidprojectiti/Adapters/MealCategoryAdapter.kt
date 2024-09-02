@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.Adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class MealCategoryAdapter (
-    private val listOfMeal : List<Meal>,
+    private var listOfMeal : List<Meal>,
     private val mealRepo: mealRepo,
     private val userRepo : UserRepo,
     private val email: String,
@@ -125,5 +126,12 @@ class MealCategoryAdapter (
         var name : TextView = row.findViewById(R.id.meal_category_item_name)
         var category : TextView = row.findViewById(R.id.meal_category_item_category)
         var heart : ImageButton = row.findViewById(R.id.meal_category_item_heart)
+    }
+
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setListOfMeal(meal : List<Meal>){
+        listOfMeal = meal
+        notifyDataSetChanged()
     }
 }

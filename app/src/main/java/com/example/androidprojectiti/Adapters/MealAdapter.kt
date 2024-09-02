@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.Adapters
 
+import android.annotation.SuppressLint
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,7 +29,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.supervisorScope
 
 class MealAdapter(
-    private val listOfOfMeals: List<Meal>,
+    private var listOfOfMeals: List<Meal>,
     private val repo: UserRepo,
     private val email: String,
     private val lifecycleScope: CoroutineScope,
@@ -115,5 +116,11 @@ class MealAdapter(
 
     override fun getItemCount(): Int {
         return listOfOfMeals.size
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setListOfMeal (meal : List<Meal>){
+        listOfOfMeals = meal
+        notifyDataSetChanged()
     }
 }

@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieAnimationView
 import com.example.androidprojectiti.Adapters.MealCategoryAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
@@ -21,16 +22,16 @@ import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.network.NetworkLiveData
-import com.example.androidprojectiti.network.RemoteDataSource
 import com.example.androidprojectiti.viewModels.MealCategory.MealCategoryFactory
 import com.example.androidprojectiti.viewModels.MealCategory.MealCategoryViewModel
-import retrofit2.Retrofit
-
 
 class MealCategoryFragment : Fragment() {
 
     private lateinit var retrofit: MealCategoryViewModel
     private lateinit var network: NetworkLiveData
+    private lateinit var loadingAnimation: LottieAnimationView
+    private lateinit var mealList: RecyclerView
+    private lateinit var adapter: MealCategoryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,52 +41,52 @@ class MealCategoryFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_meal_category, container, false)
     }
 
-
     @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        loadingAnimation = view.findViewById(R.id.loading_animation)
+        mealList = view.findViewById(R.id.recycler_view_meal_category)
+        mealList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        // Initialize adapter with empty list
+        adapter = MealCategoryAdapter(
+            emptyList(),
+            mealRepo = mealRepoImp(remoteDataSource = ApiClient),
+            userRepo = UserRepoImp(LocalDataSourceImp(requireContext())),
+            lifecycleScope = lifecycleScope,
+            email = arguments?.getString("email") ?: "guest",
+            cat = arguments?.getString("category") ?: "",
+            navController = findNavController()
+        )
+        mealList.adapter = adapter
 
         network = NetworkLiveData(requireContext())
-
-
         val factory = MealCategoryFactory(
             mealRepo = mealRepoImp(remoteDataSource = ApiClient),
             userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
         )
-
         retrofit = ViewModelProvider(this, factory).get(MealCategoryViewModel::class.java)
-
-        Log.d("asd", "hello")
-        val email = arguments?.getString("email")
-        val category = arguments?.getString("category")
-        Log.d("asd", email.toString())
 
         network.observe(requireActivity()) {
             if (it) {
-                retrofit.getMealsByCategory(category.toString())
+                retrofit.getMealsByCategory(arguments?.getString("category").toString())
             } else {
                 Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
             }
         }
 
-        val mealList = view.findViewById<RecyclerView>(R.id.recycler_view_meal_category)
-        val adapter = MealCategoryAdapter(
-            emptyList(),
-            mealRepo = mealRepoImp(remoteDataSource = ApiClient),
-            UserRepoImp(LocalDataSourceImp(requireContext())),
-            lifecycleScope = lifecycleScope,
-            email = email ?: "guest",
-            cat = category.toString(),
-            navController = findNavController()
-        )
-        mealList.adapter = adapter
-        mealList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        var meals = mutableListOf<Meal>()
-        retrofit.mealsList.observe(viewLifecycleOwner){
-            if(it.isNotEmpty()){
-                adapter.setListOfMeal(it)
+        retrofit.mealsList.observe(viewLifecycleOwner) { meals ->
+            if (meals.isEmpty()) {
+                // Show Lottie animation if no data
+                loadingAnimation.visibility = View.VISIBLE
+                mealList.visibility = View.GONE
+            } else {
+                // Show RecyclerView and hide Lottie animation
+                loadingAnimation.visibility = View.GONE
+                mealList.visibility = View.VISIBLE
+                adapter.setListOfMeal(meals)
             }
         }
-
     }
-
 }

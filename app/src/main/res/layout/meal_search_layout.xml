@@ -27,13 +27,7 @@
                 android:scaleType="centerCrop"/>
 
             <!-- Heart Icon positioned in the top-left corner -->
-            <ImageView
-                android:id="@+id/item_favorite"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="top|start"
-                android:layout_margin="8dp"
-                android:src="@drawable/ic_android_black_24dp" /> <!-- Heart icon drawable -->
+            <!-- Heart icon drawable -->
 
         </FrameLayout>
 
@@ -66,5 +60,13 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/item_favorite"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|start"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_android_black_24dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

@@ -1,6 +1,7 @@
 package com.example.androidprojectiti.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
@@ -13,18 +14,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.androidprojectiti.R
+import com.example.androidprojectiti.Repositry.user.UserRepo
+import com.example.androidprojectiti.Repositry.user.UserRepoImp
+import com.example.androidprojectiti.database.LocalDataSourceImp
+import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+import kotlinx.coroutines.launch
 
 class RecipeDetailFragment : Fragment() {
 
@@ -36,6 +44,7 @@ class RecipeDetailFragment : Fragment() {
     private lateinit var category : TextView
     private lateinit var showMoreAndLess : TextView
     private lateinit var youTubePlayerView: YouTubePlayerView
+    private lateinit var heart : ImageButton
     private var isShowLess : Boolean = false
 
     @SuppressLint("SetTextI18n")
@@ -52,6 +61,7 @@ class RecipeDetailFragment : Fragment() {
         category = view.findViewById(R.id.text_view_category)
         showMoreAndLess = view.findViewById(R.id.text_view_show)
         youTubePlayerView = view.findViewById(R.id.web_view)
+        heart = view.findViewById(R.id.recipe_details_heart)
 
 
         val meal = args.favMeal
@@ -70,10 +80,54 @@ class RecipeDetailFragment : Fragment() {
         val fullText = meal.strInstructions.toString()
         val video : String  = meal.strYoutube.toString()
 
-        playVedio(video)
+        playVideo(video)
         detailText.text = detailText.text.toString() + decreaseText(fullText)
         showMoreAndLess.setOnClickListener{
             handleTextView(fullText)
+        }
+
+        val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
+        val email = sharedPreferences.getString("email", "guest")
+
+        lifecycleScope.launch {
+            val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
+            val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
+            val isFavorite = favoriteMeals.contains(meal)
+
+            if (isFavorite) {
+                heart.setImageResource(R.drawable.red_heart)
+            } else {
+                heart.setImageResource(R.drawable.white_heart)
+            }
+
+            heart.setOnClickListener {
+                if (isFavorite) {
+                    heart.setImageResource(R.drawable.white_heart)
+                    lifecycleScope.launch {
+                        userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", meal))
+                        Toast.makeText(
+                            view.context,
+                            "${meal.strMeal} removed from favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+                } else {
+                    heart.setImageResource(R.drawable.red_heart)
+                    lifecycleScope.launch {
+                        userRepo.insertMealToFav(UserFavorites(email ?: "guest", meal))
+                        Toast.makeText(
+                            view.context,
+                            "${meal.strMeal} added to favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+                }
+            }
+
         }
 
         return view
@@ -107,7 +161,7 @@ class RecipeDetailFragment : Fragment() {
     }
 
 
-    fun playVedio(video : String){
+    fun playVideo(video : String){
 
         val result = video.substring(video.lastIndexOf('=') + 1)
 

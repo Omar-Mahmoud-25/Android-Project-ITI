@@ -44,7 +44,7 @@ class SplashFragment : Fragment() {
                     startActivity(intent)
                     requireActivity().finish() // Finish the splash activity to prevent going back to it
                 } else {
-                    findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
+                    findNavController().navigate(R.id.action_splashFragment_to_onBoardingFragment)
                 }
             }
         })

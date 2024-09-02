@@ -1,7 +1,5 @@
 package com.example.androidprojectiti.Adapters
 
-import android.content.SharedPreferences
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,23 +7,17 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.androidprojectiti.Adapters.CategoryAdapter.ViewHolder
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.database.relations.UserFavorites
-import com.example.androidprojectiti.dto.CategoryResponse.Category
 import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.fragments.HomeFragmentDirections
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 
 class MealAdapter(
     private val listOfOfMeals: List<Meal>,
@@ -37,7 +29,8 @@ class MealAdapter(
     class ViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         var name: TextView = row.findViewById(R.id.Name)
         var thumbnail: ImageView = row.findViewById(R.id.imageView)
-        var category: TextView = row.findViewById(R.id.CategoryName)
+        var category: TextView = row.findViewById(R.id.Category_name)
+        var area:TextView=row.findViewById(R.id.Area)
         var favourite: ImageButton = row.findViewById(R.id.heart_button)
 //        var sharedPreferences = ro
     }
@@ -58,7 +51,7 @@ class MealAdapter(
         val meal = listOfOfMeals[position]
         holder.name.text = meal.strMeal
         holder.category.text = meal.strCategory
-
+        holder.area.text=meal.strArea
         Glide.with(holder.thumbnail.context)
             .load(listOfOfMeals[position].strMealThumb)
             .placeholder(R.drawable.baseline_arrow_circle_down_24)

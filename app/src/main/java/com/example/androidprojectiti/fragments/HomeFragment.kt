@@ -112,7 +112,6 @@ class HomeFragment : Fragment() {
 
         val name = view.findViewById<TextView>(R.id.Name)
         val nameOfUser = view.findViewById<TextView>(R.id.nameOfUser)
-        val category = view.findViewById<TextView>(R.id.CategoryName)
         val image = view.findViewById<ImageView>(R.id.imageView)
         val favouriteButton = view.findViewById<ImageButton>(R.id.heart_button)
 
@@ -125,8 +124,8 @@ class HomeFragment : Fragment() {
         retrofitViewModel.RandomMeal.observe(viewLifecycleOwner) { meals ->
             if (meals.isNotEmpty()) {
                 randomMeal = meals[0]
-                name.text = randomMeal.strMeal
-                category.text = randomMeal.strCategory
+                name.text = "This ${randomMeal.strMeal} will warm up the faintest of hearts."
+
                 Glide.with(image.context)
                     .load(randomMeal.strMealThumb)
                     .placeholder(R.drawable.baseline_arrow_circle_down_24)
@@ -142,7 +141,7 @@ class HomeFragment : Fragment() {
                 lifecycleScope.launch {
                     val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
                     val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-                    val isFavorite = favoriteMeals.contains(randomMeal)
+                    var isFavorite = favoriteMeals.contains(randomMeal)
 
                     favouriteButton.setImageResource(
                         if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
@@ -161,6 +160,7 @@ class HomeFragment : Fragment() {
                                 Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
                             }
                         }
+                        isFavorite=!isFavorite
                     }
                 }
             }

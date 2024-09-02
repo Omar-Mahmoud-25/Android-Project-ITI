@@ -34,7 +34,7 @@ class HomeViewModel(
         viewModelScope.launch {
             val user = userRepo.getUser(email)
             if (user.isNotEmpty())
-                _userName.value = "${user[0].firstName} ${user[0].lastName}"
+                _userName.value = user[0].firstName
             else
                 _userName.value = "guest"
         }

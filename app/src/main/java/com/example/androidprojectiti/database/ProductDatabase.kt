@@ -10,7 +10,7 @@ import com.example.androidprojectiti.database.entity.User
 import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.MealResponse.Meal
 
-@Database(entities = [User::class, UserFavorites::class], version = 2)
+@Database(entities = [User::class, UserFavorites::class], version = 3)
 @TypeConverters(Converters::class)
 abstract class ProductDatabase : RoomDatabase() {
 

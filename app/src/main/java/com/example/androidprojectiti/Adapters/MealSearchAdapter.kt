@@ -6,18 +6,26 @@ import android.view.ViewGroup
 import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
+import com.example.androidprojectiti.Repositry.user.UserRepo
+import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.fragments.FavoriteFragmentDirections
 import com.example.androidprojectiti.fragments.SearchFragmentDirections
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 class MealSearchAdapter(
     private var meals: List<Meal>,
+    private val userRepo : UserRepo,
+    private val email: String,
+    private val lifecycleScope: CoroutineScope,
     private val navController: NavController
 ) : RecyclerView.Adapter<MealSearchAdapter.ViewHolder>() {
 
@@ -44,6 +52,46 @@ class MealSearchAdapter(
             val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(meals[position])
             navController.navigate(action)
         }
+        lifecycleScope.launch{
+            val favoriteMeals = userRepo.getUserFavoriteMeals(email)
+            val isFavorite = favoriteMeals.contains(meals[position])
+
+
+            if (isFavorite) {
+                holder.imageButton.setImageResource(R.drawable.red_heart)
+            } else {
+                holder.imageButton.setImageResource(R.drawable.white_heart)
+            }
+
+            holder.imageButton.setOnClickListener {
+                if (isFavorite) {
+                    holder.imageButton.setImageResource(R.drawable.white_heart)
+                    lifecycleScope.launch {
+                        userRepo.deleteMealFromFav(UserFavorites(email, meals[position]))
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "${meals[position].strMeal} removed from favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                    }
+
+                } else {
+                    holder.imageButton.setImageResource(R.drawable.red_heart)
+                    lifecycleScope.launch {
+                        userRepo.insertMealToFav(UserFavorites(email, meals[position]))
+                        Toast.makeText(
+                            holder.itemView.context,
+                            "${meals[position].strMeal} added to favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+
+                    }
+
+                }
+            }
+        }
     }
 
     // Return the total number of meals
@@ -61,5 +109,6 @@ class MealSearchAdapter(
         val areaTextView: TextView = itemView.findViewById(R.id.item_area)
         val categoryTextView: TextView = itemView.findViewById(R.id.item_category)
         val imageView: ImageView = itemView.findViewById(R.id.item_image)
+        val imageButton : ImageView = itemView.findViewById(R.id.item_favorite)
     }
 }

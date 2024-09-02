@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!-- First Name Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/firstNameTextInput"
             android:layout_width="180dp"
@@ -26,6 +27,7 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Last Name Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/lastNameTextInput"
             android:layout_width="180dp"
@@ -43,6 +45,7 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Age Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ageTextInput"
             android:layout_width="match_parent"
@@ -52,15 +55,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.35000002">
+            app:layout_constraintVertical_bias="0.35">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Email Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailTextInput"
             android:layout_width="match_parent"
@@ -70,13 +73,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.48000002">
+            app:layout_constraintVertical_bias="0.48">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Password Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordTextInput"
             android:layout_width="match_parent"
@@ -95,6 +99,7 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- Confirm Password Input -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/confirmPasswordTextInput"
             android:layout_width="match_parent"
@@ -113,17 +118,19 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/signUpText"
+        <!-- Sign Up Button -->
+        <Button
+            android:id="@+id/signUpButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"
-            android:textSize="28sp"
-            app:layout_constraintBottom_toTopOf="@+id/firstNameTextInput"
+            app:iconSize="25dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/haveAccountText" />
 
+        <!-- Already have an account Text -->
         <TextView
             android:id="@+id/haveAccountText"
             android:layout_width="wrap_content"
@@ -136,17 +143,33 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextInput"
-            app:layout_constraintVertical_bias="0.16000003" />
+            app:layout_constraintVertical_bias="0.16" />
 
-        <Button
-            android:id="@+id/signUpButton"
+        <!-- Sign Up Text -->
+        <TextView
+            android:id="@+id/signUpText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/sign_up"
-            app:iconSize="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:textSize="28sp"
+            app:layout_constraintBottom_toTopOf="@+id/firstNameTextInput"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/haveAccountText" />
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Lottie Animation View -->
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_rawRes="@raw/sucssesfull"
+           app:lottie_loop="false"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

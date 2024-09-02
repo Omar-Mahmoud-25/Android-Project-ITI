@@ -1,7 +1,9 @@
 package com.example.androidprojectiti.fragments
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -52,6 +54,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Home"
@@ -83,32 +86,43 @@ class HomeFragment : Fragment() {
             }
         }
 
-        val Categorieslist = view.findViewById<RecyclerView>(R.id.category_recycler_view)
+        val categoryList = view.findViewById<RecyclerView>(R.id.category_recycler_view)
+        val categoryAdapter = CategoryAdapter(
+            emptyList(),
+            email = email ?: "guest",
+            navController = findNavController())
+        //list_of_Categories = it
+        categoryList.adapter = categoryAdapter
+        categoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         retrofitViewModel.CategoryList.observe(viewLifecycleOwner) {
-            val adapter = CategoryAdapter(it,
-                email = email ?: "guest",
-                navController = findNavController())
-            list_of_Categories = it
-            Categorieslist.adapter = adapter
-            Categorieslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            if (it.isNotEmpty()){
+                categoryAdapter.setListOfMeal(it)
+            }
         }
 
+
         val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
+        val mealAdapter = MealAdapter(
+            emptyList(),
+            UserRepoImp(LocalDataSourceImp(requireContext())),
+            lifecycleScope = lifecycleScope,
+            email = email ?: "guest",
+            navController = findNavController()
+        )
+        Mealslist.adapter = mealAdapter
+        Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
-            val adapter = MealAdapter(
-                it,
-                UserRepoImp(LocalDataSourceImp(requireContext())),
-                lifecycleScope = lifecycleScope,
-                email = email ?: "guest",
-                navController = findNavController()
-            )
-            list_of_meal = it
-            Mealslist.adapter = adapter
-            Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            if (it.isNotEmpty()){
+                mealAdapter.setListOfMeal(it)
+            }
 
             // Hide animation once data is loaded
             lottieAnimationView.visibility = View.GONE
         }
+
+
+
 
         val name = view.findViewById<TextView>(R.id.Name)
         val nameOfUser = view.findViewById<TextView>(R.id.nameOfUser)

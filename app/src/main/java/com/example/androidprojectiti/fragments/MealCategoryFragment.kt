@@ -67,22 +67,23 @@ class MealCategoryFragment : Fragment() {
             }
         }
 
-
-        var meals = mutableListOf<Meal>()
         val mealList = view.findViewById<RecyclerView>(R.id.recycler_view_meal_category)
+        val adapter = MealCategoryAdapter(
+            emptyList(),
+            mealRepo = mealRepoImp(remoteDataSource = ApiClient),
+            UserRepoImp(LocalDataSourceImp(requireContext())),
+            lifecycleScope = lifecycleScope,
+            email = email ?: "guest",
+            cat = category.toString(),
+            navController = findNavController()
+        )
+        mealList.adapter = adapter
+        mealList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        var meals = mutableListOf<Meal>()
         retrofit.mealsList.observe(viewLifecycleOwner){
-            val adapter = MealCategoryAdapter(
-                it,
-                mealRepo = mealRepoImp(remoteDataSource = ApiClient),
-                UserRepoImp(LocalDataSourceImp(requireContext())),
-                lifecycleScope = lifecycleScope,
-                email = email ?: "guest",
-                cat = category.toString(),
-                navController = findNavController()
-            )
-            adapter.notifyDataSetChanged()
-            mealList.adapter = adapter
-            mealList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            if(it.isNotEmpty()){
+                adapter.setListOfMeal(it)
+            }
         }
 
     }

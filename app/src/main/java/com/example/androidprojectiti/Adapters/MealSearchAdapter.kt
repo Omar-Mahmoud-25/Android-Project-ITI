@@ -3,15 +3,23 @@ package com.example.myapplicationrecyclarview
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView.OnItemClickListener
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.dto.MealResponse.Meal
+import com.example.androidprojectiti.fragments.FavoriteFragmentDirections
+import com.example.androidprojectiti.fragments.SearchFragmentDirections
 
 
-class MealSearchAdapter(private var meals: List<Meal>) : RecyclerView.Adapter<MealSearchAdapter.ViewHolder>() {
+class MealSearchAdapter(
+    private var meals: List<Meal>,
+    private val navController: NavController
+) : RecyclerView.Adapter<MealSearchAdapter.ViewHolder>() {
 
     // Create a new ViewHolder instance
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,6 +39,11 @@ class MealSearchAdapter(private var meals: List<Meal>) : RecyclerView.Adapter<Me
             .load(meal.strMealThumb)
             .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
             .into(holder.imageView)
+
+        holder.itemView.setOnClickListener {
+            val action = SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(meals[position])
+            navController.navigate(action)
+        }
     }
 
     // Return the total number of meals

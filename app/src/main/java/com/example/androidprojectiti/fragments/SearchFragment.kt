@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.R
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
 import com.example.androidprojectiti.factories.SearchViewModelFactory
 import com.example.androidprojectiti.network.ApiClient
@@ -49,7 +50,7 @@ class SearchFragment : Fragment() {
         network = NetworkLiveData(requireContext())
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        mealSearchAdapter = MealSearchAdapter(emptyList())
+        mealSearchAdapter = MealSearchAdapter(emptyList(),findNavController())
         recyclerView.adapter = mealSearchAdapter
 
         val factory = SearchViewModelFactory(mealRepoImp(ApiClient))

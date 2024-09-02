@@ -16,6 +16,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.androidprojectiti.R
+import com.example.androidprojectiti.Repositry.meal.mealRepo
 import com.example.androidprojectiti.Repositry.user.UserRepo
 import com.example.androidprojectiti.database.relations.UserFavorites
 import com.example.androidprojectiti.dto.MealResponse.Meal
@@ -27,15 +28,11 @@ import kotlinx.coroutines.launch
 
 class MealCategoryAdapter (
     private val listOfMeal : List<Meal>,
+    private val mealRepo: mealRepo,
     private val userRepo : UserRepo,
     private val email: String,
     private val lifecycleScope: CoroutineScope,
     private val cat : String,
-    private val network : NetworkLiveData,
-    private val requireActivity : FragmentActivity,
-    private val context : Context,
-    private val retrofit : MealCategoryViewModel,
-    private val lifecycleOwner: LifecycleOwner,
     val navController: NavController
     ) : RecyclerView.Adapter<MealCategoryAdapter.ViewHolder>() {
 
@@ -51,15 +48,6 @@ class MealCategoryAdapter (
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        network.observe(requireActivity) {
-            if (it) {
-                retrofit.getMealById(listOfMeal[position].idMeal)
-            } else {
-                Toast.makeText(context, "No Internet", Toast.LENGTH_LONG).show()
-            }
-        }
-
         holder.name.text = listOfMeal[position].strMeal
         holder.category.text = cat
 
@@ -69,15 +57,20 @@ class MealCategoryAdapter (
             .error(R.drawable.baseline_error_24)
             .into(holder.image)
 
-        var meal  = listOfMeal[position]
-        retrofit.mealById.observe(lifecycleOwner){
-            meal = it
-        }
 
         holder.itemView.setOnClickListener {
-            meal.putDefaults()
-            val action = MealCategoryFragmentDirections.actionMealCategoryFragmentToRecipeDetailFragment(meal)
-            navController.navigate(action)
+            var meal = listOfMeal[position]
+            lifecycleScope.launch {
+                val response = mealRepo.getMealById(listOfMeal[position].idMeal)
+                if (response.isSuccessful){
+                    meal = response.body()?.meals?.get(0) ?: listOfMeal[position]
+                    meal.putDefaults()
+                    val action = MealCategoryFragmentDirections.actionMealCategoryFragmentToRecipeDetailFragment(meal)
+                    Log.d("maro", meal.strMeal.toString())
+                    navController.navigate(action)
+                }
+            }
+
         }
 
         lifecycleScope.launch{

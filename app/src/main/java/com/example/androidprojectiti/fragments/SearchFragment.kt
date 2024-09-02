@@ -1,5 +1,6 @@
 package com.example.androidprojectiti.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +16,11 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.R
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
+import com.example.androidprojectiti.Repositry.user.UserRepoImp
+import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.factories.SearchViewModelFactory
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.network.NetworkLiveData
@@ -48,9 +52,14 @@ class SearchFragment : Fragment() {
         noResultsTextView = view.findViewById(R.id.no_results_text_view)
         titleTextView = view.findViewById(R.id.title_text_view)
         network = NetworkLiveData(requireContext())
-
+        val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
+        val email = sharedPreferences.getString("email", "guest")
         recyclerView.layoutManager = LinearLayoutManager(context)
-        mealSearchAdapter = MealSearchAdapter(emptyList(),findNavController())
+        mealSearchAdapter = MealSearchAdapter(emptyList(),
+            UserRepoImp(LocalDataSourceImp(view.context)),
+            email = email ?: "guest",
+            lifecycleScope = lifecycleScope,
+            findNavController())
         recyclerView.adapter = mealSearchAdapter
 
         val factory = SearchViewModelFactory(mealRepoImp(ApiClient))

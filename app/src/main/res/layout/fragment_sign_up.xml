@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.SignUpFragment">
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -46,7 +47,6 @@
                 app:cursorColor="#052C05"
                 app:hintTextColor="#052C05"
                 android:textColorHint="@color/text_field_color"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView18"
@@ -61,7 +61,6 @@
                     android:paddingStart="30dp"
                     android:paddingEnd="10dp"
                     android:textColor="#052C05"
-
                     android:textSize="16sp" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -75,7 +74,6 @@
                 app:cursorColor="#052C05"
                 app:hintTextColor="#052C05"
                 android:textColorHint="@color/text_field_color"
-
                 app:boxCornerRadiusBottomEnd="25dp"
                 app:boxCornerRadiusBottomStart="25dp"
                 app:boxCornerRadiusTopEnd="25dp"
@@ -131,8 +129,7 @@
                     android:textSize="16sp"
                     android:inputType="textEmailAddress"
                     android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    />
+                    android:focusableInTouchMode="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -153,7 +150,6 @@
                 app:startIconDrawable="@drawable/lock"
                 app:endIconTint="#637663"
                 app:endIconMode="password_toggle"
-
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailTextInput">
@@ -167,9 +163,7 @@
                     android:textColor="#052C05"
                     android:textSize="16sp"
                     android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    />
-
+                    android:focusableInTouchMode="true"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -181,7 +175,6 @@
                 app:cursorColor="#052C05"
                 app:hintTextColor="#052C05"
                 android:textColorHint="@color/text_field_color"
-
                 app:boxCornerRadiusBottomEnd="25dp"
                 app:boxCornerRadiusBottomStart="25dp"
                 app:boxCornerRadiusTopEnd="25dp"
@@ -205,71 +198,51 @@
                     android:textSize="16sp"
                     android:focusable="true"
                     android:focusableInTouchMode="true"/>
-
             </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
-                android:id="@+id/signUpText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/cabin"
-                android:text="Welcome to Recipe Passport App"
-                android:textAllCaps="false"
-                android:textColor="#001E00"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@+id/firstNameTextInput"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.306" />
-
-            <TextView
                 android:id="@+id/haveAccountText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_semibold"
-                android:text=" Sign in"
-                android:textAlignment="textStart"
-                android:textColor="#6AA920"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/text"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintStart_toEndOf="@+id/text" />
-
-            <TextView
-                android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:fontFamily="@font/montserrat_medium"
-                android:text="Already have account with us?"
-                android:textAlignment="center"
-                android:textColor="@color/text_field_color"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="20dp"
+                android:text="Already have an account? Log in"
+                android:textColor="#052C05"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
+                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextInput" />
 
             <Button
                 android:id="@+id/signUpButton"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
-                android:layout_marginTop="24dp"
-                android:backgroundTint="@color/green"
-                android:fontFamily="@font/montserrat_semibold"
-                android:text="@string/sign_up"
-                app:iconSize="25dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
+                android:text="Sign Up"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:backgroundTint="#637663"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/confirmPasswordTextInput" />
+                app:layout_constraintTop_toBottomOf="@+id/haveAccountText" />
+
+            <!-- Add LottieAnimationView here -->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieAnimationView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                app:lottie_rawRes="@raw/sucssesfull"
+            app:lottie_loop="false"
+            app:lottie_autoPlay="false"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintVertical_bias="0.5"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -30,6 +30,7 @@ class FavoriteFragment : Fragment() {
     private lateinit var favViewModel: FavouriteViewModel
     private lateinit var adapter: favoriteAdapter
     private lateinit var loadingAnimation: LottieAnimationView
+    private lateinit var noFavoritesAnimation: LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,36 +46,35 @@ class FavoriteFragment : Fragment() {
         val email = sharedPreferences.getString("email", "guest") ?: "guest"
 
         val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
-//        val mealRepo = mealRepoImp(ApiClient)
+        // val mealRepo = mealRepoImp(ApiClient)
 
-        favViewModel = FavouriteViewModel(userRepo)//, mealRepo)
+        favViewModel = FavouriteViewModel(userRepo) //, mealRepo)
         favViewModel.getFavMeals(email)
 
         loadingAnimation = view.findViewById(R.id.loading_animation2)
+        noFavoritesAnimation = view.findViewById(R.id.loading_animation_no)
         val favMealsList = view.findViewById<RecyclerView>(R.id.fav_recycler_view)
         favMealsList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        // Initially show the animation and hide the RecyclerView
+        // Initially show the loading animation and hide both animations and RecyclerView
         loadingAnimation.visibility = View.VISIBLE
+        noFavoritesAnimation.visibility = View.GONE
         favMealsList.visibility = View.GONE
 
-        // Hide the animation after 2 seconds
-        Handler(Looper.getMainLooper()).postDelayed({
-            loadingAnimation.visibility = View.GONE
-        }, 2000)
-
-        favViewModel.mealsList.observe(viewLifecycleOwner) {
-            if (it.isEmpty()) {
-                // If no data, keep showing animation
-                loadingAnimation.visibility = View.VISIBLE
+        favViewModel.mealsList.observe(viewLifecycleOwner) { meals ->
+            if (meals.isEmpty()) {
+                // If no data, show no favorites animation
+                loadingAnimation.visibility = View.GONE
+                noFavoritesAnimation.visibility = View.VISIBLE
                 favMealsList.visibility = View.GONE
             } else {
-                // Hide animation and show RecyclerView
+                // Hide animations and show RecyclerView
                 loadingAnimation.visibility = View.GONE
+                noFavoritesAnimation.visibility = View.GONE
                 favMealsList.visibility = View.VISIBLE
-                adapter = favoriteAdapter(it.toMutableList(), userRepo, email, lifecycleScope,requireContext(),{ onConfirm ->
+                adapter = favoriteAdapter(meals.toMutableList(), userRepo, email, lifecycleScope, requireContext(), { onConfirm ->
                     showConfirmationDialog(onConfirm)
-                },findNavController())
+                }, findNavController())
                 favMealsList.adapter = adapter
 
                 val itemTouchHelper = ItemTouchHelper(swipeToDeletFromFav(adapter, requireContext(), ::showConfirmationDialog))

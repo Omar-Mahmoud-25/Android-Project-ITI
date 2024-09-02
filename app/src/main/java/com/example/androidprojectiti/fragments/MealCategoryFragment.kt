@@ -18,8 +18,10 @@ import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.meal.mealRepoImp
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
 import com.example.androidprojectiti.database.LocalDataSourceImp
+import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.network.NetworkLiveData
+import com.example.androidprojectiti.network.RemoteDataSource
 import com.example.androidprojectiti.viewModels.MealCategory.MealCategoryFactory
 import com.example.androidprojectiti.viewModels.MealCategory.MealCategoryViewModel
 import retrofit2.Retrofit
@@ -65,20 +67,17 @@ class MealCategoryFragment : Fragment() {
             }
         }
 
+
+        var meals = mutableListOf<Meal>()
         val mealList = view.findViewById<RecyclerView>(R.id.recycler_view_meal_category)
         retrofit.mealsList.observe(viewLifecycleOwner){
-            Log.d("asd", "the size is : ${it.size}")
             val adapter = MealCategoryAdapter(
                 it,
+                mealRepo = mealRepoImp(remoteDataSource = ApiClient),
                 UserRepoImp(LocalDataSourceImp(requireContext())),
                 lifecycleScope = lifecycleScope,
                 email = email ?: "guest",
                 cat = category.toString(),
-                network = network,
-                requireActivity = requireActivity(),
-                context = requireContext(),
-                retrofit = retrofit,
-                lifecycleOwner = viewLifecycleOwner,
                 navController = findNavController()
             )
             adapter.notifyDataSetChanged()

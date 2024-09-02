@@ -41,7 +41,6 @@ class SignUpFragment : Fragment() {
         _viewModel = ViewModelProvider(this, factory).get(SignUpViewModel::class.java)
 
         val firstName = view.findViewById<TextInputLayout>(R.id.firstNameTextInput)
-        val lastName = view.findViewById<TextInputLayout>(R.id.lastNameTextInput)
         val email = view.findViewById<TextInputLayout>(R.id.emailTextInput)
         val age = view.findViewById<TextInputLayout>(R.id.ageTextInput)
         val password = view.findViewById<TextInputLayout>(R.id.passwordTextInput)
@@ -50,15 +49,14 @@ class SignUpFragment : Fragment() {
         val haveAccount = view.findViewById<TextView>(R.id.haveAccountText)
         lottieAnimationView = view.findViewById(R.id.lottieAnimationView)
 
-        haveAccount.setOnClickListener {
-            findNavController().popBackStack()
+        haveAccount.setOnClickListener{
+            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
         }
 
         signUp.setOnClickListener {
             lifecycleScope.launch {
                 if (_viewModel.makeUser(
                         firstName = firstName,
-                        lastName = lastName,
                         age = age,
                         password = password,
                         email = email,
@@ -73,11 +71,12 @@ class SignUpFragment : Fragment() {
                     lottieAnimationView.addAnimatorListener(object : AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator) {
                             super.onAnimationEnd(animation)
-                            findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
+                            findNavController().navigate(R.id.action_signUpFragment_to_dialogFragment)
                         }
                     })
                 }
             }
         }
+        // to be continued
     }
 }

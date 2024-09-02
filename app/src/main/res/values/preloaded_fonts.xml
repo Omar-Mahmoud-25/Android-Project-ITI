@@ -4,7 +4,13 @@
         <item>@font/adlam_display</item>
         <item>@font/angkor</item>
         <item>@font/archivo_black</item>
+        <item>@font/cabin</item>
+        <item>@font/cabin_semibold</item>
         <item>@font/chewy</item>
+        <item>@font/montserrat</item>
+        <item>@font/montserrat_medium</item>
+        <item>@font/montserrat_regular</item>
+        <item>@font/montserrat_semibold</item>
         <item>@font/roboto_mono_extralight</item>
         <item>@font/roboto_mono_thin</item>
         <item>@font/roboto_slab</item>

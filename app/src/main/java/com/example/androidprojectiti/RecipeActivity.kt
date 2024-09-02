@@ -40,23 +40,6 @@ class RecipeActivity : AppCompatActivity() {
         getSharedPreferences("logging_details",
             Context.MODE_PRIVATE)
 
-        bottomNavigationView.setOnItemSelectedListener { item ->
-            when(item.itemId) {
-                R.id.home_btm -> {
-                    navController.navigate(R.id.homeFragment)
-                    true
-                }
-                R.id.search_btm -> {
-                    navController.navigate(R.id.searchFragment)
-                    true
-                }
-                R.id.favorite_btm -> {
-                    navController.navigate(R.id.favoriteFragment)
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

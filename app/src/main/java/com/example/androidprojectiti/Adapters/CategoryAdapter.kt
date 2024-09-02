@@ -15,7 +15,7 @@ import com.example.androidprojectiti.dto.CategoryResponse.Category
 
 class CategoryAdapter(var listOfOfCategories:List<Category>, val email : String, val navController: NavController): RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
     class ViewHolder(val row: View):RecyclerView.ViewHolder(row) {
-        var title: TextView = row.findViewById(R.id.CategoryName)
+        var title: TextView = row.findViewById(R.id.Category_name)
         var thumbnail: ImageView = row.findViewById(R.id.CayegoryImage)
     }
 

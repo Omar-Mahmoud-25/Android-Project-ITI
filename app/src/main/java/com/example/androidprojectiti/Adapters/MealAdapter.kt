@@ -38,7 +38,8 @@ class MealAdapter(
     class ViewHolder(val row: View) : RecyclerView.ViewHolder(row) {
         var name: TextView = row.findViewById(R.id.Name)
         var thumbnail: ImageView = row.findViewById(R.id.imageView)
-        var category: TextView = row.findViewById(R.id.CategoryName)
+        var category: TextView = row.findViewById(R.id.Category_name)
+        var area:TextView=row.findViewById(R.id.Area)
         var favourite: ImageButton = row.findViewById(R.id.heart_button)
 //        var sharedPreferences = ro
     }
@@ -59,7 +60,7 @@ class MealAdapter(
         val meal = listOfOfMeals[position]
         holder.name.text = meal.strMeal
         holder.category.text = meal.strCategory
-
+        holder.area.text=meal.strArea
         Glide.with(holder.thumbnail.context)
             .load(listOfOfMeals[position].strMealThumb)
             .placeholder(R.drawable.baseline_arrow_circle_down_24)

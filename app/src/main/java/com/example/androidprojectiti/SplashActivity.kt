@@ -17,10 +17,11 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_splash)
+
         if (intent.getBooleanExtra("isUserLoggingOut",false))
             (supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment)
                 .navController
-                .navigate(R.id.action_splashFragment_to_loginFragment)
+                .navigate(R.id.action_splashFragment_to_onBoardingFragment)
 
     }
 }

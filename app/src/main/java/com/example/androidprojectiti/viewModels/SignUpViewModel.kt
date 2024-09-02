@@ -24,7 +24,6 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
 
     suspend fun makeUser(
         firstName: TextInputLayout,
-        lastName: TextInputLayout,
         age:TextInputLayout,
         email:TextInputLayout,
         password:TextInputLayout,
@@ -35,20 +34,14 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
         val passwordText = password.editText?.text.toString()
         val confirmPasswordText = confirmPassword.editText?.text.toString()
         val ageText = age.editText?.text.toString()
-        val lastNameText = lastName.editText?.text.toString()
         email.error = ""
         firstName.error = ""
         password.error = ""
         confirmPassword.error = ""
         age.error = ""
-        lastName.error = ""
         return when {
             firstNameText.isEmpty() -> {
                 firstName.error = "This field is required"
-                false
-            }
-            lastNameText.isEmpty() -> {
-                lastName.error = "This field is required"
                 false
             }
             ageText.isEmpty() -> {
@@ -75,7 +68,6 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
             else -> {
                 val user = User(
                     firstName = firstNameText,
-                    lastName = lastNameText,
                     age = ageText.toInt(),
                     email = emailText,
                     password = passwordText

@@ -1,5 +1,6 @@
 [versions]
-agp = "8.3.2"
+agp = "8.5.2"
+gradle = "8.1.4"
 kotlin = "1.9.0"
 coreKtx = "1.13.1"
 junit = "4.13.2"
@@ -22,9 +23,11 @@ coroutines = "1.7.3"
 androidYoutubePlayerVersion = "12.1.0"
 lottie = "6.5.0"
 splashscreen = "1.0.1"
+smoothBottomBar = "1.7.9"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -46,6 +49,8 @@ kotlinx-coroutines = {group="org.jetbrains.kotlinx",name = "kotlinx-coroutines-c
 android-youtube-player = {group = "com.pierfrancescosoffritti.androidyoutubeplayer", name = "core", version.ref = "androidYoutubePlayerVersion"}
 lottie-animation = {group = "com.airbnb.android", name = "lottie", version.ref = "lottie"}
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+smoothBottomBar = { module = "com.github.ibrahimsn98:SmoothBottomBar", version.ref = "smoothBottomBar" }
 
 # implementation 'com.borjabravo:readmoretextview:2.1.0'
 # implementation '::'
@@ -57,3 +62,5 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 safeArgsPlugin = { id = "androidx.navigation.safeargs.kotlin",version.ref = "safeArgs"}
 kotlin-kapt = {id = "org.jetbrains.kotlin.kapt",version.ref = "kapt"}
+android = { id = "com.android.application", version = "8.1.1" }
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

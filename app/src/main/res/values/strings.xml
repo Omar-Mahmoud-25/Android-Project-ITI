@@ -18,4 +18,5 @@
     <string name="welcome">Welcome</string>
     <string name="popular_meals">Popular Meals</string>
     <string name="this_app_offers_personalized_step_by_step_cooking_instructions_users_can_explore_a_vast_collection_of_recipes_save_their_favorites_and_watch_detailed_cooking_demonstration_videos">This app offers personalized, step-by-step cooking instructions. Users can explore a vast collection of recipes, save their favorites, and watch detailed cooking demonstration videos.</string>
+    <string name="full_name">Full Name</string>
 </resources>

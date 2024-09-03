@@ -6,7 +6,6 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:backgroundTint="@color/white"
     tools:context=".RecipeActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -26,7 +25,7 @@
             android:background="@color/white"
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/actions"
-            app:titleTextColor="#903E5A" />
+            app:titleTextColor="#86BF3E" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -49,8 +48,8 @@
         android:layout_height="64dp"
         android:background="@color/white"
         android:contextClickable="false"
-        app:itemIconTint="#637663"
-        app:itemTextColor="#637663"
+        app:itemIconTint="@color/icon_color"
+        app:itemTextColor="@color/icon_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

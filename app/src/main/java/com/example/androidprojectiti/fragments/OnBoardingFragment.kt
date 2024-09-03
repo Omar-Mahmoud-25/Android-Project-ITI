@@ -22,7 +22,7 @@ class OnBoardingFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var button:Button=view.findViewById(R.id.contunie_button)
+        var button:Button=view.findViewById(R.id.continue_b)
         button.setOnClickListener {
             findNavController().navigate(R.id.action_onBoardingFragment_to_signUpFragment)
         }

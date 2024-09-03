@@ -14,7 +14,7 @@
         android:orientation="horizontal"
         android:padding="8dp">
 
-        
+
 
         <!-- ImageView with Heart Icon Overlay -->
         <FrameLayout
@@ -70,5 +70,7 @@
             android:layout_gravity="top|start"
             android:layout_margin="8dp"
             android:src="@drawable/ic_android_black_24dp" />
+
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

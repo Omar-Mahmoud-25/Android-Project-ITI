@@ -35,7 +35,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
         android:padding="8dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,29 +44,6 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <!-- No Results TextView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/area_recycle_view"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/cabin_semibold"
-        android:text="@string/categories"
-        android:textColor="@color/headLines_color"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/search_view" />
 
     <TextView
         android:id="@+id/no_results_text_view"

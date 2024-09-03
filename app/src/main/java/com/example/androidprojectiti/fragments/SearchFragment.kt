@@ -54,62 +54,68 @@ class SearchFragment : Fragment() {
         val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
         val email = sharedPreferences.getString("email", "guest")
         recyclerView.layoutManager = LinearLayoutManager(context)
-        mealSearchAdapter = MealSearchAdapter(emptyList(),
+        mealSearchAdapter = MealSearchAdapter(
+            emptyList(),
             UserRepoImp(LocalDataSourceImp(view.context)),
             email = email ?: "guest",
             lifecycleScope = lifecycleScope,
-            findNavController())
+            findNavController()
+        )
         recyclerView.adapter = mealSearchAdapter
 
         val factory = SearchViewModelFactory(mealRepoImp(ApiClient),AreaRepoImp(ApiClient))
         searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
 
         network.observe(viewLifecycleOwner) { connected ->
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    Log.d("uhhh", "in submit, ${network.value}")
-                    if (connected)
-                        query?.let { searchViewModel.searchMeals(it) }
-                    else
-                        Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    Log.d("uhhh", "in change, ${network.value}")
-                    if (connected) {
-                        // Perform search and update UI based on results
-                        searchViewModel.searchMeals(newText ?: "")
-                    } else {
-                        Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
+            connected?.let{
+                searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        Log.d("uhhh", "in submit, ${network.value}")
+                        if (connected)
+                            query?.let { searchViewModel.searchMeals(it) }
+                        else
+                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG)
+                                .show()
+                        return true
                     }
-                    return true
-                }
-            })
 
-            // Observe the items LiveData
-            searchViewModel.items.observe(viewLifecycleOwner, Observer { items ->
-                mealSearchAdapter.updateData(items)
-                Log.d("nadra", "items observer ${items.toString()}")
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        if (connected)
+                            searchViewModel.searchMeals(newText ?: "")
+                        else
+                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG)
+                                .show()
+                        return true
+                    }
+                })
 
-                // Update visibility of RecyclerView and no results animation based on items count and query
-                val query = searchView.query.toString()
-                if (items.isEmpty() && query.isNotEmpty()) {
-                    recyclerView.isVisible = false
-                    noResultsAnimationView.isVisible = true
-                } else {
-                    recyclerView.isVisible = items.isNotEmpty()
-                    noResultsAnimationView.isVisible = items.isEmpty() && query.isNotEmpty()
-                }
-            })
+                // Observe the items LiveData
+                searchViewModel.items.observe(viewLifecycleOwner, Observer { items ->
+                    items?.let{
+                        mealSearchAdapter.updateData(items)
 
-            // Handle visibility when search is performed or not
-            searchViewModel.searchPerformed.observe(viewLifecycleOwner, Observer { searchPerformed ->
-                if (!searchPerformed) {
-                    recyclerView.isVisible = false
-                    noResultsAnimationView.isVisible = false
+                        // Update visibility of RecyclerView and no results animation based on items count and query
+                        val query = searchView.query.toString()
+                        if (items.isEmpty() && query.isNotEmpty()) {
+                            recyclerView.isVisible = false
+                            noResultsAnimationView.isVisible = true
+                        } else {
+                            recyclerView.isVisible = items.isNotEmpty()
+                            noResultsAnimationView.isVisible = items.isEmpty() && query.isNotEmpty()
+                        }
+                    }
+                })
+
+                // Handle visibility when search is performed or not
+                searchViewModel.searchPerformed.observe(viewLifecycleOwner) { searchPerformed ->
+                    searchPerformed?.let{
+                        if (!searchPerformed) {
+                            recyclerView.isVisible = false
+                            noResultsAnimationView.isVisible = false
+                        }
+                    }
                 }
-            })
+            }
         }
 
         // Initially hide RecyclerView and no results animation

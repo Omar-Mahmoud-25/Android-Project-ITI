@@ -40,7 +40,7 @@ class AreaListAdapter(var listOfOfAreas:List<Area> = listOf(), val navController
             val bundle = Bundle().apply {
                 putString("area", listOfOfAreas[position].strArea)
             }
-            navController.navigate(R.id.action_searchFragment_to_mealsOfAreaFragment, bundle)
+//            navController.navigate(R.id.action_searchFragment_to_mealsOfAreaFragment, bundle)
         }
     }
 

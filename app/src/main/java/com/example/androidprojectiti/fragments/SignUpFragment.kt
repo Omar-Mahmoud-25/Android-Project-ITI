@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 class SignUpFragment : Fragment() {
 
     private lateinit var _viewModel: SignUpViewModel
-    private lateinit var lottieAnimationView: LottieAnimationView
+//    private lateinit var lottieAnimationView: LottieAnimationView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,7 +46,7 @@ class SignUpFragment : Fragment() {
         val confirmPassword = view.findViewById<TextInputLayout>(R.id.confirmPasswordTextInput)
         val signUp = view.findViewById<Button>(R.id.signUpButton)
         val haveAccount = view.findViewById<TextView>(R.id.haveAccountText)
-        lottieAnimationView = view.findViewById(R.id.lottieAnimationView)
+//        lottieAnimationView = view.findViewById(R.id.lottieAnimationView)
 
         haveAccount.setOnClickListener{
             findNavController().navigate(R.id.action_signUpFragment_to_loginFragment)
@@ -63,16 +63,16 @@ class SignUpFragment : Fragment() {
                     )
                 ) {
                     // Show Lottie animation
-                    lottieAnimationView.visibility = View.VISIBLE
-                    lottieAnimationView.playAnimation()
+//                    lottieAnimationView.visibility = View.VISIBLE
+//                    lottieAnimationView.playAnimation()
 
                     // Navigate to login screen after animation ends
-                    lottieAnimationView.addAnimatorListener(object : AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator) {
-                            super.onAnimationEnd(animation)
+//                    lottieAnimationView.addAnimatorListener(object : AnimatorListenerAdapter() {
+//                        override fun onAnimationEnd(animation: Animator) {
+//                            super.onAnimationEnd(animation)
                             findNavController().navigate(R.id.action_signUpFragment_to_dialogFragment)
-                        }
-                    })
+//                        }
+//                    })
                 }
             }
         }

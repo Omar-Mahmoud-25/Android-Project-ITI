@@ -1,76 +1,118 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    card_view:cardCornerRadius="8dp"
-    card_view:cardElevation="4dp"
-    card_view:cardBackgroundColor="@android:color/white">
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/white">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_height="wrap_content">
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/lol7"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-
-        <!-- ImageView with Heart Icon Overlay -->
-        <FrameLayout
-            android:layout_width="140dp"
-            android:layout_height="121dp"
-            android:layout_marginEnd="8dp">
-
-            <ImageView
-                android:id="@+id/item_image"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"/>
+                android:layout_height="match_parent">
 
-            <!-- Heart Icon positioned in the top-left corner -->
-            <!-- Heart icon drawable -->
+                <ImageView
+                    android:id="@+id/item_image"
+                    android:layout_width="130dp"
+                    android:layout_height="0dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:srcCompat="@tools:sample/avatars" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Text content next to the image -->
-        <LinearLayout
+
+        <View
+            android:id="@+id/view7"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_shadow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/item_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="@font/cabin_semibold"
+            android:maxLines="1"
+            android:text="name"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lol7"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/item_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textSize="20sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/item_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:text="category"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/lol7"
+            app:layout_constraintTop_toBottomOf="@+id/item_name" />
 
-            <TextView
-                android:id="@+id/item_area"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/item_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/item_area"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/montserrat_regular"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="From: "
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lol7"
+            app:layout_constraintTop_toBottomOf="@+id/item_category"
+            app:layout_constraintVertical_bias="1.0" />
 
-        </LinearLayout>
-
-        <ImageView
+        <ImageButton
             android:id="@+id/item_favorite"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|start"
-            android:layout_margin="8dp"
-            android:src="@drawable/ic_android_black_24dp" />
+            android:layout_width="43dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/white_heart" />
 
-
-    </LinearLayout>
-</androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

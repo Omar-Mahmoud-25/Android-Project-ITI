@@ -29,6 +29,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- RecyclerView -->
+
+    <!-- No Results TextView -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="0dp"
@@ -38,12 +41,12 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/search_view">
+        app:layout_constraintTop_toBottomOf="@id/search_view"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <!-- No Results TextView -->
 
     <TextView
         android:id="@+id/no_results_text_view"

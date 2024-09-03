@@ -40,7 +40,7 @@ class MealSearchAdapter(
         try{
             val meal = meals[position]
             holder.nameTextView.text = meal.strMeal
-            holder.areaTextView.text = "${meal.strArea} Meal"
+            holder.areaTextView.text = "From: ${meal.strArea} Meal"
             holder.categoryTextView.text = meal.strCategory
 
             // Load image into the ImageView using Glide

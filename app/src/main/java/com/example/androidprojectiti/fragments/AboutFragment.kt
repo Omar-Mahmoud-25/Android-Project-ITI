@@ -5,9 +5,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.androidprojectiti.Adapters.AboutUsAdapter
+import com.example.androidprojectiti.Contributor
 import com.example.androidprojectiti.R
 
 class AboutFragment : Fragment() {
+
+    private val contributors = listOf(
+        Contributor(R.drawable.white_heart,"Marawan Shrief Abdelatef", "lordmarawanshrief@gmail.com"),
+        Contributor(R.drawable.circle_green_background,"Nadra Mahmoud Saad", "oshasaad968@gmail.com"),
+        Contributor(R.drawable.red_heart, "Nada Mohsen Ahmed", "mohsennada874@gmail.com"),
+        Contributor(R.drawable.circle_green_background,"Omar Mahmoud Abdullah", "omar.mahmoud25102004@gmail.com")
+    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -20,6 +31,10 @@ class AboutFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "About"
+
+        val recyclerView = view.findViewById<RecyclerView>(R.id.about_us_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = AboutUsAdapter(contributors)
     }
 
 }

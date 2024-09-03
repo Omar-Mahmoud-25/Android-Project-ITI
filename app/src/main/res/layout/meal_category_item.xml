@@ -38,6 +38,16 @@
         </com.google.android.material.card.MaterialCardView>
 
 
+        <View
+            android:id="@+id/view4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/gradient_shadow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/meal_category_item_name"
             android:layout_width="0dp"
@@ -45,10 +55,11 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
+            android:fontFamily="@font/cabin_semibold"
             android:maxLines="1"
             android:text="name"
-            android:textColor="#903E5A"
-            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/lol7"
@@ -60,9 +71,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:fontFamily="@font/montserrat_regular"
             android:text="category"
-            android:textColor="#434141"
-            android:textSize="20sp"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/lol7"
             app:layout_constraintTop_toBottomOf="@+id/meal_category_item_name" />
 

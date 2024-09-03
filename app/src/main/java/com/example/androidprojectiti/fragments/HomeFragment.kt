@@ -77,12 +77,14 @@ class HomeFragment : Fragment() {
         retrofitViewModel = ViewModelProvider(this, factoryClass).get(HomeViewModel::class.java)
 
         network.observe(requireActivity()) {
-            if (it) {
-                retrofitViewModel.getRandomMeal()
-                retrofitViewModel.getMeals()
-                retrofitViewModel.getCategories()
-            } else {
-                Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
+            it?.let{
+                if (it) {
+                    retrofitViewModel.getRandomMeal()
+                    retrofitViewModel.getMeals()
+                    retrofitViewModel.getCategories()
+                } else {
+                    Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
+                }
             }
         }
 
@@ -113,15 +115,15 @@ class HomeFragment : Fragment() {
         Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()){
-                mealAdapter.setListOfMeal(it)
+            it?.let{
+                if (it.isNotEmpty())
+                    mealAdapter.setListOfMeal(it)
             }
+
 
             // Hide animation once data is loaded
             lottieAnimationView.visibility = View.GONE
         }
-
-
 
 
         val name = view.findViewById<TextView>(R.id.Name)
@@ -136,45 +138,68 @@ class HomeFragment : Fragment() {
 
 
         retrofitViewModel.RandomMeal.observe(viewLifecycleOwner) { meals ->
-            if (meals.isNotEmpty()) {
-                randomMeal = meals[0]
-                name.text = "This ${randomMeal.strMeal} will warm up the faintest of hearts."
+            meals?.let{
+                if (meals.isNotEmpty()) {
+                    randomMeal = meals[0]
+                    name.text = "This ${randomMeal.strMeal} will warm up the faintest of hearts."
 
-                Glide.with(image.context)
-                    .load(randomMeal.strMealThumb)
-                    .placeholder(R.drawable.baseline_arrow_circle_down_24)
-                    .error(R.drawable.baseline_error_24)
-                    .into(image)
+                    Glide.with(image.context)
+                        .load(randomMeal.strMealThumb)
+                        .placeholder(R.drawable.baseline_arrow_circle_down_24)
+                        .error(R.drawable.baseline_error_24)
+                        .into(image)
 
-                materialCardView.setOnClickListener {
-                    randomMeal.putDefaults()
-                    val action = HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(randomMeal)
-                    findNavController().navigate(action)
-                }
+                    materialCardView.setOnClickListener {
+                        randomMeal.putDefaults()
+                        val action =
+                            HomeFragmentDirections.actionHomeFragmentToRecipeDetailFragment(
+                                randomMeal
+                            )
+                        findNavController().navigate(action)
+                    }
 
-                lifecycleScope.launch {
-                    val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
-                    val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-                    var isFavorite = favoriteMeals.contains(randomMeal)
+                    lifecycleScope.launch {
+                        val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
+                        val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
+                        var isFavorite = favoriteMeals.contains(randomMeal)
 
-                    favouriteButton.setImageResource(
-                        if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
-                    )
-                    favouriteButton.setOnClickListener {
-                        if (isFavorite) {
-                            favouriteButton.setImageResource(R.drawable.white_heart)
-                            lifecycleScope.launch {
-                                userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", randomMeal))
-                                Toast.makeText(requireContext(), "${randomMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+                        favouriteButton.setImageResource(
+                            if (isFavorite) R.drawable.red_heart else R.drawable.white_heart
+                        )
+                        favouriteButton.setOnClickListener {
+                            if (isFavorite) {
+                                favouriteButton.setImageResource(R.drawable.white_heart)
+                                lifecycleScope.launch {
+                                    userRepo.deleteMealFromFav(
+                                        UserFavorites(
+                                            email ?: "guest",
+                                            randomMeal
+                                        )
+                                    )
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "${randomMeal.strMeal} removed from favorites",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            } else {
+                                favouriteButton.setImageResource(R.drawable.red_heart)
+                                lifecycleScope.launch {
+                                    userRepo.insertMealToFav(
+                                        UserFavorites(
+                                            email ?: "guest",
+                                            randomMeal
+                                        )
+                                    )
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "${randomMeal.strMeal} added to favorites",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
                             }
-                        } else {
-                            favouriteButton.setImageResource(R.drawable.red_heart)
-                            lifecycleScope.launch {
-                                userRepo.insertMealToFav(UserFavorites(email ?: "guest", randomMeal))
-                                Toast.makeText(requireContext(), "${randomMeal.strMeal} added to favorites", Toast.LENGTH_SHORT).show()
-                            }
+                            isFavorite = !isFavorite
                         }
-                        isFavorite=!isFavorite
                     }
                 }
             }

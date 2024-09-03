@@ -69,23 +69,28 @@ class MealCategoryFragment : Fragment() {
         retrofit = ViewModelProvider(this, factory).get(MealCategoryViewModel::class.java)
 
         network.observe(requireActivity()) {
-            if (it) {
-                retrofit.getMealsByCategory(arguments?.getString("category").toString())
-            } else {
-                Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
+            it?.let{
+                if (it)
+                    retrofit.getMealsByCategory(arguments?.getString("category").toString())
+                else
+                    Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
             }
+
         }
 
         retrofit.mealsList.observe(viewLifecycleOwner) { meals ->
-            if (meals.isEmpty()) {
-                // Show Lottie animation if no data
-                loadingAnimation.visibility = View.VISIBLE
-                mealList.visibility = View.GONE
-            } else {
-                // Show RecyclerView and hide Lottie animation
-                loadingAnimation.visibility = View.GONE
-                mealList.visibility = View.VISIBLE
-                adapter.setListOfMeal(meals)
+            meals?.let{
+                if (meals.isEmpty()) {
+                    // Show Lottie animation if no data
+                    loadingAnimation.visibility = View.VISIBLE
+                    mealList.visibility = View.GONE
+                }
+                else {
+                    // Show RecyclerView and hide Lottie animation
+                    loadingAnimation.visibility = View.GONE
+                    mealList.visibility = View.VISIBLE
+                    adapter.setListOfMeal(meals)
+                }
             }
         }
     }

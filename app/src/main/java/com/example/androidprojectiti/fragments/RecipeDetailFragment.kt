@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 
 class RecipeDetailFragment : Fragment() {
 
-    private var stringJavaScript : String = ""
+//    private var stringJavaScript : String = ""
     private val args by navArgs<RecipeDetailFragmentArgs>()
     private lateinit var image : ImageView
     private lateinit var title : TextView
@@ -94,11 +94,11 @@ class RecipeDetailFragment : Fragment() {
             val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
             val isFavorite = favoriteMeals.contains(meal)
 
-            if (isFavorite) {
+            if (isFavorite)
                 heart.setImageResource(R.drawable.red_heart)
-            } else {
+            else
                 heart.setImageResource(R.drawable.white_heart)
-            }
+
 
             heart.setOnClickListener {
                 if (isFavorite) {
@@ -113,7 +113,8 @@ class RecipeDetailFragment : Fragment() {
 
                     }
 
-                } else {
+                }
+                else {
                     heart.setImageResource(R.drawable.red_heart)
                     lifecycleScope.launch {
                         userRepo.insertMealToFav(UserFavorites(email ?: "guest", meal))
@@ -161,15 +162,15 @@ class RecipeDetailFragment : Fragment() {
     }
 
 
-    fun playVideo(video : String){
+    private fun playVideo(video : String){
 
         val result = video.substring(video.lastIndexOf('=') + 1)
 
         // object : AbstractYouTubePlayerListener(): In Kotlin, you create an anonymous class that extends AbstractYouTubePlayerListener using the object keyword
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-                val videoId = result  // "S0Q4gqBUs7c"
-                youTubePlayer.loadVideo(videoId, 0f)
+//                val videoId = result  // "S0Q4gqBUs7c"
+                youTubePlayer.loadVideo(result, 0f)
             }
         })
 

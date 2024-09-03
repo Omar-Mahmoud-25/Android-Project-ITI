@@ -62,23 +62,39 @@ class FavoriteFragment : Fragment() {
         favMealsList.visibility = View.GONE
 
         favViewModel.mealsList.observe(viewLifecycleOwner) { meals ->
-            if (meals.isEmpty()) {
-                // If no data, show no favorites animation
-                loadingAnimation.visibility = View.GONE
-                noFavoritesAnimation.visibility = View.VISIBLE
-                favMealsList.visibility = View.GONE
-            } else {
-                // Hide animations and show RecyclerView
-                loadingAnimation.visibility = View.GONE
-                noFavoritesAnimation.visibility = View.GONE
-                favMealsList.visibility = View.VISIBLE
-                adapter = favoriteAdapter(meals.toMutableList(), userRepo, email, lifecycleScope, requireContext(), { onConfirm ->
-                    showConfirmationDialog(onConfirm)
-                }, findNavController())
-                favMealsList.adapter = adapter
+            meals?.let{
+                if (meals.isEmpty()) {
+                    // If no data, show no favorites animation
+                    loadingAnimation.visibility = View.GONE
+                    noFavoritesAnimation.visibility = View.VISIBLE
+                    favMealsList.visibility = View.GONE
+                } else {
+                    // Hide animations and show RecyclerView
+                    loadingAnimation.visibility = View.GONE
+                    noFavoritesAnimation.visibility = View.GONE
+                    favMealsList.visibility = View.VISIBLE
+                    adapter = favoriteAdapter(
+                        meals.toMutableList(),
+                        userRepo,
+                        email,
+                        lifecycleScope,
+                        requireContext(),
+                        { onConfirm ->
+                            showConfirmationDialog(onConfirm)
+                        },
+                        findNavController()
+                    )
+                    favMealsList.adapter = adapter
 
-                val itemTouchHelper = ItemTouchHelper(swipeToDeletFromFav(adapter, requireContext(), ::showConfirmationDialog))
-                itemTouchHelper.attachToRecyclerView(favMealsList)
+                    val itemTouchHelper = ItemTouchHelper(
+                        swipeToDeletFromFav(
+                            adapter,
+                            requireContext(),
+                            ::showConfirmationDialog
+                        )
+                    )
+                    itemTouchHelper.attachToRecyclerView(favMealsList)
+                }
             }
         }
     }

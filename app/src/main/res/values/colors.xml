@@ -7,4 +7,5 @@
     <color name="text_field_color">#637663</color>
     <color name="headLines_color">#001E00</color>
     <color name="small_text_color">#354D35</color>
+    <color name="background">#F5F6F5</color>
 </resources>

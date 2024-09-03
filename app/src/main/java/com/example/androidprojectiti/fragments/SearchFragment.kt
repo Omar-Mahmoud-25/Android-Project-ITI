@@ -23,9 +23,11 @@ import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.factories.SearchViewModelFactory
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.network.NetworkLiveData
-import com.example.androidprojectiti.viewModels.SearchViewModel
+
 import com.example.myapplicationrecyclarview.MealSearchAdapter
 import com.airbnb.lottie.LottieAnimationView
+import com.example.androidprojectiti.Repositry.Area.AreaRepoImp
+import com.example.androidprojectiti.viewModels.search.SearchViewModel
 
 class SearchFragment : Fragment() {
 
@@ -48,7 +50,6 @@ class SearchFragment : Fragment() {
         activity?.title = "Search"
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view)
-        noResultsAnimationView = view.findViewById(R.id.no_results_animation_view)
         network = NetworkLiveData(requireContext())
         val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
         val email = sharedPreferences.getString("email", "guest")
@@ -60,7 +61,7 @@ class SearchFragment : Fragment() {
             findNavController())
         recyclerView.adapter = mealSearchAdapter
 
-        val factory = SearchViewModelFactory(mealRepoImp(ApiClient))
+        val factory = SearchViewModelFactory(mealRepoImp(ApiClient),AreaRepoImp(ApiClient))
         searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
 
         network.observe(viewLifecycleOwner) { connected ->

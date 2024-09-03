@@ -24,6 +24,7 @@ androidYoutubePlayerVersion = "12.1.0"
 lottie = "6.5.0"
 splashscreen = "1.0.1"
 smoothBottomBar = "1.7.9"
+media3Common = "1.4.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,6 +52,7 @@ lottie-animation = {group = "com.airbnb.android", name = "lottie", version.ref =
 androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashscreen" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 smoothBottomBar = { module = "com.github.ibrahimsn98:SmoothBottomBar", version.ref = "smoothBottomBar" }
+androidx-media3-common = { group = "androidx.media3", name = "media3-common", version.ref = "media3Common" }
 
 # implementation 'com.borjabravo:readmoretextview:2.1.0'
 # implementation '::'

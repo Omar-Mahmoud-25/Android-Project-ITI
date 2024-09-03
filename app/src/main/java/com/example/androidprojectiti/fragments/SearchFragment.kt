@@ -33,7 +33,7 @@ class SearchFragment : Fragment() {
 
     private lateinit var searchView: SearchView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var noResultsAnimationView: LottieAnimationView
+//    private lateinit var noResultsAnimationView: LottieAnimationView
     private lateinit var mealSearchAdapter: MealSearchAdapter
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var network: NetworkLiveData
@@ -51,6 +51,7 @@ class SearchFragment : Fragment() {
         searchView = view.findViewById(R.id.search_view)
         recyclerView = view.findViewById(R.id.recycler_view)
         network = NetworkLiveData(requireContext())
+//        noResultsAnimationView = view.findViewById(R.id.lottie)
         val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
         val email = sharedPreferences.getString("email", "guest")
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -70,7 +71,6 @@ class SearchFragment : Fragment() {
             connected?.let{
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
-                        Log.d("uhhh", "in submit, ${network.value}")
                         if (connected)
                             query?.let { searchViewModel.searchMeals(it) }
                         else
@@ -98,10 +98,10 @@ class SearchFragment : Fragment() {
                         val query = searchView.query.toString()
                         if (items.isEmpty() && query.isNotEmpty()) {
                             recyclerView.isVisible = false
-                            noResultsAnimationView.isVisible = true
+//                            noResultsAnimationView.isVisible = true
                         } else {
                             recyclerView.isVisible = items.isNotEmpty()
-                            noResultsAnimationView.isVisible = items.isEmpty() && query.isNotEmpty()
+//                            noResultsAnimationView.isVisible = items.isEmpty() && query.isNotEmpty()
                         }
                     }
                 })
@@ -111,7 +111,7 @@ class SearchFragment : Fragment() {
                     searchPerformed?.let{
                         if (!searchPerformed) {
                             recyclerView.isVisible = false
-                            noResultsAnimationView.isVisible = false
+//                            noResultsAnimationView.isVisible = false
                         }
                     }
                 }
@@ -120,6 +120,6 @@ class SearchFragment : Fragment() {
 
         // Initially hide RecyclerView and no results animation
         recyclerView.isVisible = false
-        noResultsAnimationView.isVisible = false
+//        noResultsAnimationView.isVisible = false
     }
 }

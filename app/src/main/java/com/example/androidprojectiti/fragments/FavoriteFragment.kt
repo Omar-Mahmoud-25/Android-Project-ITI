@@ -2,14 +2,11 @@ package com.example.androidprojectiti.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -19,11 +16,9 @@ import com.airbnb.lottie.LottieAnimationView
 import com.example.androidprojectiti.Adapters.favoriteAdapter
 import com.example.androidprojectiti.R
 import com.example.androidprojectiti.Repositry.user.UserRepoImp
-import com.example.androidprojectiti.Repositry.meal.mealRepoImp
 import com.example.androidprojectiti.database.LocalDataSourceImp
-import com.example.androidprojectiti.swipeToDeletFromFav
 import com.example.androidprojectiti.viewModels.Favorite.FavouriteViewModel
-import com.example.androidprojectiti.network.ApiClient
+import com.example.androidprojectiti.swipeToDeleteFromFav
 
 class FavoriteFragment : Fragment() {
 
@@ -46,9 +41,8 @@ class FavoriteFragment : Fragment() {
         val email = sharedPreferences.getString("email", "guest") ?: "guest"
 
         val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
-        // val mealRepo = mealRepoImp(ApiClient)
 
-        favViewModel = FavouriteViewModel(userRepo) //, mealRepo)
+        favViewModel = FavouriteViewModel(userRepo)
         favViewModel.getFavMeals(email)
 
         loadingAnimation = view.findViewById(R.id.loading_animation2)
@@ -87,7 +81,7 @@ class FavoriteFragment : Fragment() {
                     favMealsList.adapter = adapter
 
                     val itemTouchHelper = ItemTouchHelper(
-                        swipeToDeletFromFav(
+                        swipeToDeleteFromFav(
                             adapter,
                             requireContext(),
                             ::showConfirmationDialog

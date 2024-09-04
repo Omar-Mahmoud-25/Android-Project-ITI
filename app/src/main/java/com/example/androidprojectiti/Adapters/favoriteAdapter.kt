@@ -60,11 +60,11 @@ class favoriteAdapter(
             .placeholder(R.drawable.baseline_arrow_circle_down_24)
             .error(R.drawable.baseline_error_24)
             .into(holder.thumbnail)
-      holder.deleteButton.setOnClickListener {
-          showConfirmationDialog {
-              removeAt(position, context)
-          }
-      }
+        holder.deleteButton.setOnClickListener {
+             showConfirmationDialog {
+                 removeAt(position, context)
+             }
+        }
         holder.itemView.setOnClickListener {
             val item = listOfFavorite[position]
             item.putDefaults()

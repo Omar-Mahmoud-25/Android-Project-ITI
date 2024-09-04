@@ -38,8 +38,6 @@ import com.airbnb.lottie.LottieAnimationView
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
-    private lateinit var list_of_Categories: List<Category>
-    private lateinit var list_of_meal: List<Meal>
     private lateinit var randomMeal: Meal
     private lateinit var retrofitViewModel: HomeViewModel
     private lateinit var network: NetworkLiveData
@@ -82,9 +80,10 @@ class HomeFragment : Fragment() {
                     retrofitViewModel.getRandomMeal()
                     retrofitViewModel.getMeals()
                     retrofitViewModel.getCategories()
-                } else {
-                    Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
                 }
+                else
+                    Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
+
             }
         }
 
@@ -93,17 +92,19 @@ class HomeFragment : Fragment() {
             emptyList(),
             email = email ?: "guest",
             navController = findNavController())
-        //list_of_Categories = it
+
         categoryList.adapter = categoryAdapter
         categoryList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         retrofitViewModel.CategoryList.observe(viewLifecycleOwner) {
-            if (it.isNotEmpty()){
-                categoryAdapter.setListOfMeal(it)
+            it?.let{
+                if (it.isNotEmpty()) {
+                    categoryAdapter.setListOfMeal(it)
+                }
             }
         }
 
 
-        val Mealslist = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
+        val mealsList = view.findViewById<RecyclerView>(R.id.meal_recycler_view)
         val mealAdapter = MealAdapter(
             emptyList(),
             UserRepoImp(LocalDataSourceImp(requireContext())),
@@ -111,15 +112,14 @@ class HomeFragment : Fragment() {
             email = email ?: "guest",
             navController = findNavController()
         )
-        Mealslist.adapter = mealAdapter
-        Mealslist.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        mealsList.adapter = mealAdapter
+        mealsList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         retrofitViewModel.MealsList.observe(viewLifecycleOwner) {
             it?.let{
                 if (it.isNotEmpty())
                     mealAdapter.setListOfMeal(it)
             }
-
 
             // Hide animation once data is loaded
             lottieAnimationView.visibility = View.GONE

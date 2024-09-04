@@ -59,11 +59,10 @@ class MealSearchAdapter(
                 val favoriteMeals = userRepo.getUserFavoriteMeals(email)
                 var isFavorite = favoriteMeals.contains(meals[position])
 
-                if (isFavorite) {
+                if (isFavorite)
                     holder.imageButton.setImageResource(R.drawable.red_heart)
-                } else {
+                else
                     holder.imageButton.setImageResource(R.drawable.white_heart)
-                }
 
                 holder.imageButton.setOnClickListener {
                     if (isFavorite) {

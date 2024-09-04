@@ -34,11 +34,13 @@ class SignUpViewModel (private val _userRepo : UserRepo) : ViewModel() {
         val passwordText = password.editText?.text.toString()
         val confirmPasswordText = confirmPassword.editText?.text.toString()
         val ageText = age.editText?.text.toString()
+
         email.error = ""
         firstName.error = ""
         password.error = ""
         confirmPassword.error = ""
         age.error = ""
+
         return when {
             firstNameText.isEmpty() -> {
                 firstName.error = "This field is required"

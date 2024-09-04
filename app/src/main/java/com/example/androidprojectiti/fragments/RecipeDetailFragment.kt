@@ -3,22 +3,14 @@ package com.example.androidprojectiti.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.method.LinkMovementMethod
-import android.text.style.ClickableSpan
-import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebChromeClient
-import android.webkit.WebView
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -36,7 +28,6 @@ import kotlinx.coroutines.launch
 
 class RecipeDetailFragment : Fragment() {
 
-//    private var stringJavaScript : String = ""
     private val args by navArgs<RecipeDetailFragmentArgs>()
     private lateinit var image : ImageView
     private lateinit var title : TextView
@@ -62,7 +53,6 @@ class RecipeDetailFragment : Fragment() {
         showMoreAndLess = view.findViewById(R.id.text_view_show)
         youTubePlayerView = view.findViewById(R.id.web_view)
         heart = view.findViewById(R.id.recipe_details_heart)
-
 
         val meal = args.favMeal
 
@@ -162,7 +152,6 @@ class RecipeDetailFragment : Fragment() {
 
     }
 
-
     private fun playVideo(video : String){
 
         val result = video.substring(video.lastIndexOf('=') + 1)
@@ -170,14 +159,9 @@ class RecipeDetailFragment : Fragment() {
         // object : AbstractYouTubePlayerListener(): In Kotlin, you create an anonymous class that extends AbstractYouTubePlayerListener using the object keyword
         youTubePlayerView.addYouTubePlayerListener(object : AbstractYouTubePlayerListener() {
             override fun onReady(youTubePlayer: YouTubePlayer) {
-//                val videoId = result  // "S0Q4gqBUs7c"
+                // "S0Q4gqBUs7c"
                 youTubePlayer.loadVideo(result, 0f)
             }
         })
-
-
     }
-
-
-
 }

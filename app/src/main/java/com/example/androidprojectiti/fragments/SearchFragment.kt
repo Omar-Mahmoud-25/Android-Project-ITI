@@ -59,6 +59,7 @@ class SearchFragment : Fragment() {
         // Initialize RecyclerView and adapter
         val sharedPreferences =
             requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
+
         val email = sharedPreferences.getString("email", "guest")
         recyclerView.layoutManager = LinearLayoutManager(context)
         mealSearchAdapter = MealSearchAdapter(
@@ -98,7 +99,7 @@ class SearchFragment : Fragment() {
                 })
 
                 // Observe the items LiveData
-                searchViewModel.items.observe(viewLifecycleOwner, Observer { items ->
+                searchViewModel.items.observe(viewLifecycleOwner) { items ->
                     items?.let {
                         mealSearchAdapter.updateData(items)
 
@@ -112,7 +113,7 @@ class SearchFragment : Fragment() {
                             noResultsAnimationView.isVisible = items.isEmpty() && query.isNotEmpty()
                         }
                     }
-                })
+                }
 
                 // Handle visibility when search is performed or not
                 searchViewModel.searchPerformed.observe(viewLifecycleOwner) { searchPerformed ->
@@ -128,45 +129,6 @@ class SearchFragment : Fragment() {
             // Initially hide RecyclerView and no results animation
             recyclerView.isVisible = false
             noResultsAnimationView.isVisible = false
-        }
-
-
-    }
-    private fun handleSearchQuery(query: String?, connected: Boolean) {
-        if (connected) {
-            searchViewModel.searchMeals(query ?: "")
-        } else {
-            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun updateUIBasedOnSearchResults(items: List<Meal>) {
-        val query = searchView.query.toString().trim()
-        when {
-            query.isEmpty() -> {
-                // Query is empty
-                if (items.isEmpty()) {
-                    // No results and no query
-                    recyclerView.isVisible = false
-                    noResultsAnimationView.isVisible = false
-                } else {
-                    // Data is available but no query
-                    recyclerView.isVisible = false
-                    noResultsAnimationView.isVisible = false
-                }
-            }
-
-            items.isEmpty() -> {
-                // Query is not empty but no results
-                recyclerView.isVisible = false
-                noResultsAnimationView.isVisible = true
-            }
-
-            else -> {
-                // Query is not empty and results are found
-                recyclerView.isVisible = true
-                noResultsAnimationView.isVisible = false
-            }
         }
     }
 }

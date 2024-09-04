@@ -39,8 +39,10 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         val factory = LoginViewModelFactory(UserRepoImp(LocalDataSourceImp(requireContext())))
         _viewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
+
         val login = view.findViewById<Button>(R.id.loginButton)
         val dontHaveAccount = view.findViewById<TextView>(R.id.dontHaveAccount)
         val email = view.findViewById<TextInputLayout>(R.id.EmailInputLayout)

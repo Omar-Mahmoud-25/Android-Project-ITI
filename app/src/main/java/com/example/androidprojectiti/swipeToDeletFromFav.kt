@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidprojectiti.Adapters.favoriteAdapter
 
-fun swipeToDeletFromFav(adapter: favoriteAdapter, context: Context, showConfirmationDialog: (() -> Unit) -> Unit): ItemTouchHelper.SimpleCallback {
+fun swipeToDeleteFromFav(adapter: favoriteAdapter, context: Context, showConfirmationDialog: (() -> Unit) -> Unit): ItemTouchHelper.SimpleCallback {
     return object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
         override fun onMove(
             recyclerView: RecyclerView,

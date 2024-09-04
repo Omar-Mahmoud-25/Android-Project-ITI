@@ -37,7 +37,8 @@ class SplashFragment : Fragment() {
                 super.onAnimationEnd(animation)
 
                 // Logic to execute after animation ends
-                val sharedPreferences = requireActivity().getSharedPreferences("logging_details", Context.MODE_PRIVATE)
+                val sharedPreferences = requireActivity()
+                    .getSharedPreferences("logging_details", Context.MODE_PRIVATE)
                 if (sharedPreferences.getBoolean("isUserLoggedIn", false)) {
                     val intent = Intent(requireContext(), RecipeActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

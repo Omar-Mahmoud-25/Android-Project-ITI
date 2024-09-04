@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cabin"
-            android:text="Recipe Passport"
+            android:text="@string/recipe_passport"
             android:textColor="@android:color/white"
             android:textSize="40sp"
             android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_regular"
-            android:text="Welcome to recipe passport where you \nvirtually travel the world through recipes."
+            android:text="@string/welcome_to_recipe_passport_where_you_nvirtually_travel_the_world_through_recipes"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 
@@ -54,7 +54,7 @@
             android:layout_marginTop="20dp"
             android:backgroundTint="@color/green"
             android:fontFamily="@font/montserrat_semibold"
-            android:text="Get Started"
+            android:text="@string/get_started"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 

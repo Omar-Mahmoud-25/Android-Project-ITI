@@ -78,7 +78,7 @@ class MealCategoryAdapter (
         lifecycleScope.launch{
             val meal = mealRepo.getMealById(listOfMeal[position].idMeal)
             val favoriteMeals = userRepo.getUserFavoriteMeals(email)
-            val isFavorite = favoriteMeals.contains(meal.body()?.meals?.get(0) ?: listOfMeal[position])
+            var isFavorite = favoriteMeals.contains(meal.body()?.meals?.get(0) ?: listOfMeal[position])
 
 
             if (isFavorite) {
@@ -89,33 +89,34 @@ class MealCategoryAdapter (
 
             holder.heart.setOnClickListener {
                 lifecycleScope.launch {
-                        if (isFavorite) {
-                            holder.heart.setImageResource(R.drawable.white_heart)
-                            lifecycleScope.launch {
-                                userRepo.deleteMealFromFav(UserFavorites(email,meal.body()?.meals?.get(0) ?: listOfMeal[position]))
-                                Toast.makeText(
-                                    holder.itemView.context,
-                                    "${listOfMeal[position].strMeal} removed from favorites",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                            }
-
-                        } else {
-                            holder.heart.setImageResource(R.drawable.red_heart)
-                            lifecycleScope.launch {
-                                userRepo.insertMealToFav(UserFavorites(email, meal.body()?.meals?.get(0) ?: listOfMeal[position]))
-                                Toast.makeText(
-                                    holder.itemView.context,
-                                    "${listOfMeal[position].strMeal} added to favorites",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-
-                            }
+                    if (isFavorite) {
+                        holder.heart.setImageResource(R.drawable.white_heart)
+                        lifecycleScope.launch {
+                            userRepo.deleteMealFromFav(UserFavorites(email,meal.body()?.meals?.get(0) ?: listOfMeal[position]))
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "${listOfMeal[position].strMeal} removed from favorites",
+                                Toast.LENGTH_SHORT
+                            ).show()
 
                         }
+
+                    } else {
+                        holder.heart.setImageResource(R.drawable.red_heart)
+                        lifecycleScope.launch {
+                            userRepo.insertMealToFav(UserFavorites(email, meal.body()?.meals?.get(0) ?: listOfMeal[position]))
+                            Toast.makeText(
+                                holder.itemView.context,
+                                "${listOfMeal[position].strMeal} added to favorites",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+
+                        }
+
                     }
+                    isFavorite = !isFavorite
+                }
 
 
 

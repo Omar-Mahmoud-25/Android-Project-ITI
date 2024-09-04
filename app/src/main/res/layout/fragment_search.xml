@@ -62,4 +62,17 @@
 
     <!-- Initially hidden -->
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/no_results_animation_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        app:lottie_rawRes="@raw/nodata"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_view" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,7 +15,7 @@
         android:layout_marginBottom="168dp"
         android:fontFamily="@font/roboto_slab"
         android:gravity="center"
-        android:text="Flavor Fusion"
+        android:text="Recipe Passport"
         android:textColor="#FDDE014B"
         android:textSize="34sp"
         android:textStyle="bold|italic"

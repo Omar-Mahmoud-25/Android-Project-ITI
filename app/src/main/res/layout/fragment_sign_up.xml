@@ -229,36 +229,38 @@
 
             <TextView
                 android:id="@+id/haveAccountText"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp"
                 android:fontFamily="@font/montserrat_semibold"
                 android:text=" Sign in"
                 android:textAlignment="textStart"
                 android:textColor="#6AA920"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                app:layout_constraintBaseline_toBaselineOf="@+id/text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintStart_toEndOf="@+id/text" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text"
+                app:layout_constraintVertical_bias="0.13999999" />
 
             <TextView
                 android:id="@+id/text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:clickable="true"
-                android:focusable="true"
+                android:layout_marginTop="30dp"
                 android:fontFamily="@font/montserrat_medium"
                 android:text="Already have account with us?"
                 android:textAlignment="center"
                 android:textColor="@color/text_field_color"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/signUpButton" />
+                app:layout_constraintTop_toBottomOf="@+id/signUpButton"
+                app:layout_constraintVertical_bias="0.16000003" />
 
             <Button
                 android:id="@+id/signUpButton"

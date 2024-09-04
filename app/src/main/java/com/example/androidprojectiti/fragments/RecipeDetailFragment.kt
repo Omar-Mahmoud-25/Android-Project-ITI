@@ -92,7 +92,7 @@ class RecipeDetailFragment : Fragment() {
         lifecycleScope.launch {
             val userRepo = UserRepoImp(LocalDataSourceImp(requireContext()))
             val favoriteMeals = userRepo.getUserFavoriteMeals(email ?: "guest")
-            val isFavorite = favoriteMeals.contains(meal)
+            var isFavorite = favoriteMeals.contains(meal)
 
             if (isFavorite)
                 heart.setImageResource(R.drawable.red_heart)
@@ -127,6 +127,7 @@ class RecipeDetailFragment : Fragment() {
                     }
 
                 }
+                isFavorite = !isFavorite
             }
 
         }

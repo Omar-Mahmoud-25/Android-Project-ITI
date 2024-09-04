@@ -67,9 +67,11 @@ class MealAdapter(
             .error(R.drawable.baseline_error_24)
             .into(holder.thumbnail)
 
+        var isFavorite = false
+
         lifecycleScope.launch {
             val favoriteMeals = repo.getUserFavoriteMeals(email)
-            var isFavorite = favoriteMeals.contains(meal)
+            isFavorite = favoriteMeals.contains(meal)
 
             if (isFavorite) {
                 holder.favourite.setImageResource(R.drawable.red_heart)
@@ -77,34 +79,36 @@ class MealAdapter(
                 holder.favourite.setImageResource(R.drawable.white_heart)
             }
 
-            holder.favourite.setOnClickListener {
-                if (isFavorite) {
-                    holder.favourite.setImageResource(R.drawable.white_heart)
-                    lifecycleScope.launch {
-                        repo.deleteMealFromFav(UserFavorites(email, meal))
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "${listOfOfMeals[position].strMeal} removed from favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
 
-                    }
+        }
 
-                } else {
-                    holder.favourite.setImageResource(R.drawable.red_heart)
-                    lifecycleScope.launch {
-                        repo.insertMealToFav(UserFavorites(email, meal))
-                        Toast.makeText(
-                            holder.itemView.context,
-                            "${listOfOfMeals[position].strMeal} added to favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-
-                    }
+        holder.favourite.setOnClickListener {
+            if (isFavorite) {
+                holder.favourite.setImageResource(R.drawable.white_heart)
+                lifecycleScope.launch {
+                    repo.deleteMealFromFav(UserFavorites(email, meal))
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "${listOfOfMeals[position].strMeal} removed from favorites",
+                        Toast.LENGTH_SHORT
+                    ).show()
 
                 }
+            } else {
+                holder.favourite.setImageResource(R.drawable.red_heart)
+                lifecycleScope.launch {
+                    repo.insertMealToFav(UserFavorites(email, meal))
+                    Toast.makeText(
+                        holder.itemView.context,
+                        "${listOfOfMeals[position].strMeal} added to favorites",
+                        Toast.LENGTH_SHORT
+                    ).show()
+
+
+                }
+
             }
+            isFavorite = !isFavorite
         }
 
         holder.itemView.setOnClickListener {

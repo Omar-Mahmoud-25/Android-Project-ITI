@@ -37,27 +37,27 @@ class MealSearchAdapter(
 
     // Bind data to the ViewHolder
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        try{
-            val meal = meals[position]
-            holder.nameTextView.text = meal.strMeal
-            holder.areaTextView.text = "From: ${meal.strArea} Meal"
-            holder.categoryTextView.text = meal.strCategory
+        val meal = meals[position]
+        holder.nameTextView.text = meal.strMeal
+        holder.areaTextView.text = "From: ${meal.strArea} Meal"
+        holder.categoryTextView.text = meal.strCategory
 
-            // Load image into the ImageView using Glide
-            Glide.with(holder.itemView.context)
-                .load(meal.strMealThumb)
-                .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
-                .into(holder.imageView)
+        // Load image into the ImageView using Glide
+        Glide.with(holder.itemView.context)
+            .load(meal.strMealThumb)
+            .placeholder(R.drawable.ic_launcher_foreground) // Placeholder image
+            .into(holder.imageView)
 
-            holder.itemView.setOnClickListener {
-                val action =
-                    SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(meals[position])
-                navController.navigate(action)
-            }
-            lifecycleScope.launch {
+        holder.itemView.setOnClickListener {
+            val action =
+                SearchFragmentDirections.actionSearchFragmentToRecipeDetailFragment(meals[position])
+            navController.navigate(action)
+        }
+
+        lifecycleScope.launch {
+            try {
                 val favoriteMeals = userRepo.getUserFavoriteMeals(email)
-                val isFavorite = favoriteMeals.contains(meals[position])
-
+                var isFavorite = favoriteMeals.contains(meals[position])
 
                 if (isFavorite) {
                     holder.imageButton.setImageResource(R.drawable.red_heart)
@@ -92,11 +92,13 @@ class MealSearchAdapter(
                         }
 
                     }
+                    isFavorite = !isFavorite
                 }
             }
-        }
-        catch (exception: IndexOutOfBoundsException){
-            Toast.makeText(holder.itemView.context,"Sorry, try again",Toast.LENGTH_SHORT).show()
+            catch (exception: Exception) {
+                Toast.makeText(holder.itemView.context, "Sorry, try again", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
 

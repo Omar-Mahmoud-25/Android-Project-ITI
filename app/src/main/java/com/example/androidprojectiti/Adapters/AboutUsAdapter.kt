@@ -27,6 +27,7 @@ class AboutUsAdapter(
         holder.email.text = contributor.email
 
         holder.image.setImageResource(contributor.image)
+        holder.signature.text = contributor.signature
     }
 
     override fun getItemCount(): Int {
@@ -40,5 +41,6 @@ class AboutUsAdapter(
         var name : TextView = row.findViewById(R.id.name)
         var email : TextView = row.findViewById(R.id.email)
         var image : ImageView = row.findViewById(R.id.about_us_image)
+        var signature : TextView = row.findViewById(R.id.signature)
     }
 }

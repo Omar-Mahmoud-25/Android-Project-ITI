@@ -2,6 +2,7 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/adlam_display</item>
+        <item>@font/aguafina_script</item>
         <item>@font/angkor</item>
         <item>@font/archivo_black</item>
         <item>@font/cabin</item>
@@ -14,5 +15,6 @@
         <item>@font/roboto_mono_extralight</item>
         <item>@font/roboto_mono_thin</item>
         <item>@font/roboto_slab</item>
+        <item>@font/shadows_into_light</item>
     </array>
 </resources>

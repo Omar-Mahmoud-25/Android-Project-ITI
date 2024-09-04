@@ -57,7 +57,7 @@
             android:layout_marginEnd="20dp"
             android:fontFamily="@font/cabin_semibold"
             android:maxLines="1"
-            android:text="name"
+            android:text="@string/name"
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -72,7 +72,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:fontFamily="@font/montserrat_regular"
-            android:text="category"
+            android:text="@string/category"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/lol7"
@@ -86,7 +86,7 @@
             android:layout_marginStart="36dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:text="Click to see more details"
+            android:text="@string/click_to_see_more_details"
             android:textColor="#928A8A"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -95,17 +95,18 @@
             app:layout_constraintVertical_bias="1.0" />
 
         <ImageButton
-                    android:id="@+id/meal_category_item_heart"
-                    android:layout_width="43dp"
-                    android:layout_height="39dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="2dp"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:scaleType="fitCenter"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/white_heart" />
+            android:id="@+id/meal_category_item_heart"
+            android:layout_width="43dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
+            android:contentDescription="@string/add_to_favorite"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/white_heart" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>

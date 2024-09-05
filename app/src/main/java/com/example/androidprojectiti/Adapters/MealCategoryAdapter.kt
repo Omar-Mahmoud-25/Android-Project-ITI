@@ -60,11 +60,10 @@ class MealCategoryAdapter (
 
 
         holder.itemView.setOnClickListener {
-            var meal = listOfMeal[position]
             lifecycleScope.launch {
                 val response = mealRepo.getMealById(listOfMeal[position].idMeal)
                 if (response.isSuccessful){
-                    meal = response.body()?.meals?.get(0) ?: listOfMeal[position]
+                    val meal = response.body()?.meals?.get(0) ?: listOfMeal[position]
                     meal.putDefaults()
                     val action = MealCategoryFragmentDirections.actionMealCategoryFragmentToRecipeDetailFragment(meal)
                     Log.d("maro", meal.strMeal.toString())

@@ -1,6 +1,5 @@
 package com.example.androidprojectiti.network
 
-import com.example.androidprojectiti.dto.AreaResponse.AreaModel
 import com.example.androidprojectiti.dto.CategoryResponse.CategoryModel
 import com.example.androidprojectiti.dto.MealResponse.MealModel
 import retrofit2.Response
@@ -24,14 +23,6 @@ object ApiClient :RemoteDataSource{
 
     override suspend fun getMealsByCategoryFromRemoteDataSource(category: String): Response<MealModel> {
         return Api.service.getMealsByCategory(category)
-    }
-
-    override suspend fun getAllAreasFromRemoteDataSource(list: String): Response<AreaModel> {
-        return Api.service.getAreas(list)
-    }
-
-    override suspend fun getMealsByAreaFromRemoteDataSource(area: String): Response<MealModel> {
-        return Api.service.getMealsByArea(area)
     }
 
     override suspend fun getMealBNameFromRemoteDataSource(name: String): Response<MealModel> {

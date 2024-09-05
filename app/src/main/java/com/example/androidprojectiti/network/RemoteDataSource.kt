@@ -1,6 +1,5 @@
 package com.example.androidprojectiti.network
 
-import com.example.androidprojectiti.dto.AreaResponse.AreaModel
 import com.example.androidprojectiti.dto.CategoryResponse.CategoryModel
 import com.example.androidprojectiti.dto.MealResponse.MealModel
 import retrofit2.Response
@@ -12,7 +11,4 @@ interface RemoteDataSource {
     suspend fun getMealByIdFromRemoteDataSource(id:String):Response<MealModel>
     suspend fun getMealBNameFromRemoteDataSource(name:String):Response<MealModel>
     suspend fun getMealsByCategoryFromRemoteDataSource(category: String):Response<MealModel>
-    suspend fun getAllAreasFromRemoteDataSource(list:String="list"): Response<AreaModel>
-    suspend fun getMealsByAreaFromRemoteDataSource(area: String):Response<MealModel>
-
 }

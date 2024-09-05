@@ -128,10 +128,4 @@ class MealAdapter(
         listOfOfMeals = meal
         notifyDataSetChanged()
     }
-    fun updateMealDetail(meal: Meal) {
-        val updatedList = listOfOfMeals.map {
-            if (it.idMeal == meal.idMeal) meal else it
-        }
-        notifyDataSetChanged()
-    }
 }

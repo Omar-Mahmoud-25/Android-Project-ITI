@@ -25,7 +25,7 @@
             android:background="@color/white"
             android:minHeight="?attr/actionBarSize"
             app:menu="@menu/actions"
-            app:titleTextColor="#86BF3E" />
+            app:titleTextColor="@color/headLines_color" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -49,6 +49,7 @@
         android:background="@color/white"
         android:contextClickable="false"
         app:itemIconTint="@color/icon_color"
+        app:itemRippleColor="@android:color/transparent"
         app:itemTextColor="@color/icon_color"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

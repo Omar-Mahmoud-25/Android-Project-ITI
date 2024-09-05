@@ -19,15 +19,17 @@ import com.example.androidprojectiti.dto.MealResponse.Meal
 import com.example.androidprojectiti.fragments.FavoriteFragment
 import com.example.androidprojectiti.fragments.FavoriteFragmentDirections
 import com.example.androidprojectiti.fragments.HomeFragmentDirections
+import com.example.androidprojectiti.viewModels.Favorite.FavouriteViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 class favoriteAdapter(
-    private val listOfFavorite: MutableList<Meal>,
+    private var listOfFavorite: MutableList<Meal>,
     private val repo: UserRepo,
     private val email: String,
     private val lifecycleScope: CoroutineScope,
     private val context: Context,
+    private val viewModel:FavouriteViewModel,
     private val showConfirmationDialog: (onConfirm: () -> Unit) -> Unit,
     private val navController: NavController
 ) : RecyclerView.Adapter<favoriteAdapter.ViewHolder>() {
@@ -62,7 +64,7 @@ class favoriteAdapter(
             .into(holder.thumbnail)
         holder.deleteButton.setOnClickListener {
              showConfirmationDialog {
-                 removeAt(position, context)
+                 removeAt(position)
              }
         }
         holder.itemView.setOnClickListener {
@@ -72,16 +74,19 @@ class favoriteAdapter(
             navController.navigate(action)
         }
     }
-
-    fun removeAt(position: Int,context:Context) {
+    fun updateMeals(newMeals: MutableList<Meal>) {
+        listOfFavorite = newMeals
+        notifyDataSetChanged()  // Notify the adapter that the data has changed
+    }
+    fun removeAt(position: Int) {
         val favMeal = listOfFavorite[position]
         listOfFavorite.removeAt(position)
-
+        notifyItemRemoved(position)
         lifecycleScope.launch {
             repo.deleteMealFromFav(UserFavorites(email, favMeal))
             Toast.makeText(context, "${favMeal.strMeal} removed from favorites", Toast.LENGTH_SHORT).show()
+            viewModel.getFavMeals(email)
         }
-        notifyItemRemoved(position)
     }
 
 }

@@ -5,13 +5,16 @@ import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -129,6 +132,27 @@ class RecipeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         activity?.title = "Details"
+        val bottomNavBar = requireActivity().findViewById<View>(R.id.bottom_nav)
+        bottomNavBar.visibility = View.GONE
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        setHasOptionsMenu(true)
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        val bottomNavBar = requireActivity().findViewById<View>(R.id.bottom_nav)
+        bottomNavBar.visibility = View.VISIBLE
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                findNavController().navigateUp()  // Navigate back to the previous fragment
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
     @SuppressLint("SetTextI18n")
     private fun handleTextView(fullText: String) {

@@ -49,16 +49,19 @@
 
             <TextView
                 android:id="@+id/nameOfUser"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:ellipsize="end"
                 android:fontFamily="@font/montserrat_semibold"
                 android:foregroundGravity="left"
                 android:gravity="left"
+                android:maxLines="1"
                 android:text="TextView"
                 android:textColor="@color/headLines_color"
                 android:textSize="18sp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/textView4" />
 
             <com.google.android.material.card.MaterialCardView

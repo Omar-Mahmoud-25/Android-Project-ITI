@@ -148,6 +148,9 @@ class RecipeDetailFragment : Fragment() {
             R.id.mealCategoryFragment ->{
                 // Don't Do anything
             }
+            R.id.aboutFragment -> {
+                // Don't Do anything
+            }
             else ->{
                 val bottomNavBar = requireActivity().findViewById<View>(R.id.bottom_nav)
                 bottomNavBar.visibility = View.VISIBLE

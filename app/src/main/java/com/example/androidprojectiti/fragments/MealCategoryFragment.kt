@@ -119,9 +119,16 @@ class MealCategoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
 
-        val bottomNavBar = requireActivity().findViewById<View>(R.id.bottom_nav)
-        bottomNavBar.visibility = View.VISIBLE
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        val currentDestination = findNavController().currentDestination?.id
+
+        when(currentDestination){
+            R.id.homeFragment -> {
+                val bottomNavBar = requireActivity().findViewById<View>(R.id.bottom_nav)
+                bottomNavBar.visibility = View.VISIBLE
+                (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+
+        }
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

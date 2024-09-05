@@ -155,7 +155,8 @@
                         android:src="@drawable/white_heart"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:tint="@color/black" />
+                         />
+                    <!--    app:tint="@color/black"-->
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
 

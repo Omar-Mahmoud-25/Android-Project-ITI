@@ -29,7 +29,4 @@ class mealRepoImp (
         return remoteDataSource.getMealsByCategoryFromRemoteDataSource(category)
     }
 
-    override suspend fun getMealsByArea(area: String): Response<MealModel> {
-        return remoteDataSource.getMealsByAreaFromRemoteDataSource(area)
-    }
 }

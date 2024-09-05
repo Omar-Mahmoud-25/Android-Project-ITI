@@ -25,8 +25,10 @@ import com.example.androidprojectiti.factories.SearchViewModelFactory
 import com.example.androidprojectiti.network.ApiClient
 import com.example.androidprojectiti.network.NetworkLiveData
 import com.example.myapplicationrecyclarview.MealSearchAdapter
-import com.example.androidprojectiti.Repositry.Area.AreaRepoImp
 import com.example.androidprojectiti.viewModels.search.SearchViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SearchFragment : Fragment() {
 
@@ -36,6 +38,9 @@ class SearchFragment : Fragment() {
     private lateinit var mealSearchAdapter: MealSearchAdapter
     private lateinit var searchViewModel: SearchViewModel
     private lateinit var network: NetworkLiveData
+
+    private var searchJob: Job? = null
+    private val searchDelayMillis = 200L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +77,7 @@ class SearchFragment : Fragment() {
         recyclerView.adapter = mealSearchAdapter
 
         // Initialize ViewModel
-        val factory = SearchViewModelFactory(mealRepoImp(ApiClient), AreaRepoImp(ApiClient))
+        val factory = SearchViewModelFactory(mealRepoImp(ApiClient))
         searchViewModel = ViewModelProvider(this, factory).get(SearchViewModel::class.java)
 
         // Set up network and search functionality
@@ -81,19 +86,22 @@ class SearchFragment : Fragment() {
                 searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         if (connected)
-                            searchViewModel.searchMeals(query?:"")
+                            searchViewModel.searchMeals(query ?: "")
                         else
-                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT)
-                                .show()
+                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT).show()
                         return true
                     }
 
                     override fun onQueryTextChange(newText: String?): Boolean {
-                        if (connected)
-                            searchViewModel.searchMeals(newText ?: "")
-                        else
-                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT)
-                                .show()
+                        if (connected) {
+                            searchJob?.cancel()
+                            searchJob = lifecycleScope.launch {
+                                delay(searchDelayMillis)
+                                searchViewModel.searchMeals(newText ?: "")
+                            }
+                        } else {
+                            Toast.makeText(requireContext(), "No Internet", Toast.LENGTH_SHORT).show()
+                        }
                         return true
                     }
                 })
@@ -117,7 +125,7 @@ class SearchFragment : Fragment() {
 
                 // Handle visibility when search is performed or not
                 searchViewModel.searchPerformed.observe(viewLifecycleOwner) { searchPerformed ->
-                    searchPerformed?.let{
+                    searchPerformed?.let {
                         if (!searchPerformed) {
                             recyclerView.isVisible = false
                             noResultsAnimationView.isVisible = false

@@ -1,6 +1,5 @@
 package com.example.androidprojectiti.network
 
-import com.example.androidprojectiti.dto.AreaResponse.AreaModel
 import retrofit2.http.Query
 import com.example.androidprojectiti.dto.CategoryResponse.CategoryModel
 import com.example.androidprojectiti.dto.MealResponse.MealModel
@@ -23,8 +22,4 @@ interface ApiService {
     @GET("search.php")
     suspend fun getMealByName(@Query("s") name:String) : Response<MealModel>
 
-    @GET("list.php")
-    suspend fun getAreas(@Query("a") list:String ="list"):Response<AreaModel>
-    @GET("filter.php")
-    suspend fun getMealsByArea(@Query("a") area: String): Response<MealModel>
 }

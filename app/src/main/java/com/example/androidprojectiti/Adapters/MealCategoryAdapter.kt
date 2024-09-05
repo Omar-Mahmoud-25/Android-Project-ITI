@@ -51,7 +51,6 @@ class MealCategoryAdapter (
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.name.text = listOfMeal[position].strMeal
-        holder.category.text = cat
 
         Glide.with(holder.image.context)
             .load(listOfMeal[position].strMealThumb)
@@ -132,7 +131,6 @@ class MealCategoryAdapter (
     class ViewHolder  (private val row : View) : RecyclerView.ViewHolder(row){
         var image : ImageView = row.findViewById(R.id.meal_category_item_image)
         var name : TextView = row.findViewById(R.id.meal_category_item_name)
-        var category : TextView = row.findViewById(R.id.meal_category_item_category)
         var heart : ImageButton = row.findViewById(R.id.meal_category_item_heart)
     }
 

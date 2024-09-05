@@ -52,7 +52,27 @@ class FavoriteFragment : Fragment() {
         val favMealsList = view.findViewById<RecyclerView>(R.id.fav_recycler_view)
         favMealsList.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-
+        adapter = favoriteAdapter(
+            emptyList<Meal>().toMutableList(),
+            userRepo,
+            email,
+            lifecycleScope,
+            requireContext(),
+            favViewModel,
+            { onConfirm ->
+                showConfirmationDialog(onConfirm)
+            },
+            findNavController()
+        )
+        favMealsList?.adapter = adapter
+        val itemTouchHelper = ItemTouchHelper(
+            swipeToDeleteFromFav(
+                adapter,
+                ::showConfirmationDialog
+            )
+        )
+        itemTouchHelper.attachToRecyclerView(favMealsList)
+        loadingAnimation.visibility = View.VISIBLE
         favViewModel.mealsList.observe(viewLifecycleOwner) { meals ->
             if (meals.isNullOrEmpty()) {
                 Log.d("FavoriteFragment", "No favorite meals found.")
@@ -64,30 +84,7 @@ class FavoriteFragment : Fragment() {
                 loadingAnimation.visibility = View.GONE
                 noFavoritesAnimation.visibility = View.GONE
                 favMealsList?.visibility = View.VISIBLE
-                if (!::adapter.isInitialized) {
-                    adapter = favoriteAdapter(
-                        meals.toMutableList(),
-                        userRepo,
-                        email,
-                        lifecycleScope,
-                        requireContext(),
-                        favViewModel,
-                        { onConfirm ->
-                            showConfirmationDialog(onConfirm)
-                        },
-                        findNavController()
-                    )
-                    favMealsList?.adapter = adapter
-                    val itemTouchHelper = ItemTouchHelper(
-                        swipeToDeleteFromFav(
-                            adapter,
-                            ::showConfirmationDialog
-                        )
-                    )
-                    itemTouchHelper.attachToRecyclerView(favMealsList)
-                } else {
-                   adapter.updateMeals(meals.toMutableList())
-                }
+                adapter.updateMeals(meals.toMutableList())
             }
         }
     }

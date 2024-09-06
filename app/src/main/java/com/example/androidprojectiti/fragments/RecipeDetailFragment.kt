@@ -19,11 +19,10 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.androidprojectiti.R
-import com.example.androidprojectiti.Repositry.user.UserRepo
-import com.example.androidprojectiti.Repositry.user.UserRepoImp
+import com.example.androidprojectiti.repositories.user.UserRepoImp
 import com.example.androidprojectiti.database.LocalDataSourceImp
 import com.example.androidprojectiti.database.relations.UserFavorites
-import com.example.androidprojectiti.dto.MealResponse.Meal
+import com.example.androidprojectiti.onClickFavorite
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
@@ -92,34 +91,16 @@ class RecipeDetailFragment : Fragment() {
             else
                 heart.setImageResource(R.drawable.white_heart)
 
-
             heart.setOnClickListener {
-                if (isFavorite) {
-                    heart.setImageResource(R.drawable.white_heart)
-                    lifecycleScope.launch {
-                        userRepo.deleteMealFromFav(UserFavorites(email ?: "guest", meal))
-                        Toast.makeText(
-                            view.context,
-                            "${meal.strMeal} removed from favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                    }
-
-                }
-                else {
-                    heart.setImageResource(R.drawable.red_heart)
-                    lifecycleScope.launch {
-                        userRepo.insertMealToFav(UserFavorites(email ?: "guest", meal))
-                        Toast.makeText(
-                            view.context,
-                            "${meal.strMeal} added to favorites",
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                    }
-
-                }
+                onClickFavorite(
+                    isFavorite = isFavorite,
+                    heart = heart,
+                    repo = userRepo,
+                    lifecycleScope = lifecycleScope,
+                    context = view.context,
+                    email = email,
+                    meal = meal
+                )
                 isFavorite = !isFavorite
             }
 

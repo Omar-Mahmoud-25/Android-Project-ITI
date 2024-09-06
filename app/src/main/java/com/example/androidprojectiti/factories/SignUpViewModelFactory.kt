@@ -2,8 +2,8 @@ package com.example.androidprojectiti.factories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.androidprojectiti.Repositry.user.UserRepo
-import com.example.androidprojectiti.viewModels.SignUpViewModel
+import com.example.androidprojectiti.repositories.user.UserRepo
+import com.example.androidprojectiti.signUp.SignUpViewModel
 
 class SignUpViewModelFactory(private val _repo: UserRepo) : ViewModelProvider.Factory {
     override fun <T: ViewModel> create(modelClass: Class<T>):T{
